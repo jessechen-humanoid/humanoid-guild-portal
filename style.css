@@ -95,6 +95,97 @@ body {
   margin-top: 8px;
 }
 
+/* Skill Overlay */
+.skill-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(26, 26, 26, 0.4);
+  backdrop-filter: blur(2px);
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.skill-overlay.active {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.skill-overlay-content {
+  background: #ffffff;
+  border: 1px solid #e8e8e5;
+  border-radius: 16px;
+  max-width: 640px;
+  width: 100%;
+  margin: 48px auto;
+  padding: 32px;
+  position: relative;
+}
+
+.skill-overlay-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #6b6b6b;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1;
+  padding: 4px;
+}
+
+.skill-overlay-close:hover {
+  color: #1a1a1a;
+}
+
+.skill-overlay-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  padding-right: 32px;
+}
+
+.skill-overlay-section {
+  margin-bottom: 16px;
+}
+
+.skill-overlay-section h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b6b6b;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.skill-overlay-section p,
+.skill-overlay-section ul {
+  font-size: 14px;
+  color: #1a1a1a;
+  line-height: 1.7;
+}
+
+.skill-overlay-section ul {
+  padding-left: 18px;
+}
+
+.skill-overlay-section li {
+  margin-bottom: 4px;
+}
+
+.skill-overlay-notice {
+  background: #f0f0ec;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #1a1a1a;
+  margin-top: 20px;
+}
+
 /* Guilds Container */
 .guilds {
   max-width: 960px;
@@ -165,6 +256,10 @@ body {
 .tool-card[data-type="skill"] .tool-badge {
   background: #f0f0ec;
   color: #1a1a1a;
+}
+
+.tool-card[data-skill] {
+  cursor: pointer;
 }
 
 .tool-name {
@@ -245,5 +340,14 @@ body {
 
   .journal {
     padding: 32px 20px 60px;
+  }
+
+  .skill-overlay {
+    padding: 16px;
+  }
+
+  .skill-overlay-content {
+    margin: 24px auto;
+    padding: 24px;
   }
 }

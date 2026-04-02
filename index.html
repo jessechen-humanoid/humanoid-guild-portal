@@ -35,26 +35,26 @@
           <h3 class="tool-name">只要工時</h3>
           <p class="tool-desc">團隊工時追蹤與分析</p>
         </a>
-        <a href="https://drive.google.com/file/d/1XAe6Z138vP0frupEE0nJfUYhv8ycoC6I/view?usp=drive_link" target="_blank" rel="noopener" class="tool-card" data-type="skill">
+        <div class="tool-card" data-type="skill" data-skill="ai-ops">
           <span class="tool-badge">Skill</span>
           <h3 class="tool-name">營運小幫手</h3>
           <p class="tool-desc">報帳、請假、規章 FAQ</p>
-        </a>
-        <a href="https://drive.google.com/file/d/17oIXhNfgxPw5I4HuyEfTgagO9sGD5s7B/view?usp=drive_link" target="_blank" rel="noopener" class="tool-card" data-type="skill">
+        </div>
+        <div class="tool-card" data-type="skill" data-skill="company-elder">
           <span class="tool-badge">Skill</span>
           <h3 class="tool-name">只要有人地方耆老</h3>
           <p class="tool-desc">公司知識庫</p>
-        </a>
-        <a href="https://drive.google.com/file/d/1-yAPSoIs66rBaxg9Q9woJsA-MKwQOxKR/view?usp=drive_link" target="_blank" rel="noopener" class="tool-card" data-type="skill">
+        </div>
+        <div class="tool-card" data-type="skill" data-skill="skill-builder">
           <span class="tool-badge">Skill</span>
           <h3 class="tool-name">技能小幫手</h3>
           <p class="tool-desc">自製新技能</p>
-        </a>
-        <a href="https://drive.google.com/file/d/1IsNPp0s63ue2juBfkHBPvJKsxKJUA4Aa/view?usp=drive_link" target="_blank" rel="noopener" class="tool-card" data-type="skill">
+        </div>
+        <div class="tool-card" data-type="skill" data-skill="zyyr-design">
           <span class="tool-badge">Skill</span>
           <h3 class="tool-name">視覺統一小幫手</h3>
           <p class="tool-desc">Claude 設計風格統一</p>
-        </a>
+        </div>
       </div>
     </section>
 
@@ -73,11 +73,16 @@
           <h3 class="tool-name">只要輿情</h3>
           <p class="tool-desc">社群輿情分析</p>
         </a>
-        <a href="https://drive.google.com/file/d/1GVYkj7fLv-YJjgG35TREfFpfyKIa4Av0/view?usp=drive_link" target="_blank" rel="noopener" class="tool-card" data-type="skill">
+        <div class="tool-card" data-type="skill" data-skill="kol-check">
           <span class="tool-badge">Skill</span>
           <h3 class="tool-name">KOL 小幫手</h3>
           <p class="tool-desc">KOL 合作查核</p>
-        </a>
+        </div>
+        <div class="tool-card" data-type="skill" data-skill="consulting-report">
+          <span class="tool-badge">Skill</span>
+          <h3 class="tool-name">顧問報告溝通流程</h3>
+          <p class="tool-desc">七階段顧問報告引導</p>
+        </div>
       </div>
     </section>
 
@@ -96,16 +101,21 @@
           <h3 class="tool-name">只要截圖</h3>
           <p class="tool-desc">社群貼文自動截圖</p>
         </a>
-        <a href="https://drive.google.com/file/d/16nDkCmOMA65d6moIx_YnN0bpEjLop2TG/view?usp=drive_link" target="_blank" rel="noopener" class="tool-card" data-type="skill">
+        <div class="tool-card" data-type="skill" data-skill="mcd-handbook">
           <span class="tool-badge">Skill</span>
           <h3 class="tool-name">麥當勞手冊</h3>
           <p class="tool-desc">麥當勞客戶工作手冊</p>
-        </a>
-        <a href="https://drive.google.com/file/d/1sMknIyXL6WOe7csypXMNY15mB36ycy7u/view?usp=drive_link" target="_blank" rel="noopener" class="tool-card" data-type="skill">
+        </div>
+        <div class="tool-card" data-type="skill" data-skill="contract-builder">
           <span class="tool-badge">Skill</span>
           <h3 class="tool-name">合約小幫手</h3>
           <p class="tool-desc">合約產製</p>
-        </a>
+        </div>
+        <div class="tool-card" data-type="skill" data-skill="transcript-proofreader">
+          <span class="tool-badge">Skill</span>
+          <h3 class="tool-name">逐字稿校正助手</h3>
+          <p class="tool-desc">會議記錄校正與整理</p>
+        </div>
       </div>
     </section>
   </main>
@@ -121,6 +131,194 @@
           <time class="journal-date">2026-04-02</time>
         </a>
       </div>
+    </div>
+  </div>
+
+  <!-- Skill Overlays -->
+  <div class="skill-overlay" id="overlay-ai-ops">
+    <div class="skill-overlay-content">
+      <button class="skill-overlay-close" onclick="closeOverlay(this)">×</button>
+      <h3 class="skill-overlay-title">營運小幫手</h3>
+      <div class="skill-overlay-section">
+        <h4>功能說明</h4>
+        <p>公司內部營運 FAQ 助手。根據公司實際規定，精準回答報帳、請款、設備補助、請假、福利、公司規章等問題。可自動計算設備離職費用、特休天數，也能查詢公司帳號與出款資訊。</p>
+      </div>
+      <div class="skill-overlay-section">
+        <h4>使用情境</h4>
+        <ul>
+          <li>「這張發票可以報嗎？」「請款流程是什麼？」</li>
+          <li>「我要離職，設備要還多少？」</li>
+          <li>「我今年有幾天特休？」</li>
+          <li>「公司統編是什麼？」</li>
+        </ul>
+      </div>
+      <div class="skill-overlay-notice">此 Skill 已在組織內啟用，你可以直接在 Claude 中使用。</div>
+    </div>
+  </div>
+
+  <div class="skill-overlay" id="overlay-company-elder">
+    <div class="skill-overlay-content">
+      <button class="skill-overlay-close" onclick="closeOverlay(this)">×</button>
+      <h3 class="skill-overlay-title">只要有人地方耆老</h3>
+      <div class="skill-overlay-section">
+        <h4>功能說明</h4>
+        <p>公司知識庫，涵蓋設計、營運、業務、創意四大領域的完整 knowhow。像一位最懂各種眉眉角角的資深前輩，提供社群經營、KOL 合作、廣告投放、提案技巧、拍攝製作、報價流程、客戶溝通等所有公司核心業務知識。</p>
+      </div>
+      <div class="skill-overlay-section">
+        <h4>使用情境</h4>
+        <ul>
+          <li>「報價怎麼抓？毛利要算多少？」</li>
+          <li>「拍攝的前製流程是什麼？」</li>
+          <li>「妝髮師找誰？配音員怎麼聯繫？」</li>
+          <li>「社群串聯怎麼做？提案簡報怎麼寫？」</li>
+        </ul>
+      </div>
+      <div class="skill-overlay-notice">此 Skill 已在組織內啟用，你可以直接在 Claude 中使用。</div>
+    </div>
+  </div>
+
+  <div class="skill-overlay" id="overlay-skill-builder">
+    <div class="skill-overlay-content">
+      <button class="skill-overlay-close" onclick="closeOverlay(this)">×</button>
+      <h3 class="skill-overlay-title">技能小幫手</h3>
+      <div class="skill-overlay-section">
+        <h4>功能說明</h4>
+        <p>一步一步帶你從「準備過去的工作素材」到「產出可安裝的 Skill 檔案」。把重複性的工作流程轉化為可重複使用的 Skill，全程白話引導，不需要技術背景。</p>
+      </div>
+      <div class="skill-overlay-section">
+        <h4>使用情境</h4>
+        <ul>
+          <li>「我想把社群月報流程變成 Skill」</li>
+          <li>「幫我做一個自動化的工作流程」</li>
+          <li>「這件事能不能讓 Claude 自動做？」</li>
+        </ul>
+      </div>
+      <div class="skill-overlay-notice">此 Skill 已在組織內啟用，你可以直接在 Claude 中使用。</div>
+    </div>
+  </div>
+
+  <div class="skill-overlay" id="overlay-zyyr-design">
+    <div class="skill-overlay-content">
+      <button class="skill-overlay-close" onclick="closeOverlay(this)">×</button>
+      <h3 class="skill-overlay-title">視覺統一小幫手</h3>
+      <div class="skill-overlay-section">
+        <h4>功能說明</h4>
+        <p>只要有人的統一視覺設計系統。定義所有網頁專案的色彩、字體、元件、間距與響應式規範，確保品牌一致性。設計哲學為 MUJI 風格的極簡主義——乾淨、溫暖、功能導向。</p>
+      </div>
+      <div class="skill-overlay-section">
+        <h4>使用情境</h4>
+        <ul>
+          <li>建立或設計任何公司網頁專案時自動啟用</li>
+          <li>確認色碼、字級、元件樣式規範</li>
+          <li>確保新頁面符合品牌視覺標準</li>
+        </ul>
+      </div>
+      <div class="skill-overlay-notice">此 Skill 已在組織內啟用，你可以直接在 Claude 中使用。</div>
+    </div>
+  </div>
+
+  <div class="skill-overlay" id="overlay-kol-check">
+    <div class="skill-overlay-content">
+      <button class="skill-overlay-close" onclick="closeOverlay(this)">×</button>
+      <h3 class="skill-overlay-title">KOL 小幫手</h3>
+      <div class="skill-overlay-section">
+        <h4>功能說明</h4>
+        <p>KOL 身家調查工具。提供 KOL 的社群網址後，自動搜尋該 KOL 過去五年的負面聲量、爭議事件與政治立場，透過 Google、PTT、Dcard、新聞等多平台交叉搜尋，產出完整的背景調查報告。</p>
+      </div>
+      <div class="skill-overlay-section">
+        <h4>使用情境</h4>
+        <ul>
+          <li>「查一下這個 KOL」並附上社群網址</li>
+          <li>「這個網紅有沒有黑歷史？」</li>
+          <li>「幫我查這個人的身家調查」</li>
+        </ul>
+      </div>
+      <div class="skill-overlay-notice">此 Skill 已在組織內啟用，你可以直接在 Claude 中使用。</div>
+    </div>
+  </div>
+
+  <div class="skill-overlay" id="overlay-consulting-report">
+    <div class="skill-overlay-content">
+      <button class="skill-overlay-close" onclick="closeOverlay(this)">×</button>
+      <h3 class="skill-overlay-title">顧問報告溝通流程</h3>
+      <div class="skill-overlay-section">
+        <h4>功能說明</h4>
+        <p>資深社群顧問的思考夥伴。透過七階段結構化流程，協助從零開始構思、討論、撰寫一份完整的顧問報告。核心方法論為「多源交集法」——多個獨立資料源各自分析後取交集，確保策略建議有多重證據支撐。</p>
+      </div>
+      <div class="skill-overlay-section">
+        <h4>七個階段</h4>
+        <ul>
+          <li>Brief 拆解與問題界定</li>
+          <li>資料盤點</li>
+          <li>分源分析</li>
+          <li>交集收斂</li>
+          <li>策略展開</li>
+          <li>報告組裝</li>
+          <li>Brief 驗收</li>
+        </ul>
+      </div>
+      <div class="skill-overlay-notice">此 Skill 已在組織內啟用，你可以直接在 Claude 中使用。</div>
+    </div>
+  </div>
+
+  <div class="skill-overlay" id="overlay-mcd-handbook">
+    <div class="skill-overlay-content">
+      <button class="skill-overlay-close" onclick="closeOverlay(this)">×</button>
+      <h3 class="skill-overlay-title">麥當勞手冊</h3>
+      <div class="skill-overlay-section">
+        <h4>功能說明</h4>
+        <p>麥當勞客戶工作的完整參考手冊。涵蓋人員窗口、排程登記、請款流程、廣告投放、設計規範、IG 版型規格、各平台風格、品牌禁忌、好朋友角色設定、行銷術語等所有麥當勞合作相關知識。</p>
+      </div>
+      <div class="skill-overlay-section">
+        <h4>使用情境</h4>
+        <ul>
+          <li>「麥當勞 IG 設計規範是什麼？」</li>
+          <li>「Threads 海巡回文怎麼寫？」</li>
+          <li>「LB 的 email 是什麼？」</li>
+          <li>「排程登記的流程？」</li>
+        </ul>
+      </div>
+      <div class="skill-overlay-notice">此 Skill 已在組織內啟用，你可以直接在 Claude 中使用。</div>
+    </div>
+  </div>
+
+  <div class="skill-overlay" id="overlay-contract-builder">
+    <div class="skill-overlay-content">
+      <button class="skill-overlay-close" onclick="closeOverlay(this)">×</button>
+      <h3 class="skill-overlay-title">合約小幫手</h3>
+      <div class="skill-overlay-section">
+        <h4>功能說明</h4>
+        <p>自動產生完整合約 .docx 檔案。支援三種類型：客戶社群合作協議、顧問服務合約、KOL/藝人合作合約。透過逐步問答收集資訊，套用標準法律條款，產出專業格式的合約文件。</p>
+      </div>
+      <div class="skill-overlay-section">
+        <h4>使用情境</h4>
+        <ul>
+          <li>「幫我出一份合約」</li>
+          <li>「要簽新客戶，幫我產合約」</li>
+          <li>「KOL 合約要怎麼簽？」</li>
+        </ul>
+      </div>
+      <div class="skill-overlay-notice">此 Skill 已在組織內啟用，你可以直接在 Claude 中使用。</div>
+    </div>
+  </div>
+
+  <div class="skill-overlay" id="overlay-transcript-proofreader">
+    <div class="skill-overlay-content">
+      <button class="skill-overlay-close" onclick="closeOverlay(this)">×</button>
+      <h3 class="skill-overlay-title">逐字稿校正助手</h3>
+      <div class="skill-overlay-section">
+        <h4>功能說明</h4>
+        <p>會議記錄逐字稿的校正與整理。在完整保留原文的前提下，進行贅字清除、錯別字修正、講者判斷、段落分段與加標題，最後產出重點摘要。適用於會議記錄、訪談紀錄、座談會紀錄等任何逐字稿。</p>
+      </div>
+      <div class="skill-overlay-section">
+        <h4>使用情境</h4>
+        <ul>
+          <li>「幫我整理這份逐字稿」</li>
+          <li>「會議記錄幫我校正一下」</li>
+          <li>直接貼上一大段會議對話文字</li>
+        </ul>
+      </div>
+      <div class="skill-overlay-notice">此 Skill 已在組織內啟用，你可以直接在 Claude 中使用。</div>
     </div>
   </div>
 

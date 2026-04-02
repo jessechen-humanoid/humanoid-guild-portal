@@ -8,12 +8,41 @@ TBD - created by archiving change 'adventurer-guild-portal'. Update Purpose afte
 
 ### Requirement: Guild portal page structure
 
-The portal page SHALL display a header with the title "只要有人冒險者公會" and organize all tools into three guild sections: Operations Guild (營運公會), Creative Guild (創意公會), and Business Guild (業務公會).
+The portal page SHALL display a header with the title "只要有人冒險者公會", a tab navigation bar, and organize all tools into three guild sections: Operations Guild (營運公會), Creative Guild (創意公會), and Business Guild (業務公會) within the "冒險者公會" tab content area.
 
 #### Scenario: Page loads with all three guilds visible
 
 - **WHEN** a user navigates to the portal page
-- **THEN** the page SHALL display the header title "只要有人冒險者公會" and three guild sections in order: Operations Guild, Creative Guild, Business Guild
+- **THEN** the page SHALL display the header title "只要有人冒險者公會", a tab navigation bar, and three guild sections in order: Operations Guild, Creative Guild, Business Guild within the default active tab
+
+
+<!-- @trace
+source: guild-journal-tab
+updated: 2026-04-02
+code:
+  - Skills MD/mcd-handbook.md
+  - Skills MD/contract-builder.md
+  - Skills MD/kol-check.md
+  - Skills MD/skill-creator.md
+  - Skills MD/ai-ops.md
+  - script.js
+  - 公會日誌/.DS_Store
+  - Skills MD/zyyr-design-system.md
+  - 公會日誌/顧問報告溝通流程簡報.html
+  - index.html
+  - Skills MD/pptx.md
+  - Skills MD/company-elder.md
+  - Skills MD/xlsx.md
+  - Skills MD/consulting-report-flow.md
+  - Skills MD/pdf.md
+  - Skills MD/.DS_Store
+  - Skills MD/schedule.md
+  - .DS_Store
+  - Skills MD/transcript-proofreader.md
+  - Skills MD/skill-builder.md
+  - style.css
+  - Skills MD/docx.md
+-->
 
 ---
 ### Requirement: Guild visual identity with 8-bit pixel art
@@ -44,25 +73,81 @@ The Operations Guild (營運公會) SHALL contain the following tools:
 
 The Creative Guild (創意公會) SHALL contain the following tools:
 - [Web] 只要輿情 — links to https://humanoid-social-listening.zeabur.app/
-- [Skill] mcd-publish — links to Google Drive download
+- [Skill] KOL 小幫手 — opens skill overlay
+- [Skill] 顧問報告溝通流程 — opens skill overlay
 
 #### Scenario: Creative Guild displays all assigned tools
 
 - **WHEN** the page is rendered
-- **THEN** the Creative Guild section SHALL display exactly two tool cards: 只要輿情 and mcd-publish
+- **THEN** the Creative Guild section SHALL display exactly three tool cards: 只要輿情, KOL 小幫手, and 顧問報告溝通流程
+
+
+<!-- @trace
+source: skill-card-overlay
+updated: 2026-04-02
+code:
+  - Skills MD/.DS_Store
+  - Skills MD/kol-check.md
+  - Skills MD/xlsx.md
+  - Skills MD/skill-creator.md
+  - Skills MD/zyyr-design-system.md
+  - Skills MD/docx.md
+  - Skills MD/pdf.md
+  - Skills MD/ai-ops.md
+  - Skills MD/schedule.md
+  - script.js
+  - Skills MD/contract-builder.md
+  - Skills MD/skill-builder.md
+  - Skills MD/mcd-handbook.md
+  - index.html
+  - Skills MD/pptx.md
+  - Skills MD/consulting-report-flow.md
+  - Skills MD/transcript-proofreader.md
+  - Skills MD/company-elder.md
+  - .DS_Store
+  - style.css
+-->
 
 ---
 ### Requirement: Business Guild tools
 
 The Business Guild (業務公會) SHALL contain the following tools:
 - [Web] 只要截圖 — links to https://humanoid-post-screenshot.zeabur.app/
-- [Skill] mcd-handbook — links to Google Drive download
-- [Skill] contract-builder — links to Google Drive download
+- [Skill] 麥當勞手冊 — opens skill overlay
+- [Skill] 合約小幫手 — opens skill overlay
+- [Skill] 逐字稿校正助手 — opens skill overlay
 
 #### Scenario: Business Guild displays all assigned tools
 
 - **WHEN** the page is rendered
-- **THEN** the Business Guild section SHALL display exactly three tool cards: 只要截圖, mcd-handbook, and contract-builder
+- **THEN** the Business Guild section SHALL display exactly four tool cards: 只要截圖, 麥當勞手冊, 合約小幫手, and 逐字稿校正助手
+
+
+<!-- @trace
+source: skill-card-overlay
+updated: 2026-04-02
+code:
+  - Skills MD/.DS_Store
+  - Skills MD/kol-check.md
+  - Skills MD/xlsx.md
+  - Skills MD/skill-creator.md
+  - Skills MD/zyyr-design-system.md
+  - Skills MD/docx.md
+  - Skills MD/pdf.md
+  - Skills MD/ai-ops.md
+  - Skills MD/schedule.md
+  - script.js
+  - Skills MD/contract-builder.md
+  - Skills MD/skill-builder.md
+  - Skills MD/mcd-handbook.md
+  - index.html
+  - Skills MD/pptx.md
+  - Skills MD/consulting-report-flow.md
+  - Skills MD/transcript-proofreader.md
+  - Skills MD/company-elder.md
+  - .DS_Store
+  - style.css
+-->
 
 ---
 ### Requirement: Web tool card behavior
@@ -77,12 +162,39 @@ Tool cards of type [Web] SHALL open the corresponding URL in a new browser tab w
 ---
 ### Requirement: Skill tool card behavior
 
-Tool cards of type [Skill] SHALL navigate to the corresponding Google Drive download link when clicked.
+Tool cards of type [Skill] SHALL open an overlay panel displaying the skill's description when clicked, instead of navigating to an external URL.
 
 #### Scenario: User clicks a Skill tool card
 
-- **WHEN** a user clicks on a [Skill] tool card (e.g., ai-ops)
-- **THEN** the browser SHALL navigate to the Google Drive download page for that skill's installation file
+- **WHEN** a user clicks on a [Skill] tool card (e.g., 營運小幫手)
+- **THEN** an overlay panel SHALL appear displaying the skill's description content AND the page SHALL NOT navigate to an external URL
+
+
+<!-- @trace
+source: skill-card-overlay
+updated: 2026-04-02
+code:
+  - Skills MD/.DS_Store
+  - Skills MD/kol-check.md
+  - Skills MD/xlsx.md
+  - Skills MD/skill-creator.md
+  - Skills MD/zyyr-design-system.md
+  - Skills MD/docx.md
+  - Skills MD/pdf.md
+  - Skills MD/ai-ops.md
+  - Skills MD/schedule.md
+  - script.js
+  - Skills MD/contract-builder.md
+  - Skills MD/skill-builder.md
+  - Skills MD/mcd-handbook.md
+  - index.html
+  - Skills MD/pptx.md
+  - Skills MD/consulting-report-flow.md
+  - Skills MD/transcript-proofreader.md
+  - Skills MD/company-elder.md
+  - .DS_Store
+  - style.css
+-->
 
 ---
 ### Requirement: MUJI-inspired visual design
