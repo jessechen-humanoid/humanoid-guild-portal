@@ -12,8 +12,13 @@
 <body>
   <header class="site-header">
     <h1 class="site-title">只要有人冒險者公會</h1>
+    <nav class="tab-bar">
+      <button class="tab active" data-tab="guilds">冒險者公會</button>
+      <button class="tab" data-tab="journal">公會日誌</button>
+    </nav>
   </header>
 
+  <div class="tab-content active" id="tab-guilds">
   <main class="guilds">
     <!-- 營運公會 -->
     <section class="guild" id="operations">
@@ -104,6 +109,20 @@
       </div>
     </section>
   </main>
+  </div>
+
+  <div class="tab-content" id="tab-journal">
+    <div class="journal">
+      <div class="journal-grid">
+        <a href="公會日誌/顧問報告溝通流程簡報.html" target="_blank" rel="noopener" class="tool-card" data-type="journal">
+          <span class="tool-badge">簡報</span>
+          <h3 class="tool-name">顧問報告溝通流程</h3>
+          <p class="tool-desc">七階段完整流程，從 Brief 拆解到報告驗收</p>
+          <time class="journal-date">2026-04-02</time>
+        </a>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

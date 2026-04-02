@@ -1,7 +1,7 @@
 ## 1. 專案建置
 
 - [x] 1.1 建立靜態網頁專案結構（index.html、style.css、script.js、assets/），依照「技術架構：純靜態 HTML/CSS/JS」決策
-- [ ] 1.2 設定 Vercel 靜態部署配置
+- [x] 1.2 設定 Vercel 靜態部署配置
 
 ## 2. 8-bit Pixel Art 素材
 
@@ -26,4 +26,4 @@
 
 ## 5. 部署
 
-- [ ] 5.1 依照「部署策略：Vercel 靜態部署」決策，部署至 Vercel 並驗證頁面正常運作
+- [x] 5.1 依照「部署策略：Vercel 靜態部署」決策，部署至 Vercel 並驗證頁面正常運作

@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>顧問報告溝通流程 — 只要有人社群顧問</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --page-bg: #fafaf8;
+    --card-bg: #ffffff;
+    --secondary-bg: #f5f5f3;
+    --text-primary: #1a1a1a;
+    --text-emphasis: #2d2d2d;
+    --text-secondary: #6b6b6b;
+    --border-primary: #e8e8e5;
+    --border-light: #f0eeeb;
+    --chart-dark: #2d2d2d;
+    --chart-gold: #c9a96e;
+    --chart-green: #7a9e7e;
+    --chart-red: #c75c5c;
+    --chart-bar: #a8a29e;
+  }
+
+  body {
+    font-family: 'Noto Sans TC', Arial, Helvetica, sans-serif;
+    background: var(--text-primary);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* Slide Container */
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 80px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    background: var(--page-bg);
+    overflow: hidden;
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Dark slides */
+  .slide.dark {
+    background: var(--text-primary);
+    color: var(--page-bg);
+  }
+
+  .slide.dark .slide-label { color: var(--chart-bar); }
+  .slide.dark .sub { color: #a8a8a8; }
+
+  /* Typography */
+  .slide-label {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .sub {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    max-width: 680px;
+  }
+
+  .sub.wide { max-width: 900px; }
+
+  p { line-height: 1.7; }
+
+  /* Cards grid */
+  .cards {
+    display: grid;
+    gap: 20px;
+    margin-top: 32px;
+  }
+  .cards.c2 { grid-template-columns: 1fr 1fr; }
+  .cards.c3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cards.c4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    padding: 28px;
+    transition: transform 0.2s ease;
+  }
+
+  .card:hover { transform: translateY(-2px); }
+
+  .slide.dark .card {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.1);
+    color: var(--page-bg);
+  }
+
+  .card .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    background: var(--secondary-bg);
+    color: var(--text-emphasis);
+  }
+
+  .slide.dark .card .num {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+  }
+
+  .card h3 { margin-bottom: 8px; font-size: 17px; }
+  .card p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+  .slide.dark .card p { color: #a8a8a8; }
+
+  /* Accent dot */
+  .accent-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  /* Flow diagram */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+
+  .flow-item {
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    background: var(--card-bg);
+    border: 1px solid var(--border-primary);
+    white-space: nowrap;
+  }
+
+  .flow-arrow {
+    font-size: 20px;
+    color: var(--chart-bar);
+  }
+
+  .slide.dark .flow-item {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.1);
+    color: var(--page-bg);
+  }
+  .slide.dark .flow-arrow { color: rgba(255,255,255,0.3); }
+
+  .flow-item.highlight {
+    background: var(--text-primary);
+    color: var(--page-bg);
+    border-color: var(--text-primary);
+  }
+  .slide.dark .flow-item.highlight {
+    background: #fff;
+    color: var(--text-primary);
+    border-color: #fff;
+  }
+
+  /* Convergence diagram */
+  .converge-box {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-top: 36px;
+  }
+
+  .converge-sources {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .converge-source {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-primary);
+  }
+
+  .converge-source .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .converge-arrow-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    color: var(--chart-bar);
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .converge-result {
+    padding: 24px 36px;
+    border-radius: 12px;
+    background: var(--text-primary);
+    color: var(--page-bg);
+    text-align: center;
+    max-width: 280px;
+  }
+
+  .converge-result h3 { color: var(--page-bg); margin-bottom: 6px; font-size: 20px; }
+  .converge-result p { color: #a8a8a8; font-size: 14px; }
+
+  /* Table */
+  .s-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 24px;
+    font-size: 14px;
+  }
+
+  .s-table th {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--border-primary);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .s-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .slide.dark .s-table th { border-color: rgba(255,255,255,0.15); color: #a8a8a8; }
+  .slide.dark .s-table td { border-color: rgba(255,255,255,0.08); color: var(--page-bg); }
+
+  /* Tag */
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    background: var(--secondary-bg);
+    color: var(--text-secondary);
+    margin-right: 6px;
+  }
+
+  .tag.gold { background: #f5edd8; color: #8a6d3b; }
+  .tag.green { background: #e8f0e8; color: #2d5a2d; }
+  .tag.red { background: #fef0f0; color: #c75c5c; }
+
+  /* Big quote */
+  .big-quote {
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 720px;
+    margin-top: 24px;
+    padding-left: 24px;
+    border-left: 3px solid var(--chart-gold);
+  }
+
+  .slide.dark .big-quote { border-color: rgba(201,169,110,0.5); color: #e0e0e0; }
+
+  /* Two column layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 32px;
+    align-items: start;
+  }
+
+  /* Progress bar */
+  .progress {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--chart-gold);
+    transition: width 0.4s ease;
+    z-index: 100;
+  }
+
+  /* Navigation */
+  .nav {
+    position: fixed;
+    bottom: 24px;
+    right: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 100;
+  }
+
+  .nav-btn {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--border-primary);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover { background: var(--secondary-bg); }
+
+  .nav-counter {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    min-width: 48px;
+    text-align: center;
+  }
+
+  /* ZYYR Logo */
+  .logo {
+    position: fixed;
+    top: 24px;
+    left: 32px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    z-index: 100;
+  }
+
+  /* Stagger animation */
+  .stagger > * {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .slide.active .stagger > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+  .slide.active .stagger > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+  .slide.active .stagger > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+  .slide.active .stagger > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+  .slide.active .stagger > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+  .slide.active .stagger > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.6s; }
+  .slide.active .stagger > *:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
+  .slide.active .stagger > *:nth-child(8) { opacity: 1; transform: translateY(0); transition-delay: 0.8s; }
+
+  /* Pyramid */
+  .pyramid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 32px;
+  }
+
+  .pyramid-level {
+    padding: 16px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--page-bg);
+    transition: transform 0.2s;
+  }
+  .pyramid-level:hover { transform: scale(1.02); }
+
+  .pyramid-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    text-align: center;
+  }
+
+  /* Circular diagram */
+  .circle-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 36px;
+  }
+
+  .circle-center {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .circle-orbits {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .orbit-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  /* Highlight box */
+  .highlight-box {
+    padding: 24px 28px;
+    border-radius: 12px;
+    margin-top: 24px;
+  }
+
+  /* Checklist */
+  .checklist {
+    list-style: none;
+    margin-top: 20px;
+  }
+
+  .checklist li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.6;
+  }
+
+  .slide.dark .checklist li { border-color: rgba(255,255,255,0.08); }
+
+  .checklist li::before {
+    content: '→';
+    color: var(--chart-gold);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* Keyboard hint */
+  .kbd-hint {
+    position: fixed;
+    bottom: 28px;
+    left: 32px;
+    font-size: 12px;
+    color: var(--chart-bar);
+    z-index: 100;
+  }
+
+  /* Download button */
+  .dl-btn {
+    position: fixed;
+    top: 24px;
+    right: 32px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border-primary);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Noto Sans TC', Arial, sans-serif;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .dl-btn:hover {
+    background: var(--secondary-bg);
+  }
+  .dl-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+</style>
+</head>
+<body>
+
+<div class="logo">只要有人社群顧問</div>
+<button class="dl-btn" onclick="downloadSkill()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  下載 Skill
+</button>
+<div class="progress" id="progress"></div>
+<div class="kbd-hint">← → 或點擊切換頁面</div>
+
+<div class="nav">
+  <button class="nav-btn" onclick="prevSlide()">‹</button>
+  <span class="nav-counter" id="counter">1 / 19</span>
+  <button class="nav-btn" onclick="nextSlide()">›</button>
+</div>
+
+<div class="deck" id="deck">
+
+<!-- Slide 0: Title -->
+<div class="slide dark active">
+  <div class="stagger">
+    <div class="slide-label">Internal Methodology</div>
+    <h1 style="font-size:48px; max-width: 700px;">顧問報告<br>溝通流程</h1>
+    <p class="sub" style="margin-top:12px;">從饗賓集團社群顧問報告的實戰經驗<br>提煉出一套可複用的顧問報告方法論</p>
+    <p style="margin-top:48px; font-size:14px; color:#a8a8a8;">只要有人社群顧問 ／ 2026</p>
+  </div>
+</div>
+
+<!-- Slide 1: Why this matters -->
+<div class="slide">
+  <div class="stagger">
+    <div class="slide-label">Background</div>
+    <h2>為什麼需要這套流程？</h2>
+    <p class="sub wide">顧問報告不是「把分析結果放上簡報」就好。<br>好的顧問報告需要有嚴謹的邏輯推導，讓客戶從數據出發，走到你的結論，並且心服口服。</p>
+    <div class="big-quote" style="margin-top:40px;">
+      「如果你的建議只有一個資料源支撐，那可能只是巧合。<br>如果三個獨立資料源都指向同一個方向，那就是真理。」
+    </div>
+  </div>
+</div>
+
+<!-- Slide 2: Overview -->
+<div class="slide dark">
+  <div class="stagger">
+    <div class="slide-label">Overview</div>
+    <h2>七個階段，一套完整流程</h2>
+    <p class="sub">每一份顧問報告都走這七步。從 Brief 拆解開始，到 Brief 驗收結束。</p>
+    <div class="flow" style="margin-top:40px;">
+      <div class="flow-item highlight">1. Brief 拆解</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">2. 資料盤點</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">3. 分源分析</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item highlight">4. 交集收斂</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">5. 策略展開</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">6. 報告組裝</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item highlight">7. Brief 驗收</div>
+    </div>
+    <p style="margin-top:28px; font-size:14px; color:#a8a8a8;">Brief 拆解是起點，Brief 驗收是終點。中間的交集收斂是核心方法論。</p>
+  </div>
+</div>
+
+<!-- Slide 3: Phase 1 -->
+<div class="slide">
+  <div class="stagger">
+    <div class="slide-label">Phase 1</div>
+    <h1>Brief 拆解與問題界定</h1>
+    <p class="sub">每次客戶的 Brief 都不一樣，所以每次都要認真拆解。<br>Brief 拆得越細，後面分析越不迷路，最後也才能逐條驗收。</p>
+    <div class="cards c2" style="margin-top:32px;">
+      <div class="card">
+        <div class="num">A</div>
+        <h3>客戶背景與脈絡</h3>
+        <p>客戶是誰？為什麼現在找我們？痛點在哪？合作分幾個階段？了解「為什麼現在需要」比「客戶是誰」更重要。</p>
+      </div>
+      <div class="card" style="border-color:var(--chart-gold);">
+        <div class="num" style="background:#f5edd8; color:#8a6d3b;">B</div>
+        <h3>Brief 拆解 — 最關鍵的動作</h3>
+        <p>把客戶 Brief 逐句拆解成<strong>可逐條打勾的子問題清單</strong>。這份清單會貫穿整份報告，最後用來驗收。</p>
+      </div>
+      <div class="card">
+        <div class="num">C</div>
+        <h3>收斂核心問題</h3>
+        <p>從所有子問題中收斂出 1-3 個貫穿整份報告的核心問題，作為所有分析的方向指引。</p>
+      </div>
+      <div class="card">
+        <div class="num">D</div>
+        <h3>交付範圍確認</h3>
+        <p>報告涵蓋哪些 Part？大綱先有方向，過程中可調整。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3b: Brief Decomposition Example -->
+<div class="slide dark">
+  <div class="stagger">
+    <div class="slide-label">Phase 1 — 饗賓實戰案例</div>
+    <h2>Brief 怎麼拆？以饗賓案為例</h2>
+    <div class="two-col" style="margin-top:28px;">
+      <div>
+        <h3 style="color:var(--chart-gold); font-size:14px; margin-bottom:16px;">客戶原始 Brief</h3>
+        <div style="padding:20px; border-radius:10px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); font-size:14px; line-height:1.8; color:#ccc;">
+          饗賓集團社群定位分析與策略規劃<br>
+          <span style="color:#888;">・精品與餐廳品牌社群經營趨勢觀察與分析</span><br>
+          <span style="color:#888;">・集團與子品牌社群角色分工與差異化策略</span><br>
+          <span style="color:#888;">・集團主社群定位與策略建議提案</span><br>
+          <span style="color:#888;">・子品牌社群經營分級與差異化策略</span><br>
+          <span style="color:#888;">　（旭集需特別獨立 highlight）</span><br>
+          <span style="color:#888;">・跨平台社群定位與內容分工策略</span><br>
+          <span style="color:#888;">　（要建議 Phase 2 做哪幾個平台）</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="color:var(--chart-green); font-size:14px; margin-bottom:16px;">拆解後的子問題清單</h3>
+        <div style="font-size:13px; line-height:2; color:#e0e0e0;">
+          <span style="color:var(--chart-gold);">Q1</span> 趨勢觀察 →<br>
+          　Q1-1 精品品牌怎麼平衡質感與互動？<br>
+          　Q1-2 餐飲社群的趨勢方向？<br>
+          　Q1-3 有哪些國際案例值得參考？<br>
+          <span style="color:var(--chart-gold);">Q2</span> 角色分工 →<br>
+          　Q2-1 集團帳號的角色定位？<br>
+          　Q2-2 內容怎麼在集團與子品牌間流動？<br>
+          <span style="color:var(--chart-gold);">Q3</span> 集團定位 →<br>
+          　Q3-1 該建立什麼品牌聯想？<br>
+          　Q3-2 核心內容方向？定位的邏輯推導？<br>
+          <span style="color:var(--chart-gold);">Q4</span> 子品牌分級 →<br>
+          　Q4-1 怎麼分級？不同層級策略差異？<br>
+          <span style="color:var(--chart-gold);">Q5</span> 跨平台策略 →<br>
+          　Q5-1 經營哪些平台？Phase 2 建議？
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:20px; font-size:13px; color:#a8a8a8;">這份清單會一直留著 — 每做完一段分析就回來打勾，最後階段 7 用來做最終驗收。</p>
+  </div>
+</div>
+
+<!-- Slide 4: Phase 2 -->
+<div class="slide">
+  <div class="stagger">
+    <div class="slide-label">Phase 2</div>
+    <h1>資料盤點</h1>
+    <p class="sub">不是有什麼資料就做什麼分析，而是要回答什麼問題就去找什麼資料。</p>
+    <table class="s-table" style="margin-top:32px;">
+      <thead>
+        <tr>
+          <th style="width:22%">資料源類型</th>
+          <th style="width:35%">回答的問題面向</th>
+          <th>常見形式</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:500;">品牌自有數據</td>
+          <td>我們目前做了什麼、成效如何</td>
+          <td><span class="tag">社群後台</span><span class="tag">GA</span><span class="tag">CRM</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:500;">競品 / 同業觀察</td>
+          <td>別人在做什麼、做得怎樣</td>
+          <td><span class="tag">爬蟲數據</span><span class="tag">人工觀察</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:500;">消費者 / 輿情</td>
+          <td>消費者怎麼看、怎麼說</td>
+          <td><span class="tag">Qsearch</span><span class="tag">Threads</span><span class="tag">Dcard</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:500;">國際趨勢案例</td>
+          <td>國際上的最佳實踐</td>
+          <td><span class="tag">案例研究</span><span class="tag">社群觀察</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:500;">客戶內部訪談</td>
+          <td>客戶自己怎麼看自己</td>
+          <td><span class="tag">焦點訪談</span><span class="tag">品牌價值</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Slide 5: Phase 2 key point -->
+<div class="slide dark">
+  <div class="stagger">
+    <div class="slide-label">Phase 2 — Key Point</div>
+    <h2 style="max-width:600px;">至少需要 2-3 個<br>「性質不同」的資料源</h2>
+    <p class="sub" style="margin-top:16px;">如果兩個資料源看的是同一種東西，結論一致不代表什麼。<br>性質不同，交集才有說服力。</p>
+    <div class="cards c3" style="margin-top:36px;">
+      <div class="card">
+        <div class="num" style="background:rgba(122,158,126,0.2); color:#7a9e7e;">1</div>
+        <h3>量化數據</h3>
+        <p>社群互動率、觸及率、聲量數據 → 告訴你「發生了什麼」</p>
+      </div>
+      <div class="card">
+        <div class="num" style="background:rgba(201,169,110,0.2); color:#c9a96e;">2</div>
+        <h3>質化觀察</h3>
+        <p>消費者語錄、品牌分析、案例研究 → 告訴你「為什麼發生」</p>
+      </div>
+      <div class="card">
+        <div class="num" style="background:rgba(199,92,92,0.2); color:#c75c5c;">3</div>
+        <h3>外部基準</h3>
+        <p>國際趨勢、競品做法、業界標竿 → 告訴你「應該怎麼做」</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 6: Phase 3 -->
+<div class="slide">
+  <div class="stagger">
+    <div class="slide-label">Phase 3</div>
+    <h1>分源分析</h1>
+    <p class="sub">每個資料源各自獨立分析，先不急著交叉比對。讓每個資料源說自己的話。</p>
+    <div class="two-col" style="margin-top:32px;">
+      <div>
+        <h3 style="margin-bottom:16px;">每個資料源的分析步驟</h3>
+        <ul class="checklist">
+          <li>資料清洗與前處理（排除雜訊如抽獎貼文）</li>
+          <li>依照預設分析目標進行分析</li>
+          <li>提煉 2-4 個 Finding & Learning</li>
+          <li>用一句話總結單源結論</li>
+          <li>跟團隊確認：這個發現合理嗎？</li>
+        </ul>
+      </div>
+      <div>
+        <div class="highlight-box" style="background:var(--secondary-bg); border:1px solid var(--border-primary); border-radius:12px;">
+          <h3 style="font-size:14px; color:var(--text-secondary); margin-bottom:12px;">Finding & Learning 的格式</h3>
+          <p style="font-size:15px; font-weight:600; margin-bottom:8px;">Finding & Learning 2.</p>
+          <p style="font-size:15px; font-weight:500;">饗賓全品牌社群的討論交集是「人的溫度」</p>
+          <p style="font-size:14px; color:var(--text-secondary); margin-top:8px;">人與人之間的故事 — 品牌好感與高討論度的關鍵<br>含「人的溫度」主題的內容，平均好感度 7.68，顯著高於不含此主題的 7.20</p>
+        </div>
+        <p style="font-size:13px; color:var(--text-secondary); margin-top:16px;">Finding 要有數據佐證<br>Learning 要有策略意涵</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 7: Phase 4 - The core -->
+<div class="slide dark">
+  <div class="stagger">
+    <div class="slide-label">Phase 4 — The Core</div>
+    <h1 style="max-width:600px;">交集收斂</h1>
+    <p class="sub">所有資料源的結論攤開來，找到交集。<br>那個交集，就是你的核心策略建議。</p>
+    <div class="big-quote" style="margin-top:36px;">
+      「如果只有一個資料源支持某個方向，可能只是巧合。<br>兩個以上都指向同一方向，那就是強訊號。」
+    </div>
+  </div>
+</div>
+
+<!-- Slide 8: Convergence diagram with real case -->
+<div class="slide">
+  <div class="stagger">
+    <div class="slide-label">Phase 4 — 饗賓實戰案例</div>
+    <h2>多源交集法實際操作</h2>
+    <div class="converge-box" style="margin-top:40px;">
+      <div class="converge-sources">
+        <div class="converge-source">
+          <div class="dot" style="background:var(--chart-green);"></div>
+          <div>
+            <div style="font-weight:600;">社群輿情分析</div>
+            <div style="font-size:13px; color:var(--text-secondary);">→ 「人的溫度」是品牌好感核心</div>
+          </div>
+        </div>
+        <div class="converge-source">
+          <div class="dot" style="background:var(--chart-gold);"></div>
+          <div>
+            <div style="font-weight:600;">品牌社群成效</div>
+            <div style="font-size:13px; color:var(--text-secondary);">→ 「餐飲幕後揭秘」成效最好</div>
+          </div>
+        </div>
+        <div class="converge-source">
+          <div class="dot" style="background:var(--chart-dark);"></div>
+          <div>
+            <div style="font-weight:600;">國際精品案例</div>
+            <div style="font-size:13px; color:var(--text-secondary);">→ 「職人」是精品社群的靈魂</div>
+          </div>
+        </div>
+        <div class="converge-source">
+          <div class="dot" style="background:var(--chart-bar);"></div>
+          <div>
+            <div style="font-weight:600;">客戶自述</div>
+            <div style="font-size:13px; color:var(--text-secondary);">→ 饗賓以「人」為最重要資產</div>
+          </div>
+        </div>
+      </div>
+      <div class="converge-arrow-group">
+        <span>→</span>
+      </div>
+      <div class="converge-result">
+        <p style="font-size:12px; letter-spacing:1px; margin-bottom:8px;">交集</p>
+        <h3>饗賓職人宇宙</h3>
+        <p>帶你找到品味世界的新視角</p>
+      </div>
+    </div>
+    <p style="margin-top:32px; font-size:14px; color:var(--text-secondary);">四個完全不同角度的分析，都指向同一個方向 — 這就是無法反駁的策略建議。</p>
+  </div>
+</div>
+
+<!-- Slide 9: Phase 4 pitfalls -->
+<div class="slide">
+  <div class="stagger">
+    <div class="slide-label">Phase 4 — Common Pitfalls</div>
+    <h2>交集收斂的常見陷阱</h2>
+    <div class="cards c2" style="margin-top:28px;">
+      <div class="card">
+        <div class="num" style="background:#fef0f0; color:#c75c5c;">!</div>
+        <h3>先射箭再畫靶</h3>
+        <p>先有結論，再找資料支持。不是交集法，是確認偏誤。<br><strong style="color:var(--chart-green);">解法：</strong>先完成各源分析，再看交集。</p>
+      </div>
+      <div class="card">
+        <div class="num" style="background:#fef0f0; color:#c75c5c;">!</div>
+        <h3>把「相似」當「一致」</h3>
+        <p>兩個結論長得像但本質不同。<br><strong style="color:var(--chart-green);">解法：</strong>用一句話精煉每個結論，比對關鍵詞。</p>
+      </div>
+      <div class="card">
+        <div class="num" style="background:#fef0f0; color:#c75c5c;">!</div>
+        <h3>忽略矛盾</h3>
+        <p>只挑一致的，忽略矛盾的。矛盾往往是更深層洞察。<br><strong style="color:var(--chart-green);">解法：</strong>把矛盾攤開討論。</p>
+      </div>
+      <div class="card">
+        <div class="num" style="background:#fef0f0; color:#c75c5c;">!</div>
+        <h3>交集太大或不存在</h3>
+        <p>太大 = 各源分析不夠深入。不存在 = 核心問題需重新定義。<br><strong style="color:var(--chart-green);">解法：</strong>回去精煉或追加資料源。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 10: Phase 5 -->
+<div class="slide">
+  <div class="stagger">
+    <div class="slide-label">Phase 5</div>
+    <h1>策略展開</h1>
+    <p class="sub">從核心定位出發，向下展開子策略。每個子策略都要能追溯回那個「根」。</p>
+    <div class="cards c4" style="margin-top:32px;">
+      <div class="card" style="text-align:center; padding:24px 16px;">
+        <div style="font-size:28px; margin-bottom:12px;">🏛</div>
+        <h3>品牌角色分層</h3>
+        <p>每個品牌跟受眾的關係距離不同<br>→ 溝通方式也不同</p>
+      </div>
+      <div class="card" style="text-align:center; padding:24px 16px;">
+        <div style="font-size:28px; margin-bottom:12px;">📐</div>
+        <h3>內容策略分級</h3>
+        <p>不同層級品牌的<br>淺 / 中 / 深內容配比不同</p>
+      </div>
+      <div class="card" style="text-align:center; padding:24px 16px;">
+        <div style="font-size:28px; margin-bottom:12px;">📱</div>
+        <h3>平台策略</h3>
+        <p>哪些平台要經營<br>哪些不經營但要利用</p>
+      </div>
+      <div class="card" style="text-align:center; padding:24px 16px;">
+        <div style="font-size:28px; margin-bottom:12px;">🔄</div>
+        <h3>內容分發機制</h3>
+        <p>集團 vs 子品牌<br>誰生產、誰分發</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 11: Phase 5 example - Pyramid -->
+<div class="slide dark">
+  <div class="stagger">
+    <div class="slide-label">Phase 5 — 饗賓實戰案例</div>
+    <h2>子品牌角色分層：金字塔模型</h2>
+    <p class="sub">用金字塔層級呈現品牌與受眾的關係距離</p>
+    <div class="pyramid" style="margin-top:40px;">
+      <div class="pyramid-level" style="width:280px; background:var(--chart-dark);">
+        饗 A Joy｜世界級精品
+      </div>
+      <div class="pyramid-label">受眾的終極嚮往對象 — 「窺探」職人的最高標準</div>
+      <div class="pyramid-level" style="width:440px; background:var(--chart-gold);">
+        旭集 ／ 饗饗 ／ URBAN PARADISE ／ 旨醞｜精品線
+      </div>
+      <div class="pyramid-label">受眾敬佩的對象 — 「教導」受眾感受更多講究</div>
+      <div class="pyramid-level" style="width:620px; background:var(--chart-bar);">
+        饗食天堂 ／ 果然匯 ／ 朵頤 ／ 開飯川食堂 ／ 真珠 ／ 貓將 ／ 饗泰多｜人氣線
+      </div>
+      <div class="pyramid-label">受眾信賴的學長姐 — 「分享」日常中值得品味的事物</div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 12: Phase 5 - Solar system -->
+<div class="slide">
+  <div class="stagger">
+    <div class="slide-label">Phase 5 — 饗賓實戰案例</div>
+    <h2>內容分發：恆星—行星模型</h2>
+    <div class="circle-diagram">
+      <div class="circle-center" style="background:var(--text-primary); color:var(--page-bg);">
+        <span style="font-size:13px; color:#a8a8a8;">恆星</span>
+        <span>饗賓集團</span>
+        <span style="font-size:12px; color:#a8a8a8;">職人宇宙核心</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="font-size:20px; color:var(--chart-bar);">← Collab Post →</div>
+        <p style="font-size:13px; color:var(--text-secondary); max-width:200px;">集團製作 Reels，與子品牌共同發布</p>
+      </div>
+      <div class="circle-orbits">
+        <div class="orbit-item" style="background:rgba(45,45,45,0.06);">
+          <span class="accent-dot" style="background:var(--chart-dark);"></span>
+          饗 A Joy｜窺探視角
+        </div>
+        <div class="orbit-item" style="background:rgba(201,169,110,0.1);">
+          <span class="accent-dot" style="background:var(--chart-gold);"></span>
+          旭集 / 饗饗 / 旨醞｜教導視角
+        </div>
+        <div class="orbit-item" style="background:rgba(168,162,158,0.15);">
+          <span class="accent-dot" style="background:var(--chart-bar);"></span>
+          饗食天堂 / 果然匯 ...｜分享視角
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:28px; font-size:14px; color:var(--text-secondary);">子品牌不需要自產高質感影音，而是加入集團的職人宇宙，再加上各品牌自己的「視角」補強貼文</p>
+  </div>
+</div>
+
+<!-- Slide 13: Phase 6 -->
+<div class="slide">
+  <div class="stagger">
+    <div class="slide-label">Phase 6</div>
+    <h1>報告組裝</h1>
+    <p class="sub">不是把結論丟出來，而是讓客戶走一遍你的思考路徑，在終點自然同意你的結論。</p>
+    <div class="cards c2" style="margin-top:32px;">
+      <div class="card">
+        <h3>敘事原則</h3>
+        <ul class="checklist" style="margin-top:12px;">
+          <li>帶客戶走一遍發現之旅，不要一開始就亮結論</li>
+          <li>每個 Part 結尾有自己的 Finding & Learning</li>
+          <li>資料源之間有轉場，建立連貫性</li>
+          <li>最終結論是水到渠成，三個視角並列推導</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>互動設計</h3>
+        <ul class="checklist" style="margin-top:12px;">
+          <li>數據揭示前先讓客戶猜測，製造參與感</li>
+          <li>反直覺的數據特別適合互動</li>
+          <li>展示真實消費者故事，引發共鳴</li>
+          <li>簡報時間：分析 60-70%，策略 20-30%</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 14: Report Structure Template -->
+<div class="slide dark">
+  <div class="stagger">
+    <div class="slide-label">Phase 6 — Template</div>
+    <h2>簡報結構模板</h2>
+    <div class="two-col" style="margin-top:28px;">
+      <div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div class="flow-item" style="font-size:14px;">1. 封面 + 合作階段總覽</div>
+          <div class="flow-item" style="font-size:14px;">2. 方法論說明（從幾個視角分析）</div>
+          <div class="flow-item" style="font-size:14px; border-color:rgba(122,158,126,0.4);">3. 資料源 A 分析 + Finding</div>
+          <div class="flow-item" style="font-size:14px; opacity:0.6;">↳ 轉場頁</div>
+          <div class="flow-item" style="font-size:14px; border-color:rgba(201,169,110,0.4);">4. 資料源 B 分析 + Finding</div>
+          <div class="flow-item" style="font-size:14px; opacity:0.6;">↳ 轉場頁</div>
+          <div class="flow-item" style="font-size:14px; border-color:rgba(45,45,45,0.4);">5. 資料源 C 分析 + Finding</div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div class="flow-item highlight" style="font-size:14px;">6. 交集收斂 → 核心定位</div>
+          <div class="flow-item" style="font-size:14px;">7. 策略展開（子策略）</div>
+          <div class="flow-item" style="font-size:14px;">8. 旗艦案例展示</div>
+          <div class="flow-item" style="font-size:14px;">9. 總結：所有 Finding 彙整</div>
+          <div class="flow-item" style="font-size:14px;">10. 下一步 + Q&A</div>
+        </div>
+        <div style="margin-top:20px; padding:16px; border-radius:10px; background:rgba(201,169,110,0.15); border:1px solid rgba(201,169,110,0.3);">
+          <p style="font-size:13px; color:#c9a96e;">組裝完成後 → 拿出 Brief 清單逐條驗收。<br>確認每個問題都有對應的頁碼，沒有遺漏。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide: Phase 7 -->
+<div class="slide">
+  <div class="stagger">
+    <div class="slide-label">Phase 7</div>
+    <h1>Brief 驗收</h1>
+    <p class="sub">報告做完後，拿出階段 1 的 Brief 拆解清單，逐條檢查。<br>這是整份報告的最終品質關卡。</p>
+    <div class="two-col" style="margin-top:28px;">
+      <div>
+        <h3 style="margin-bottom:16px;">逐條打勾驗收</h3>
+        <table class="s-table" style="margin-top:0;">
+          <thead><tr><th>Brief 問題</th><th>狀態</th><th>對應位置</th></tr></thead>
+          <tbody>
+            <tr><td>Q1 趨勢觀察</td><td><span class="tag green">✅ 已回答</span></td><td>Part 1-2</td></tr>
+            <tr><td>Q2 角色分工</td><td><span class="tag green">✅ 已回答</span></td><td>Part 3</td></tr>
+            <tr><td>Q3 集團定位</td><td><span class="tag green">✅ 已回答</span></td><td>Part 3</td></tr>
+            <tr><td>Q4 子品牌分級</td><td><span class="tag green">✅ 已回答</span></td><td>Part 4</td></tr>
+            <tr><td>Q5 跨平台策略</td><td><span class="tag gold">⚠️ 部分</span></td><td>口頭 + Phase 2</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3 style="margin-bottom:16px;">三種檢查結果</h3>
+        <div class="card" style="padding:20px; margin-bottom:12px;">
+          <p style="font-size:14px;"><span class="tag green">✅ 已回答</span> 報告中有明確對應內容<br><span style="color:var(--text-secondary); font-size:13px;">→ 標注在哪一頁</span></p>
+        </div>
+        <div class="card" style="padding:20px; margin-bottom:12px;">
+          <p style="font-size:14px;"><span class="tag gold">⚠️ 部分回答</span> 有觸及但不夠完整<br><span style="color:var(--text-secondary); font-size:13px;">→ 決定是否補強或口頭補充</span></p>
+        </div>
+        <div class="card" style="padding:20px;">
+          <p style="font-size:14px;"><span class="tag red">❌ 未回答</span> 報告中完全沒提到<br><span style="color:var(--text-secondary); font-size:13px;">→ 必須補上，或說明為何不涵蓋</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide: Phase 7 insight -->
+<div class="slide dark">
+  <div class="stagger">
+    <div class="slide-label">Phase 7 — Insight</div>
+    <h2 style="max-width:640px;">有時候驗收會發現：<br>客戶問錯了問題</h2>
+    <p class="sub" style="margin-top:16px;">這時候不是硬回答錯的問題，而是在報告中用分析結果帶客戶理解「為什麼應該問另一個問題」。</p>
+    <div class="big-quote" style="margin-top:36px;">
+      「幫客戶重新定義問題，本身就是顧問最大的價值。」
+    </div>
+    <div class="highlight-box" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); margin-top:32px;">
+      <p style="font-size:14px; color:#a8a8a8; line-height:1.8;">
+        <strong style="color:#e0e0e0;">Brief 拆解（階段 1）</strong>和<strong style="color:#e0e0e0;">Brief 驗收（階段 7）</strong>形成一個完整的閉環。<br>
+        起點是客戶的問題，終點是確認每個問題都有答案。<br>
+        中間的分析（階段 2-6）是找到答案的過程。
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 15: Principles -->
+<div class="slide">
+  <div class="stagger">
+    <div class="slide-label">Principles</div>
+    <h2>通用原則</h2>
+    <div class="cards c2" style="margin-top:28px;">
+      <div class="card">
+        <h3>始終圍繞核心問題</h3>
+        <p>每一個分析、每一頁簡報，都要能回答「這跟核心問題有什麼關係？」如果很有趣但無關，果斷砍掉。</p>
+      </div>
+      <div class="card">
+        <h3>結論要能被推翻</h3>
+        <p>好的顧問建議是「如果事實不支持，我願意改變結論」。矛盾不要硬凹。</p>
+      </div>
+      <div class="card">
+        <h3>用客戶的語言</h3>
+        <p>策略定位不是寫給同行看的。要用客戶聽得懂、能直接拿去用的語言。</p>
+      </div>
+      <div class="card">
+        <h3>每一步都確認</h3>
+        <p>不要一口氣跑完才確認。每個小結論都停下來問：「你怎麼看？」</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Closing -->
+<div class="slide dark">
+  <div class="stagger">
+    <div class="slide-label">Summary</div>
+    <h1 style="font-size:40px; max-width:700px;">從 Brief 開始，<br>到 Brief 結束。</h1>
+    <p class="sub" style="margin-top:20px;">認真拆解問題、找對資料、各自分析、取其交集、<br>最後回頭驗證每個問題都有答案。</p>
+    <div class="flow" style="margin-top:44px;">
+      <div class="flow-item highlight">Brief 拆解</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">資料盤點</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">分源分析</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item highlight">交集收斂</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">策略展開</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">報告組裝</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item highlight">Brief 驗收</div>
+    </div>
+    <p style="margin-top:44px; font-size:14px; color:#a8a8a8;">只要有人社群顧問 — 讓每一份報告都有說服力</p>
+  </div>
+</div>
+
+</div><!-- end deck -->
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+
+  function updateSlide() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+    counter.textContent = `${current + 1} / ${total}`;
+    progress.style.width = `${((current + 1) / total) * 100}%`;
+  }
+
+  function nextSlide() {
+    if (current < total - 1) { current++; updateSlide(); }
+  }
+
+  function prevSlide() {
+    if (current > 0) { current--; updateSlide(); }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+  });
+
+  // Touch support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { diff > 0 ? nextSlide() : prevSlide(); }
+  });
+
+  updateSlide();
+
+  function downloadSkill() {
+    const b64 = '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';
+    const bytes = atob(b64);
+    const arr = new Uint8Array(bytes.length);
+    for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
+    const blob = new Blob([arr], { type: 'application/zip' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'consulting-report-flow.skill';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+</script>
+</body>
+</html>
