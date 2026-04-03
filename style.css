@@ -60,6 +60,11 @@ body {
   margin-bottom: 24px;
 }
 
+.g_id_signin {
+  display: flex;
+  justify-content: center;
+}
+
 .login-loading {
   font-size: 14px;
   color: #6b6b6b;
