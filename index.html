@@ -54,7 +54,11 @@
   <header class="site-header hidden" id="site-header">
     <div class="header-row">
       <h1 class="site-title">只要有人冒險者公會</h1>
-      <button class="logout-btn" id="logout-btn" onclick="handleLogout()">登出</button>
+      <div class="user-info" id="user-info">
+        <img class="user-avatar" id="user-avatar" src="" alt="" referrerpolicy="no-referrer">
+        <span class="user-name" id="user-name"></span>
+        <button class="logout-btn" id="logout-btn" onclick="handleLogout()">登出</button>
+      </div>
     </div>
     <nav class="tab-bar">
       <button class="tab active" data-tab="guilds">冒險者公會</button>

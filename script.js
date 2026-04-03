@@ -18,6 +18,11 @@ var loginLoading = document.getElementById('login-loading');
 function handleGoogleSignIn(response) {
   var payload = parseJwt(response.credential);
   var email = payload.email;
+  var name = payload.name || '';
+  var picture = payload.picture || '';
+
+  // 暫存使用者資訊，等權限確認後一起寫入 session
+  window._pendingUserInfo = { name: name, picture: picture };
 
   // 顯示載入中
   loginLoading.classList.remove('hidden');
@@ -93,11 +98,15 @@ function showError() {
 
 // ========== Session 快取 ==========
 function saveSession(email) {
+  var info = window._pendingUserInfo || {};
   var session = {
     email: email,
+    name: info.name || '',
+    picture: info.picture || '',
     expiry: Date.now() + SESSION_DURATION_MS
   };
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  displayUserInfo(session);
 }
 
 function getSession() {
@@ -118,6 +127,18 @@ function getSession() {
 
 function clearSession() {
   localStorage.removeItem(SESSION_KEY);
+}
+
+function displayUserInfo(session) {
+  var avatar = document.getElementById('user-avatar');
+  var name = document.getElementById('user-name');
+  if (avatar && session.picture) {
+    avatar.src = session.picture;
+    avatar.alt = session.name;
+  }
+  if (name) {
+    name.textContent = session.name;
+  }
 }
 
 // ========== 登出 ==========
@@ -166,8 +187,9 @@ function initGoogleSignIn() {
 function onPageLoad() {
   var session = getSession();
   if (session) {
-    // 有快取，直接驗證權限
+    // 有快取，先顯示使用者資訊，再驗證權限
     loginScreen.classList.add('hidden');
+    displayUserInfo(session);
     checkPermission(session.email);
   }
   // 沒快取就維持登入畫面

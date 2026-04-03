@@ -103,9 +103,28 @@ body {
   position: relative;
 }
 
-.logout-btn {
+.user-info {
   position: absolute;
   right: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b6b6b;
+}
+
+.logout-btn {
   font-family: inherit;
   font-size: 13px;
   font-weight: 500;
@@ -458,7 +477,7 @@ body {
     gap: 12px;
   }
 
-  .logout-btn {
+  .user-info {
     position: static;
   }
 }
