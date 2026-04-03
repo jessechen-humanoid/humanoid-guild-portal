@@ -15,12 +15,107 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Hidden utility */
+.hidden {
+  display: none !important;
+}
+
+/* Login Screen */
+.login-screen,
+.denied-screen,
+.error-screen {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-card,
+.denied-card,
+.error-card {
+  background: #ffffff;
+  border: 1px solid #e8e8e5;
+  border-radius: 16px;
+  padding: 48px 40px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.login-title,
+.denied-title,
+.error-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.login-desc,
+.denied-desc,
+.error-desc {
+  font-size: 14px;
+  color: #6b6b6b;
+  margin-bottom: 24px;
+}
+
+.login-loading {
+  font-size: 14px;
+  color: #6b6b6b;
+  margin-top: 16px;
+}
+
+.denied-retry-btn {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 24px;
+  border: 1px solid #e8e8e5;
+  border-radius: 8px;
+  background: transparent;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.denied-retry-btn:hover {
+  border-color: #c8c8c5;
+}
+
 /* Header */
 .site-header {
   max-width: 960px;
   margin: 0 auto;
   padding: 64px 24px 40px;
   text-align: center;
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.logout-btn {
+  position: absolute;
+  right: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border: 1px solid #e8e8e5;
+  border-radius: 8px;
+  background: transparent;
+  color: #6b6b6b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  color: #1a1a1a;
+  border-color: #c8c8c5;
 }
 
 .site-title {
@@ -63,10 +158,6 @@ body {
 
 /* Tab Content */
 .tab-content {
-  display: none;
-}
-
-.tab-content.active {
   display: block;
 }
 
@@ -349,5 +440,20 @@ body {
   .skill-overlay-content {
     margin: 24px auto;
     padding: 24px;
+  }
+
+  .login-card,
+  .denied-card,
+  .error-card {
+    padding: 36px 24px;
+  }
+
+  .header-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .logout-btn {
+    position: static;
   }
 }
