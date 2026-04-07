@@ -388,6 +388,27 @@ body {
   color: #6b6b6b;
 }
 
+.tool-adventurer {
+  display: block;
+  font-size: 11px;
+  color: #a0a09b;
+  margin-top: 8px;
+}
+
+/* Loading & Error states */
+.tool-grid-loading,
+.tool-grid-error {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 32px 16px;
+  font-size: 14px;
+  color: #6b6b6b;
+}
+
+.tool-grid-error {
+  color: #c45c5c;
+}
+
 /* 8-bit Pixel Characters */
 .pixel-character {
   width: 48px;
