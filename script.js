@@ -211,9 +211,38 @@ window.addEventListener('load', function() {
   onPageLoad();
 });
 
+// ========== Loading Progress Bar ==========
+var loadingBar = document.getElementById('loading-bar');
+var loadingBarFill = document.getElementById('loading-bar-fill');
+var loadingBarRunner = document.getElementById('loading-bar-runner');
+var fakeProgressTimer = null;
+
+function startLoadingBar() {
+  loadingBar.classList.remove('hidden', 'done');
+  loadingBarFill.style.width = '0%';
+  loadingBarRunner.style.left = '0%';
+  var progress = 0;
+  fakeProgressTimer = setInterval(function() {
+    // 快速到 60%，然後越來越慢，永遠不到 90%
+    var remaining = 88 - progress;
+    progress += remaining * 0.08;
+    loadingBarFill.style.width = progress + '%';
+    loadingBarRunner.style.left = progress + '%';
+  }, 200);
+}
+
+function finishLoadingBar() {
+  clearInterval(fakeProgressTimer);
+  loadingBar.classList.add('done');
+  setTimeout(function() {
+    loadingBar.classList.add('hidden');
+  }, 600);
+}
+
 // ========== CMS 資料載入 ==========
 function fetchCMSData() {
   // 顯示 loading
+  startLoadingBar();
   var toolGrids = document.querySelectorAll('.tool-grid');
   toolGrids.forEach(function(grid) {
     grid.innerHTML = '<div class="tool-grid-loading">載入中...</div>';
@@ -232,6 +261,7 @@ function fetchCMSData() {
       renderToolCards(data.tools || []);
       renderJournalCards(data.journal || []);
       bindSkillOverlays();
+      finishLoadingBar();
     })
     .catch(function() {
       toolGrids.forEach(function(grid) {
@@ -240,6 +270,7 @@ function fetchCMSData() {
       if (journalGrid) {
         journalGrid.innerHTML = '<div class="tool-grid-error">無法載入日誌資料，請稍後重新整理頁面</div>';
       }
+      finishLoadingBar();
     });
 }
 
