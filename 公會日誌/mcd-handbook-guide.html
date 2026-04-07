@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>McD Handbook Skill — 使用指南</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --page-bg: #fafaf8;
+    --card-bg: #ffffff;
+    --secondary-bg: #f5f5f3;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6b6b6b;
+    --text-emphasis: #2d2d2d;
+    --border-primary: #e8e8e5;
+    --border-light: #f0eeeb;
+    --success-bg: #e8f0e8;
+    --success-text: #2d5a2d;
+    --warning-bg: #fef9ef;
+    --warning-text: #8a6d3b;
+    --chart-red: #c75c5c;
+    --chart-gold: #c9a96e;
+    --chart-green: #7a9e7e;
+    --chart-dark: #2d2d2d;
+  }
+
+  body {
+    font-family: 'Noto Sans TC', Arial, Helvetica, sans-serif;
+    background-color: var(--page-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  /* Slide Container */
+  .slide-deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 48px 80px 80px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+    overflow-y: auto;
+  }
+
+  .slide[data-slide="0"] {
+    justify-content: center;
+  }
+
+  .slide[data-slide="10"] {
+    justify-content: center;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .slide.exit-up {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  /* Navigation */
+  .nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    background: var(--card-bg);
+    border-top: 1px solid var(--border-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    z-index: 100;
+  }
+
+  .nav-btn {
+    background: none;
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+
+  .nav-btn:hover {
+    background: var(--secondary-bg);
+  }
+
+  .nav-btn.primary {
+    background: var(--text-primary);
+    color: #fff;
+    border-color: var(--text-primary);
+  }
+
+  .nav-btn.primary:hover {
+    opacity: 0.85;
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .progress-bar {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .progress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-primary);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .progress-dot.active {
+    background: var(--text-primary);
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  .progress-dot.visited {
+    background: #a8a29e;
+  }
+
+  /* Typography */
+  .slide-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .slide-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .slide-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+
+  /* Cards Grid */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    width: 100%;
+    max-width: 960px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.25s;
+  }
+
+  .card:hover {
+    border-color: #c0c0c0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Feature List */
+  .feature-list {
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-light);
+    animation: fadeInUp 0.4s ease forwards;
+    opacity: 0;
+  }
+
+  .feature-item:last-child { border-bottom: none; }
+
+  .feature-num {
+    min-width: 36px;
+    height: 36px;
+    background: var(--secondary-bg);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-emphasis);
+  }
+
+  .feature-content { flex: 1; }
+
+  .feature-content strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+
+  .feature-content span {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .feature-tag {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    white-space: nowrap;
+    margin-top: 4px;
+    display: inline-block;
+  }
+
+  .tag-query { background: #e8f0e8; color: #2d5a2d; }
+  .tag-action { background: #fef9ef; color: #8a6d3b; }
+  .tag-creative { background: #f0e8f0; color: #5a2d5a; }
+
+  /* Stats */
+  .stats-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    padding: 24px 32px;
+    text-align: center;
+    min-width: 140px;
+  }
+
+  .stat-num {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-emphasis);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  /* Trigger Examples */
+  .trigger-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .trigger-chip {
+    background: var(--card-bg);
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-primary);
+    text-align: center;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .trigger-chip:hover {
+    background: var(--secondary-bg);
+    border-color: #c0c0c0;
+  }
+
+  .trigger-chip .trigger-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* Flow Diagram */
+  .flow-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 900px;
+  }
+
+  .flow-step {
+    background: var(--card-bg);
+    border: 1px solid var(--border-primary);
+    border-radius: 10px;
+    padding: 16px 20px;
+    text-align: center;
+    min-width: 120px;
+  }
+
+  .flow-step .step-icon { font-size: 24px; margin-bottom: 6px; }
+  .flow-step .step-text { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+
+  .flow-arrow {
+    font-size: 20px;
+    color: #c0c0c0;
+  }
+
+  /* Table slide */
+  .compact-table {
+    width: 100%;
+    max-width: 880px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 13px;
+  }
+
+  .compact-table th {
+    background: var(--secondary-bg);
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-primary);
+  }
+
+  .compact-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-primary);
+  }
+
+  .compact-table tr:last-child td { border-bottom: none; }
+
+  .compact-table td:first-child { font-weight: 500; }
+
+  /* Onboarding visual */
+  .onboard-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 840px;
+    width: 100%;
+  }
+
+  .onboard-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .onboard-q {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-emphasis);
+    margin-bottom: 12px;
+  }
+
+  .onboard-option {
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .onboard-option:last-child { border-bottom: none; }
+
+  /* Cover slide */
+  .cover-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--chart-gold);
+    border: 1px solid var(--chart-gold);
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+
+  .cover-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .cover-sub {
+    font-size: 18px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .cover-start {
+    background: var(--text-primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 40px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+
+  .cover-start:hover { opacity: 0.85; }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stagger-1 { animation-delay: 0.05s; }
+  .stagger-2 { animation-delay: 0.1s; }
+  .stagger-3 { animation-delay: 0.15s; }
+  .stagger-4 { animation-delay: 0.2s; }
+  .stagger-5 { animation-delay: 0.25s; }
+  .stagger-6 { animation-delay: 0.3s; }
+  .stagger-7 { animation-delay: 0.35s; }
+
+  /* Scroll hint */
+  .scroll-hint {
+    position: fixed;
+    bottom: 68px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 20px;
+    z-index: 101;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    letter-spacing: 0.5px;
+  }
+
+  .scroll-hint.visible {
+    opacity: 1;
+  }
+
+  /* Keyboard hint */
+  .key-hint {
+    position: fixed;
+    bottom: 70px;
+    right: 32px;
+    font-size: 11px;
+    color: #c0c0c0;
+    z-index: 99;
+  }
+
+  .key-hint kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fff;
+    font-family: inherit;
+    font-size: 11px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .slide { padding: 40px 24px; }
+    .cover-title { font-size: 32px; }
+    .slide-title { font-size: 26px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .onboard-cols { grid-template-columns: 1fr; }
+    .stats-row { gap: 12px; }
+    .stat-card { min-width: 100px; padding: 16px 20px; }
+    .stat-num { font-size: 28px; }
+    .flow-container { gap: 8px; }
+    .flow-step { min-width: 90px; padding: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="slide-deck" id="deck">
+
+  <!-- Slide 0: Cover -->
+  <div class="slide active" data-slide="0">
+    <div class="cover-badge">只要有人 × 麥當勞</div>
+    <div class="cover-title">McD Handbook Skill</div>
+    <div class="cover-sub">你的麥當勞客戶工作助手 — 問就答、說就做、想就寫</div>
+    <button class="cover-start" onclick="goTo(1)">開始瀏覽 →</button>
+  </div>
+
+  <!-- Slide 1: Overview Stats -->
+  <div class="slide" data-slide="1" style="justify-content: center; padding-top: 24px; padding-bottom: 70px;">
+    <div class="slide-label">OVERVIEW</div>
+    <div class="slide-title">一個 Skill，三大能力</div>
+    <div class="slide-subtitle" style="margin-bottom: 24px;">涵蓋麥當勞客戶合作的所有知識、流程與創意產出需求</div>
+    <div class="stats-row" style="margin-bottom: 24px;">
+      <div class="stat-card">
+        <div class="stat-num">16</div>
+        <div class="stat-label">查資料項目</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">9</div>
+        <div class="stat-label">操作型任務</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5</div>
+        <div class="stat-label">創意產出模式</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">21</div>
+        <div class="stat-label">參考檔案</div>
+      </div>
+    </div>
+    <div class="cards-grid" style="max-width: 720px; grid-template-columns: repeat(3, 1fr); margin-bottom: 16px;">
+      <div class="card" style="padding: 16px 20px;">
+        <div class="card-icon" style="font-size: 24px; margin-bottom: 6px;">A</div>
+        <div class="card-title">查資料</div>
+        <div class="card-desc">問問題就能答 — 人員窗口、流程規範、品牌原則、設計規格、抽獎機制、網友洞察等 16 大類</div>
+      </div>
+      <div class="card" style="padding: 16px 20px;">
+        <div class="card-icon" style="font-size: 24px; margin-bottom: 6px;">B</div>
+        <div class="card-title">幫你做事</div>
+        <div class="card-desc">操作型任務 — 排程登記、進稿簡報、IG / Threads 月報、抽獎活動辦法，說一聲就產出文件</div>
+      </div>
+      <div class="card" style="padding: 16px 20px;">
+        <div class="card-icon" style="font-size: 24px; margin-bottom: 6px;">C</div>
+        <div class="card-title">創意產出</div>
+        <div class="card-desc">IG & Threads 文案產生器 — idea 發想、文案撰寫、Threads 回文、時事開文、送禮文案</div>
+      </div>
+    </div>
+    <div style="background: linear-gradient(135deg, var(--warning-bg), #fff8e8); border: 1px solid var(--chart-gold); border-radius: 10px; padding: 10px 24px; max-width: 600px; display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text-emphasis);">
+      <span style="font-size: 16px; flex-shrink: 0;">✍️</span>
+      <span><strong style="color: var(--chart-gold);">品牌名稱自動修正</strong> — 若使用者打錯字，所有品牌相關字詞會自動修正（例：鷄）</span>
+    </div>
+  </div>
+
+  <!-- Slide 2: A. 查資料 -->
+  <div class="slide" data-slide="2">
+    <div class="slide-label">SECTION A</div>
+    <div class="slide-title">查資料 — 問問題就能答</div>
+    <div class="slide-subtitle">涵蓋 16 大類知識庫，從人員窗口到網友洞察</div>
+    <div class="feature-list">
+      <div class="feature-item stagger-1"><div class="feature-num">A1</div><div class="feature-content"><strong>人員窗口</strong><span>誰負責什麼、email、找誰</span></div></div>
+      <div class="feature-item stagger-2"><div class="feature-num">A2</div><div class="feature-content"><strong>流程規範</strong><span>排程登記、請款、廣告投放、提案流程</span></div></div>
+      <div class="feature-item stagger-3"><div class="feature-num">A3</div><div class="feature-content"><strong>品牌原則</strong><span>Dos & Don'ts、禁忌、拍攝規範、文案規範</span></div></div>
+      <div class="feature-item stagger-4"><div class="feature-num">A4</div><div class="feature-content"><strong>設計規範</strong><span>IG 版型、色彩、字體、Reels 封面規格</span></div></div>
+      <div class="feature-item stagger-5"><div class="feature-num">A5</div><div class="feature-content"><strong>平台定位</strong><span>FB / IG / Threads / YT / LINE / APP</span></div></div>
+      <div class="feature-item stagger-6"><div class="feature-num">A6-7</div><div class="feature-content"><strong>長期案 & 短期案</strong><span>三大單元、Campaign、提案流程、好朋友日常</span></div></div>
+      <div class="feature-item stagger-7"><div class="feature-num">A8-9</div><div class="feature-content"><strong>IG & Threads 操作</strong><span>設計規範、內容單元、海巡回文、好康出手</span></div></div>
+    </div>
+  </div>
+
+  <!-- Slide 3: A continued -->
+  <div class="slide" data-slide="3">
+    <div class="slide-label">SECTION A（續）</div>
+    <div class="slide-title">查資料 — 更多知識庫</div>
+    <div class="feature-list">
+      <div class="feature-item stagger-1"><div class="feature-num">A10</div><div class="feature-content"><strong>角色設定</strong><span>漢堡神偷、奶昔大哥、大鳥姊姊使用規範</span></div></div>
+      <div class="feature-item stagger-2"><div class="feature-num">A11</div><div class="feature-content"><strong>2026 策略</strong><span>Owned Media 定位、小編人設、Fan Truth、跟風小組</span></div></div>
+      <div class="feature-item stagger-3"><div class="feature-num">A12</div><div class="feature-content"><strong>網友洞察</strong><span>品牌好感度趨勢、Fan Truth、消費者行為</span></div></div>
+      <div class="feature-item stagger-4"><div class="feature-num">A13</div><div class="feature-content"><strong>術語查詢</strong><span>行銷英文縮寫（LTO、EVM、QSR…）</span></div></div>
+      <div class="feature-item stagger-5"><div class="feature-num">A14</div><div class="feature-content"><strong>抽獎機制</strong><span>前置作業、帳號、活動辦法範本、SOP、即享券操作</span></div></div>
+      <div class="feature-item stagger-6"><div class="feature-num">A15</div><div class="feature-content"><strong>外部製作</strong><span>拍攝團隊、報價、製作請款</span></div></div>
+      <div class="feature-item stagger-7"><div class="feature-num">A16</div><div class="feature-content"><strong>顧問案簡報存取</strong><span>AI 好感度報告、Fan Truth Library</span></div></div>
+    </div>
+  </div>
+
+  <!-- Slide 4: B. 操作型任務 -->
+  <div class="slide" data-slide="4">
+    <div class="slide-label">SECTION B</div>
+    <div class="slide-title">幫你做事 — 說一聲就產出</div>
+    <div class="slide-subtitle" style="margin-bottom: 24px;">8 種操作型任務，互動收集資訊後自動產出文件或文案</div>
+    <div class="cards-grid" style="grid-template-columns: repeat(4, 1fr); gap: 12px;">
+      <div class="card" style="padding: 14px 16px;">
+        <div class="card-icon" style="font-size: 22px; margin-bottom: 4px;">B1</div>
+        <div class="card-title" style="font-size: 14px;">查排程空檔</div>
+        <div class="card-desc" style="font-size: 12px;">上傳排程表，自動找空閒時段</div>
+        <div class="feature-tag tag-action">「排程查詢」「查排程」</div>
+      </div>
+      <div class="card" style="padding: 14px 16px;">
+        <div class="card-icon" style="font-size: 22px; margin-bottom: 4px;">B2</div>
+        <div class="card-title" style="font-size: 14px;">排程登記文件</div>
+        <div class="card-desc" style="font-size: 12px;">互動收集 → 產出 .docx</div>
+        <div class="feature-tag tag-action">「排程登記」</div>
+      </div>
+      <div class="card" style="padding: 14px 16px;">
+        <div class="card-icon" style="font-size: 22px; margin-bottom: 4px;">B3</div>
+        <div class="card-title" style="font-size: 14px;">排程登記通知信</div>
+        <div class="card-desc" style="font-size: 12px;">直接產出可貼上的 email</div>
+        <div class="feature-tag tag-action">「排程登記發信」</div>
+      </div>
+      <div class="card" style="padding: 14px 16px;">
+        <div class="card-icon" style="font-size: 22px; margin-bottom: 4px;">B4</div>
+        <div class="card-title" style="font-size: 14px;">進稿簡報</div>
+        <div class="card-desc" style="font-size: 12px;">互動收集 → 產出 .pptx（5 種模板）</div>
+        <div class="feature-tag tag-action">「進稿簡報」「進稿」</div>
+      </div>
+      <div class="card" style="padding: 14px 16px;">
+        <div class="card-icon" style="font-size: 22px; margin-bottom: 4px;">B5</div>
+        <div class="card-title" style="font-size: 14px;">進稿通知信</div>
+        <div class="card-desc" style="font-size: 12px;">直接產出可貼上的 email</div>
+        <div class="feature-tag tag-action">「進稿發信」</div>
+      </div>
+      <div class="card" style="padding: 14px 16px;">
+        <div class="card-icon" style="font-size: 22px; margin-bottom: 4px;">B6</div>
+        <div class="card-title" style="font-size: 14px;">抽獎活動辦法</div>
+        <div class="card-desc" style="font-size: 12px;">收集獎品、平台、名額 → 活動辦法 + 得獎者訊息</div>
+        <div class="feature-tag tag-action">「抽獎活動辦法」「得獎者訊息」</div>
+      </div>
+      <div class="card" style="padding: 14px 16px;">
+        <div class="card-icon" style="font-size: 22px; margin-bottom: 4px;">B7</div>
+        <div class="card-title" style="font-size: 14px;">IG 月報產生器</div>
+        <div class="card-desc" style="font-size: 12px;">問答收集數據 → AI 算 KPI、撰寫分析 → .pptx</div>
+        <div class="feature-tag tag-action">「IG 月報」「ig report」</div>
+      </div>
+      <div class="card" style="padding: 14px 16px;">
+        <div class="card-icon" style="font-size: 22px; margin-bottom: 4px;">B8</div>
+        <div class="card-title" style="font-size: 14px;">Threads 月報產生器</div>
+        <div class="card-desc" style="font-size: 12px;">問答 + 截圖讀數據 → AI 撰寫分析 → .pptx</div>
+        <div class="feature-tag tag-action">「Threads 月報」「threads report」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 5: C. 創意產出 -->
+  <div class="slide" data-slide="5">
+    <div class="slide-label">SECTION C</div>
+    <div class="slide-title">創意產出 — 想就寫</div>
+    <div class="slide-subtitle">IG & Threads 文案產生器，從 idea 到完稿一條龍</div>
+    <div class="cards-grid" style="max-width: 960px; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+      <div class="card" style="padding: 16px;">
+        <div class="card-icon" style="font-size: 22px; margin-bottom: 8px;">C1</div>
+        <div class="card-title" style="font-size: 14px; margin-bottom: 4px;">IG idea 發想</div>
+        <div class="card-desc" style="font-size: 12px;">產出 3-5 個 idea 方向，含 HOOK 角度</div>
+        <div class="feature-tag tag-creative" style="font-size: 10px; margin-top: 6px;">「idea」「發想」「靈感」</div>
+      </div>
+      <div class="card" style="padding: 16px;">
+        <div class="card-icon" style="font-size: 22px; margin-bottom: 8px;">C2</div>
+        <div class="card-title" style="font-size: 14px; margin-bottom: 4px;">IG 文案撰寫</div>
+        <div class="card-desc" style="font-size: 12px;">完整文案 + hashtag + 圖文建議</div>
+        <div class="feature-tag tag-creative" style="font-size: 10px; margin-top: 6px;">「文案」「寫文案」「copy」</div>
+      </div>
+      <div class="card" style="padding: 16px;">
+        <div class="card-icon" style="font-size: 22px; margin-bottom: 8px;">C3</div>
+        <div class="card-title" style="font-size: 14px; margin-bottom: 4px;">Threads 時事互動開文</div>
+        <div class="card-desc" style="font-size: 12px;">結合熱門話題的 Threads 貼文</div>
+        <div class="feature-tag tag-creative" style="font-size: 10px; margin-top: 6px;">「Threads 開文」</div>
+      </div>
+      <div class="card" style="padding: 16px;">
+        <div class="card-icon" style="font-size: 22px; margin-bottom: 8px;">C4</div>
+        <div class="card-title" style="font-size: 14px; margin-bottom: 4px;">Threads 回文撰寫</div>
+        <div class="card-desc" style="font-size: 12px;">3-5 個回文方向 + 技巧說明</div>
+        <div class="feature-tag tag-creative" style="font-size: 10px; margin-top: 6px;">「回文」「海巡」</div>
+      </div>
+      <div class="card" style="padding: 16px;">
+        <div class="card-icon" style="font-size: 22px; margin-bottom: 8px;">C5</div>
+        <div class="card-title" style="font-size: 14px; margin-bottom: 4px;">Threads 小編送禮文案</div>
+        <div class="card-desc" style="font-size: 12px;">好康出手場景的送禮貼文</div>
+        <div class="feature-tag tag-creative" style="font-size: 10px; margin-top: 6px;">「Threads 送禮」</div>
+      </div>
+    </div>
+    <div style="margin-top: 16px; font-size: 11px; color: var(--text-secondary); text-align: center; max-width: 600px; line-height: 1.5;">
+      支援 IG 單元：大麥客日誌（特色餐廳 / 品牌好感 / Good People）、麥梗研發所、麥客實測團<br>
+      支援 Threads 類型：時事互動開文、大麥客日誌串文、海巡回文、小編送禮
+    </div>
+  </div>
+
+  <!-- Slide 6: How copywriting works -->
+  <div class="slide" data-slide="6">
+    <div class="slide-label">CREATIVE FLOW</div>
+    <div class="slide-title">文案產生流程</div>
+    <div class="slide-subtitle">從觸發到完稿，每一步都有 AI 輔助</div>
+    <div class="flow-container" style="margin-bottom: 32px; flex-wrap: nowrap;">
+      <div class="flow-step" style="width: 120px;"><div class="step-icon">1</div><div class="step-text">確認平台<br><small style="color:var(--text-secondary)">IG or Threads</small></div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="width: 120px;"><div class="step-icon">2</div><div class="step-text" style="white-space: nowrap;">選擇單元<br><small style="color:var(--text-secondary)">日誌/麥梗/實測</small></div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="width: 120px;"><div class="step-icon">3</div><div class="step-text">收集素材<br><small style="color:var(--text-secondary)">主題/話題/產品</small></div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="width: 120px;"><div class="step-icon">4</div><div class="step-text">產出 idea<br><small style="color:var(--text-secondary)">3-5 個方向</small></div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="width: 120px;"><div class="step-icon">5</div><div class="step-text">完整文案<br><small style="color:var(--text-secondary)">+ 圖文建議</small></div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="width: 120px; border-color: var(--chart-green);"><div class="step-icon">✓</div><div class="step-text">自動檢核<br><small style="color:var(--chart-green)">品牌原則</small></div></div>
+    </div>
+    <div style="background: var(--warning-bg); border: 1px solid var(--warning-border); border-radius: 10px; padding: 16px 24px; text-align: center; font-size: 13px; color: var(--warning-text); white-space: nowrap;">
+      靈感來源：自動引用 consumer-insights.md 中的 Fan Truth 資料庫（40+ 條網友真實心聲）
+    </div>
+  </div>
+
+  <!-- Slide 7: Onboarding -->
+  <div class="slide" data-slide="7">
+    <div class="slide-label">ONBOARDING</div>
+    <div class="slide-title">新人引導模式</div>
+    <div class="slide-subtitle">第一次使用？回答三個問題，量身定制你的學習路徑</div>
+    <div class="onboard-cols">
+      <div class="onboard-card">
+        <div class="onboard-q">Q1 你是什麼角色？</div>
+        <div class="onboard-option">創意 → 品牌原則、選題注意</div>
+        <div class="onboard-option">PM → 人員架構、排程、請款</div>
+        <div class="onboard-option">設計 → IG 設計規範、版型</div>
+        <div class="onboard-option">新人 → 循序漸進全面了解</div>
+      </div>
+      <div class="onboard-card">
+        <div class="onboard-q">Q2 負責哪種案型？</div>
+        <div class="onboard-option">長期案 → 三大單元、提案流程</div>
+        <div class="onboard-option">短期案 → Campaign 通用規範</div>
+        <div class="onboard-option">顧問案 → 好感度報告、Fan Truth</div>
+        <div class="onboard-option">都要知道 → 共同 → 專屬</div>
+      </div>
+      <div class="onboard-card">
+        <div class="onboard-q">Q3 你現在要做什麼？</div>
+        <div class="onboard-option">提案規劃</div>
+        <div class="onboard-option">完稿製作</div>
+        <div class="onboard-option">排程登記</div>
+        <div class="onboard-option">想 idea / 寫文案</div>
+        <div class="onboard-option">了解網友洞察</div>
+        <div class="onboard-option">我想先全面了解</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 8: Try it -->
+  <div class="slide" data-slide="8">
+    <div class="slide-label">TRY IT</div>
+    <div class="slide-title">怎麼觸發？直接說就好</div>
+    <div class="slide-subtitle">以下是一些你可以直接對 Claude 說的話</div>
+    <div class="trigger-grid">
+      <div class="trigger-chip">
+        <span class="trigger-label">查人員</span>
+        「LB 的 email？」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">查流程</span>
+        「排程怎麼登記？」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">查規範</span>
+        「文案可以自稱我嗎？」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">產文件</span>
+        「進稿簡報」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">想 idea</span>
+        「幫我想一個麥梗的 idea」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">寫文案</span>
+        「幫我寫一則 Threads 回文」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">查洞察</span>
+        「網友怎麼看薯條？」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">抽獎</span>
+        「幫我產生抽獎活動辦法」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">術語</span>
+        「EVM 是什麼意思？」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">IG 月報</span>
+        「做 IG 月報」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">Threads 月報</span>
+        「Threads 月報」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">即享券</span>
+        「即享券怎麼操作？」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">策略</span>
+        「2026 社群定位是什麼？」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">角色設定</span>
+        「漢堡神偷可以搭配什麼產品？」
+      </div>
+      <div class="trigger-chip">
+        <span class="trigger-label">新人引導</span>
+        「我是新人」
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 9: Reference files -->
+  <div class="slide" data-slide="9">
+    <div class="slide-label">ARCHITECTURE</div>
+    <div class="slide-title">背後的知識庫</div>
+    <div class="slide-subtitle">21 份參考檔案，分三大類 + 模板 ×7</div>
+    <div style="display: flex; gap: 16px; width: 100%; max-width: 960px; flex-wrap: wrap; justify-content: center;">
+      <div style="flex: 1; min-width: 280px;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--success-text); background: var(--success-bg); padding: 8px 14px; border-radius: 8px 8px 0 0; letter-spacing: 1px;">A 知識類（14 份）</div>
+        <table class="compact-table" style="border-radius: 0 0 12px 12px; border-top: none;">
+          <tbody>
+            <tr><td>personnel.md</td><td>人員窗口</td></tr>
+            <tr><td>processes.md</td><td>排程、請款、廣告投放</td></tr>
+            <tr><td>principles.md</td><td>品牌原則、Dos & Don'ts</td></tr>
+            <tr><td>platform-style.md</td><td>各平台風格定位</td></tr>
+            <tr><td>2026-strategy.md</td><td>社群策略、Fan Truth</td></tr>
+            <tr><td>ig-design-guidelines.md</td><td>IG 設計規範</td></tr>
+            <tr><td>copywriting-guide.md</td><td>IG + Threads 文案風格</td></tr>
+            <tr><td>glossary.md</td><td>行銷英文縮寫</td></tr>
+            <tr><td>long-term-case.md</td><td>長期案三大單元</td></tr>
+            <tr><td>long-term-production.md</td><td>外部製作團隊</td></tr>
+            <tr><td>threads-rules.md</td><td>Threads 海巡回文</td></tr>
+            <tr><td>consumer-insights.md</td><td>網友洞察、Fan Truth</td></tr>
+            <tr><td>characters.md</td><td>麥當勞好朋友角色</td></tr>
+            <tr><td>lottery-rules.md</td><td>抽獎機制指南</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="flex: 0 0 auto; min-width: 280px;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--warning-text); background: var(--warning-bg); padding: 8px 14px; border-radius: 8px 8px 0 0; letter-spacing: 1px;">B 操作型（5 份）</div>
+        <table class="compact-table" style="border-radius: 0 0 12px 12px; border-top: none;">
+          <tbody>
+            <tr><td>publish-workflow.md</td><td>排程 & 進稿流程</td></tr>
+            <tr><td>ig-report-generator.md</td><td>IG 月報問答流程</td></tr>
+            <tr><td>ig-report-template-gen.py</td><td>IG 月報產生腳本</td></tr>
+            <tr><td>threads-report-generator.md</td><td>Threads 月報問答流程</td></tr>
+            <tr><td>threads-report-template-gen.py</td><td>Threads 月報產生腳本</td></tr>
+          </tbody>
+        </table>
+        <div style="height: 16px;"></div>
+        <div style="font-size: 12px; font-weight: 600; color: #5a2d5a; background: #f0e8f0; padding: 8px 14px; border-radius: 8px 8px 0 0; letter-spacing: 1px;">輔助資源（2 份 + 模板 ×7）</div>
+        <table class="compact-table" style="border-radius: 0 0 12px 12px; border-top: none;">
+          <tbody>
+            <tr><td>mcd-handbook-guide.html</td><td>本互動簡報</td></tr>
+            <tr><td>templates/</td><td>進稿模板 ×5 + 月報模板 ×2</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 10: End -->
+  <div class="slide" data-slide="10">
+    <div class="cover-badge">READY TO USE</div>
+    <div class="cover-title" style="font-size: 40px;">開始使用吧</div>
+    <div class="cover-sub">只要在對話中提到任何麥當勞相關的關鍵字<br>Skill 就會自動啟動，幫你查、幫你做、幫你寫</div>
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
+      <div style="background: var(--success-bg); color: var(--success-text); border-radius: 8px; padding: 12px 24px; font-size: 14px; font-weight: 500;">
+        問就答
+      </div>
+      <div style="background: var(--warning-bg); color: var(--warning-text); border-radius: 8px; padding: 12px 24px; font-size: 14px; font-weight: 500;">
+        說就做
+      </div>
+      <div style="background: #f0e8f0; color: #5a2d5a; border-radius: 8px; padding: 12px 24px; font-size: 14px; font-weight: 500;">
+        想就寫
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="prev()" disabled>← 上一頁</button>
+  <div class="progress-bar" id="progressBar"></div>
+  <button class="nav-btn primary" id="nextBtn" onclick="next()">下一頁 →</button>
+</div>
+
+<div class="scroll-hint" id="scrollHint">↓ 下滑看更多</div>
+<div class="key-hint"><kbd>←</kbd> <kbd>→</kbd> 鍵盤切換</div>
+
+<script>
+  const totalSlides = document.querySelectorAll('.slide').length;
+  let current = 0;
+  const visited = new Set([0]);
+
+  // Build progress dots
+  const progressBar = document.getElementById('progressBar');
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    progressBar.appendChild(dot);
+  }
+
+  function updateSlide(from, to) {
+    if (from === to) return;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.progress-dot');
+
+    slides[from].classList.remove('active');
+    if (to > from) slides[from].classList.add('exit-up');
+    setTimeout(() => slides[from].classList.remove('exit-up'), 500);
+
+    slides[to].classList.add('active');
+    visited.add(to);
+
+    dots.forEach((d, i) => {
+      d.className = 'progress-dot';
+      if (i === to) d.classList.add('active');
+      else if (visited.has(i)) d.classList.add('visited');
+    });
+
+    current = to;
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').textContent = current === totalSlides - 1 ? '回到封面 →' : '下一頁 →';
+
+    // Re-trigger animations
+    slides[to].querySelectorAll('.feature-item').forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight;
+      el.style.animation = '';
+    });
+  }
+
+  // Scroll hint logic
+  const scrollHint = document.getElementById('scrollHint');
+
+  function checkScrollHint() {
+    const slide = document.querySelectorAll('.slide')[current];
+    if (!slide) return;
+    const hasOverflow = slide.scrollHeight > slide.clientHeight + 10;
+    const isAtTop = slide.scrollTop < 20;
+    if (hasOverflow && isAtTop) {
+      scrollHint.classList.add('visible');
+    } else {
+      scrollHint.classList.remove('visible');
+    }
+  }
+
+  // Listen for scroll on all slides
+  document.querySelectorAll('.slide').forEach(slide => {
+    slide.addEventListener('scroll', checkScrollHint);
+  });
+
+  // Patch updateSlide to also check scroll hint
+  const _origUpdateSlide = updateSlide;
+  function patchedUpdate(from, to) {
+    _origUpdateSlide(from, to);
+    setTimeout(checkScrollHint, 100);
+  }
+  // Replace references
+  function next() {
+    if (current === totalSlides - 1) goTo(0);
+    else goTo(current + 1);
+  }
+  function prev() {
+    if (current > 0) goTo(current - 1);
+  }
+  function goTo(i) {
+    patchedUpdate(current, i);
+  }
+
+  // Initial check
+  setTimeout(checkScrollHint, 300);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+  });
+
+  // Touch support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (diff > 50) next();
+    if (diff < -50) prev();
+  });
+</script>
+
+</body>
+</html>
