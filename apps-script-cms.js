@@ -64,9 +64,9 @@ function doGet(e) {
       // 處理日期格式
       var dateVal = jrow[3];
       var dateStr = '';
-      if (dateVal instanceof Date) {
-        dateStr = Utilities.formatDate(dateVal, Session.getScriptTimeZone(), 'yyyy-MM-dd');
-      } else {
+      try {
+        dateStr = Utilities.formatDate(new Date(dateVal), Session.getScriptTimeZone(), 'yyyy-MM-dd');
+      } catch(e) {
         dateStr = (dateVal || '').toString().trim();
       }
 
