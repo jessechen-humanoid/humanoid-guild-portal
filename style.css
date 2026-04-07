@@ -90,12 +90,8 @@ body {
 
 /* Loading Progress Bar */
 .loading-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 200;
-  padding: 12px 24px 0;
+  margin: 24px 0 0;
+  padding: 0;
 }
 
 .loading-bar-track {
@@ -117,9 +113,8 @@ body {
 
 .loading-bar-runner {
   position: absolute;
-  bottom: 4px;
+  bottom: 6px;
   left: 0%;
-  transform: translateX(-50%);
   transition: left 0.3s ease;
 }
 
