@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KOL 身家調查 使用教學</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Geist', Arial, Helvetica, sans-serif;
+      background-color: #fafaf8;
+      color: #1a1a1a;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    header {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e8e8e5;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #1a1a1a;
+      text-decoration: none;
+    }
+    .logo span {
+      font-weight: 400;
+      color: #6b6b6b;
+      margin-left: 8px;
+      font-size: 13px;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .hero { margin-bottom: 48px; }
+    .hero-tag {
+      display: inline-block;
+      background-color: #f5f5f3;
+      color: #6b6b6b;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+    }
+    .hero h1 {
+      font-size: 30px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+      margin-bottom: 14px;
+    }
+    .hero p {
+      font-size: 16px;
+      color: #6b6b6b;
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6b6b6b;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border: 1px solid #e8e8e5;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 12px;
+    }
+    .card h2 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+    .card p, .card li {
+      font-size: 14px;
+      color: #6b6b6b;
+      line-height: 1.7;
+    }
+    .card ul, .card ol { padding-left: 20px; }
+    .card li { margin-bottom: 4px; }
+
+    .steps { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 40px; }
+    .step-card {
+      background-color: #ffffff;
+      border: 1px solid #e8e8e5;
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .step-num {
+      min-width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #1a1a1a;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-num.alt {
+      background-color: #f5f5f3;
+      color: #6b6b6b;
+      border: 1px solid #e8e8e5;
+      font-size: 12px;
+    }
+    .step-body h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 5px;
+    }
+    .step-body p {
+      font-size: 13px;
+      color: #6b6b6b;
+      line-height: 1.65;
+    }
+
+    .modes {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 660px) { .modes { grid-template-columns: 1fr; } }
+    .mode-card {
+      background-color: #ffffff;
+      border: 1px solid #e8e8e5;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .mode-icon { font-size: 22px; margin-bottom: 10px; }
+    .mode-card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+    .mode-card p { font-size: 13px; color: #6b6b6b; line-height: 1.65; }
+    .mode-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+    .badge-chat { background-color: #e8f0e8; color: #2d5a2d; }
+    .badge-excel { background-color: #fef9ef; color: #8a6d3b; }
+
+    .code-block {
+      background-color: #f5f5f3;
+      border: 1px solid #e8e8e5;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-family: 'Geist Mono', 'Courier New', monospace;
+      font-size: 13px;
+      color: #1a1a1a;
+      white-space: pre-wrap;
+      word-break: break-all;
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    /* Batch flow diagram */
+    .batch-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 16px 0;
+    }
+    .flow-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      position: relative;
+    }
+    .flow-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 30px;
+    }
+    .flow-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #1a1a1a;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .flow-dot.output { background-color: #8a6d3b; }
+    .flow-dot.end { background-color: #2d5a2d; }
+    .flow-connector {
+      width: 1px;
+      flex: 1;
+      min-height: 20px;
+      background-color: #e8e8e5;
+      margin: 2px 0;
+    }
+    .flow-content {
+      padding-bottom: 16px;
+      flex: 1;
+    }
+    .flow-content h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 3px;
+    }
+    .flow-content p {
+      font-size: 13px;
+      color: #6b6b6b;
+      line-height: 1.6;
+    }
+    .flow-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 1px 7px;
+      border-radius: 8px;
+      margin-top: 4px;
+    }
+    .tag-warn { background-color: #fef9ef; color: #8a6d3b; border: 1px solid #e8dcc8; }
+    .tag-ok { background-color: #e8f0e8; color: #2d5a2d; border: 1px solid #c8dcc8; }
+    .tag-info { background-color: #f0f0f8; color: #4a4a8a; border: 1px solid #d8d8f0; }
+
+    /* Output table */
+    .output-grid { display: grid; grid-template-columns: 1fr; gap: 6px; margin-top: 12px; }
+    .output-row {
+      display: grid;
+      grid-template-columns: 48px 110px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 10px 12px;
+      background-color: #fafaf8;
+      border: 1px solid #e8e8e5;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .output-row.header-row {
+      background-color: #f5f5f3;
+      font-weight: 600;
+      font-size: 11px;
+      color: #6b6b6b;
+      letter-spacing: 0.04em;
+    }
+    .col-letter {
+      font-family: 'Geist Mono', 'Courier New', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1a1a1a;
+      background-color: #e8e8e5;
+      border-radius: 4px;
+      padding: 1px 6px;
+      text-align: center;
+      width: fit-content;
+    }
+    .col-name { font-weight: 500; color: #1a1a1a; }
+    .col-desc { color: #6b6b6b; }
+
+    /* Risk */
+    .risk-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    .risk-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .risk-low { background-color: #e8f0e8; color: #2d5a2d; border: 1px solid #c8dcc8; }
+    .risk-mid { background-color: #fef9ef; color: #8a6d3b; border: 1px solid #e8dcc8; }
+    .risk-high { background-color: #fef0f0; color: #c75c5c; border: 1px solid #f5d6d6; }
+
+    /* Download button */
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #1a1a1a;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity 0.15s;
+      margin-top: 4px;
+    }
+    .btn-download:hover { opacity: 0.82; }
+
+    /* Quote callout */
+    .callout {
+      border-left: 3px solid #e8e8e5;
+      padding: 10px 16px;
+      margin: 12px 0;
+      background-color: #fafaf8;
+      border-radius: 0 8px 8px 0;
+    }
+    .callout p {
+      font-size: 13px;
+      color: #6b6b6b;
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    /* Tips */
+    .tips-box {
+      background-color: #fef9ef;
+      border: 1px solid #e8dcc8;
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin-top: 12px;
+    }
+    .tips-box .tips-title { font-size: 13px; font-weight: 600; color: #8a6d3b; margin-bottom: 8px; }
+    .tips-box ul { padding-left: 18px; }
+    .tips-box li { font-size: 13px; color: #8a6d3b; line-height: 1.7; margin-bottom: 2px; }
+
+    section { margin-bottom: 48px; }
+    hr { border: none; border-top: 1px solid #e8e8e5; margin: 40px 0; }
+
+    footer {
+      border-top: 1px solid #e8e8e5;
+      padding: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: #6b6b6b;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">只要有人社群顧問 <span>Cowork Skills</span></a>
+    <span style="font-size:12px; color:#6b6b6b; background:#f5f5f3; border-radius:20px; padding:4px 12px;">/kol-check</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-tag">使用教學</div>
+    <h1>KOL 身家調查<br><span style="color:#6b6b6b; font-weight:400;">/kol-check</span></h1>
+    <p>一個指令，自動搜尋 KOL 過去五年的負面聲量、爭議事件與政治立場，幫你在合作前做好把關。支援單筆、多筆與 Excel 批次查詢。</p>
+  </div>
+
+  <!-- 啟動 -->
+  <section>
+    <div class="section-label">Step 01 — 如何啟動</div>
+    <div class="card">
+      <h2>輸入指令呼叫工具</h2>
+      <p style="margin-bottom:12px;">在 Cowork 對話框輸入以下任一方式即可啟動：</p>
+      <div class="code-block">/kol-check</div>
+      <p style="margin-top:10px; margin-bottom:8px;">或直接用自然語言說：</p>
+      <div class="code-block">幫我查一下這個 KOL
+查 KOL 身家調查
+這個網紅有沒有黑歷史？</div>
+      <p style="margin-top:10px; font-size:13px; color:#6b6b6b;">啟動後會看到開場歡迎訊息，接著提供 KOL 資料即可開始。</p>
+    </div>
+  </section>
+
+  <!-- 三種模式 -->
+  <section>
+    <div class="section-label">Step 02 — 選擇輸入模式</div>
+    <div class="modes">
+      <div class="mode-card">
+        <div class="mode-icon">🔗</div>
+        <h3>單筆查詢</h3>
+        <p>貼上一個社群網址，對單一 KOL 進行完整調查。</p>
+        <span class="mode-badge badge-chat">輸出：對話報告</span>
+      </div>
+      <div class="mode-card">
+        <div class="mode-icon">📋</div>
+        <h3>多筆直接輸入</h3>
+        <p>在對話中貼上多位 KOL 的名稱與網址，每行一筆。</p>
+        <span class="mode-badge badge-excel">輸出：Excel 檔案</span>
+      </div>
+      <div class="mode-card">
+        <div class="mode-icon">📊</div>
+        <h3>Excel 批次上傳</h3>
+        <p>上傳填好名稱與網址的 Excel，自動逐一查詢並填入結果。</p>
+        <span class="mode-badge badge-excel">輸出：Excel 檔案</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🔗 單筆查詢</h2>
+      <p style="margin-bottom:10px;">啟動後直接貼上任一平台的個人頁面網址，支援 Instagram、YouTube、Facebook、TikTok。</p>
+      <div class="code-block">https://www.instagram.com/example_kol/</div>
+      <p style="margin-top:10px; font-size:13px; color:#6b6b6b;">調查結果直接在對話中條列呈現，包含粉絲數、負面事件、政治立場與待判定事項。</p>
+    </div>
+
+    <div class="card">
+      <h2>📋 多筆直接輸入</h2>
+      <p style="margin-bottom:10px;">每行一位 KOL，格式為「名稱 + 網址」，工具逐一查詢後整理成 Excel 輸出。</p>
+      <div class="code-block">垃圾文美少年 https://www.instagram.com/garbagestoryboy/
+張藝 https://www.instagram.com/rollrolleuler/
+小明 https://www.youtube.com/@example</div>
+    </div>
+
+    <div class="card">
+      <h2>📊 Excel 批次上傳</h2>
+      <p style="margin-bottom:12px;">先下載模板，在 A 欄填入 KOL 名稱、B 欄填入網址，上傳後工具自動填入所有欄位。</p>
+      <a class="btn-download" href="computer:///sessions/nifty-lucid-ride/mnt/.claude/skills/kol-check/kol-check-template.xlsx">↓ 下載 Excel 輸入模板</a>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- 大量查詢 -->
+  <section>
+    <div class="section-label">超過 5 位時 — 自動分批流程</div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <h2>一次超過 5 位 KOL，工具會自動幫你分批處理</h2>
+      <p style="font-size:13px; color:#6b6b6b; margin-bottom:16px;">為了維持每位 KOL 的搜查品質，工具以 5 位為一組自動分批執行，每批完成後輸出一份 Excel，全部完成後提示你合併。</p>
+
+      <div class="batch-flow">
+
+        <div class="flow-item">
+          <div class="flow-line">
+            <div class="flow-dot"></div>
+            <div class="flow-connector"></div>
+          </div>
+          <div class="flow-content">
+            <h4>偵測人數 → 顯示提示</h4>
+            <p>超過 5 位時，工具先說：</p>
+            <div class="callout"><p>一次查這麼多人，你真是好奇的小調皮。為了兼顧我的搜查品質，就讓我一次查詢五位給你～</p></div>
+            <span class="flow-tag tag-warn">自動觸發，無需操作</span>
+          </div>
+        </div>
+
+        <div class="flow-item">
+          <div class="flow-line">
+            <div class="flow-dot"></div>
+            <div class="flow-connector"></div>
+          </div>
+          <div class="flow-content">
+            <h4>第 1 批（第 1～5 位）</h4>
+            <p>依序查完，輸出 <strong>batch_1.xlsx</strong>，接著自動繼續下一批。</p>
+            <span class="flow-tag tag-info">輸出 batch_1.xlsx</span>
+          </div>
+        </div>
+
+        <div class="flow-item">
+          <div class="flow-line">
+            <div class="flow-dot"></div>
+            <div class="flow-connector"></div>
+          </div>
+          <div class="flow-content">
+            <h4>第 2 批（第 6～10 位）</h4>
+            <p>繼續查，輸出 <strong>batch_2.xlsx</strong>。如有更多批次，依此類推。</p>
+            <span class="flow-tag tag-info">輸出 batch_2.xlsx</span>
+          </div>
+        </div>
+
+        <div class="flow-item">
+          <div class="flow-line">
+            <div class="flow-dot end"></div>
+            <div class="flow-connector" style="background:transparent;"></div>
+          </div>
+          <div class="flow-content">
+            <h4>全部完成 → 提示合併</h4>
+            <p>所有批次查完後，工具說：</p>
+            <div class="callout"><p>小的查完了，想麻煩大大把我剛剛給你的所有 excel 檔下載後，再上傳給我一次，我將為你進行合併 🙏</p></div>
+            <span class="flow-tag tag-ok">接著進入合併步驟</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>合併步驟</h2>
+      <p style="font-size:13px; color:#6b6b6b; margin-bottom:12px;">收到合併提示後，把所有 batch_1.xlsx、batch_2.xlsx… 一起下載，然後在同一則訊息中全部上傳，工具會自動合併成一份完整的 <strong>kol-check-merged.xlsx</strong>。</p>
+      <ol style="padding-left:20px; font-size:13px; color:#6b6b6b; line-height:2;">
+        <li>下載所有 batch_X.xlsx 到電腦</li>
+        <li>在 Cowork 對話中一次選取並上傳全部檔案</li>
+        <li>工具自動合併，輸出 <strong>kol-check-merged.xlsx</strong></li>
+      </ol>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- 調查流程 -->
+  <section>
+    <div class="section-label">工具如何運作</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>辨識 KOL 資訊</h3>
+          <p>從你提供的網址或名稱，整理出該 KOL 的常用名稱、本名、帳號，作為後續搜尋關鍵字。</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>補全各平台粉絲數</h3>
+          <p>搜尋 Facebook、Instagram、YouTube 各平台的粉絲數與訂閱數。優先參考 Wikipedia 頁面（通常最完整），找不到則針對各平台補搜一次，兩輪後仍查無則標注「查無」。</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>三輪負面聲量搜尋</h3>
+          <p>
+            第 1 輪：搜尋「爭議、炎上、黑歷史、負評」<br>
+            第 2 輪：搜尋「業配造假、葉配、政治立場、親中、台獨」<br>
+            第 3 輪：搜尋 PTT、Dcard 上的相關討論
+          </p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>整理報告輸出</h3>
+          <p>單筆查詢在對話中條列；多筆或批次查詢整理為 Excel，含來源連結與風險評估符號。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- 欄位說明 -->
+  <section>
+    <div class="section-label">Excel 輸出欄位說明</div>
+    <div class="card">
+      <h2>輸出表格欄位（A～K 欄）</h2>
+      <p style="margin-bottom:16px; font-size:13px; color:#6b6b6b;">批次或多筆查詢時，結果輸出為以下格式的 Excel 表格：</p>
+      <div class="output-grid">
+        <div class="output-row header-row">
+          <span>欄位</span>
+          <span>名稱</span>
+          <span>說明</span>
+        </div>
+        <div class="output-row">
+          <span class="col-letter">A</span>
+          <span class="col-name">KOL 名稱</span>
+          <span class="col-desc">使用者輸入的 KOL 名稱</span>
+        </div>
+        <div class="output-row">
+          <span class="col-letter">B</span>
+          <span class="col-name">網址</span>
+          <span class="col-desc">使用者輸入的社群網址（查詢起點）</span>
+        </div>
+        <div class="output-row">
+          <span class="col-letter">C</span>
+          <span class="col-name">FB 粉絲數</span>
+          <span class="col-desc">Facebook 粉絲數，含超連結到 FB 頁面</span>
+        </div>
+        <div class="output-row">
+          <span class="col-letter">D</span>
+          <span class="col-name">IG 粉絲數</span>
+          <span class="col-desc">Instagram 粉絲數，含超連結到 IG 頁面</span>
+        </div>
+        <div class="output-row">
+          <span class="col-letter">E</span>
+          <span class="col-name">YT 訂閱數</span>
+          <span class="col-desc">YouTube 訂閱數，含超連結到 YT 頁面</span>
+        </div>
+        <div class="output-row">
+          <span class="col-letter">F</span>
+          <span class="col-name">整體評估</span>
+          <span class="col-desc">以 ✅ / ⚠️ / ❌ 開頭的風險評語</span>
+        </div>
+        <div class="output-row">
+          <span class="col-letter">G</span>
+          <span class="col-name">負面事件</span>
+          <span class="col-desc">多筆事件用 1. 2. 3. 編號寫在同一格</span>
+        </div>
+        <div class="output-row">
+          <span class="col-letter">H</span>
+          <span class="col-name">負面事件來源</span>
+          <span class="col-desc">對應 G 欄編號的完整文章網址</span>
+        </div>
+        <div class="output-row">
+          <span class="col-letter">I</span>
+          <span class="col-name">政治立場</span>
+          <span class="col-desc">政治立場說明，查無則標注「無特別立場表態紀錄」</span>
+        </div>
+        <div class="output-row">
+          <span class="col-letter">J</span>
+          <span class="col-name">待判定事項</span>
+          <span class="col-desc">不確定是否為負面的事件，供使用者自行判斷</span>
+        </div>
+        <div class="output-row">
+          <span class="col-letter">K</span>
+          <span class="col-name">待判定來源</span>
+          <span class="col-desc">對應 J 欄編號的完整文章網址</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>風險評估符號</h2>
+      <p style="font-size:13px; color:#6b6b6b; margin-bottom:12px;">F 欄「整體評估」以下列符號開頭，方便快速判斷合作風險：</p>
+      <div class="risk-row">
+        <div class="risk-badge risk-low">✅ &nbsp;合作風險低 — 未搜尋到明顯負面事件</div>
+        <div class="risk-badge risk-mid">⚠️ &nbsp;合作需留意 — 有部分待確認事項</div>
+        <div class="risk-badge risk-high">❌ &nbsp;合作風險高 — 有明確負面事件或爭議</div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- Q&A -->
+  <section>
+    <div class="section-label">常見問題</div>
+
+    <div class="card">
+      <h2>查到的粉絲數不準確怎麼辦？</h2>
+      <p>工具從 Google 搜尋摘要擷取粉絲數，可能與實際數字有些微差異。需精確數字時，建議直接到該平台頁面確認。</p>
+    </div>
+
+    <div class="card">
+      <h2>搜不到負面事件，是沒查到還是真的沒有？</h2>
+      <p>工具在搜不到負面資訊時會如實標注「未搜尋到明顯負面事件」，不會硬湊。建議仍搭配人工判斷作為最終依據。</p>
+    </div>
+
+    <div class="card">
+      <h2>一次可以查幾位 KOL？</h2>
+      <p>沒有硬性上限，但超過 5 位時會自動分批處理（每批 5 位），並在全部查完後提示你合併。建議一次不超過 20 位，避免對話時間過長。</p>
+    </div>
+
+    <div class="card">
+      <h2>可以查 TikTok 的 KOL 嗎？</h2>
+      <p>可以。請提供 TikTok 個人頁面連結。粉絲數以 Google 搜尋摘要為主，若查不到則標注「查無」。</p>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-title">💡 使用小技巧</div>
+      <ul>
+        <li>網址直接到個人頁面（而非貼文），結果更精確</li>
+        <li>KOL 有多個常用名稱時，可一起標注在名稱欄（例如：「垃圾文美少年 / 何O瑋」）</li>
+        <li>待判定欄的事件不代表有問題，請自行閱讀來源後判斷</li>
+        <li>搜尋範圍為過去五年，更早的事件不在調查範圍內</li>
+        <li>大量查詢時，每批輸出後記得先下載，以免遺漏</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  只要有人社群顧問 &nbsp;·&nbsp; /kol-check 使用教學 &nbsp;·&nbsp; 2026
+</footer>
+
+</body>
+</html>
