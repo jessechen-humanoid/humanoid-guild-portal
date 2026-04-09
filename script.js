@@ -10,6 +10,7 @@ var SESSION_DURATION_MS = 24 * 60 * 60 * 1000; // 24 小時
 var CMS_CACHE_KEY = 'cms_cache';
 var CMS_CACHE_TTL = 10 * 60 * 1000; // 10 分鐘
 
+
 // ========== DOM 元素 ==========
 var loginScreen = document.getElementById('login-screen');
 var deniedScreen = document.getElementById('denied-screen');
@@ -605,11 +606,11 @@ function renderBountyCard(bounty, currentEmail, isDone) {
 
   html += '<div class="bounty-card-task">' + escapeHtml(bounty.task) + '</div>';
   html += '<div class="bounty-card-meta">';
-  html += '<span>👤 ' + escapeHtml(bounty.commissioner) + '</span>';
-  html += '<span>📅 ' + daysAgo(bounty.date) + '</span>';
+  html += '<span>' + escapeHtml(bounty.commissioner) + '</span>';
+  html += '<span>' + daysAgo(bounty.date) + '</span>';
   if (isDone) {
-    html += '<span>✅ ' + escapeHtml(bounty.completionDate) + ' 完成</span>';
-    html += '<span>⏱ 花了 ' + bounty.daysSpent + ' 天</span>';
+    html += '<span>' + escapeHtml(bounty.completionDate) + ' 完成</span>';
+    html += '<span>花了 ' + bounty.daysSpent + ' 天</span>';
   }
   html += '</div>';
 
@@ -617,24 +618,27 @@ function renderBountyCard(bounty, currentEmail, isDone) {
     html += '<div class="bounty-card-actions">';
     // +1 按鈕
     html += '<button class="bounty-btn' + (hasVoted ? ' bounty-btn--voted' : '') + '" ' +
-      (hasVoted ? 'disabled' : 'onclick="handlePlusOne(' + bounty.row + ')"') +
-      '>👍 +' + bounty.plusOneCount + '</button>';
+      'onclick="' + (hasVoted ? 'handleUnplusOne(' + bounty.row + ')' : 'handlePlusOne(' + bounty.row + ')') + '"' +
+      '>+' + bounty.plusOneCount + '</button>';
 
     // 挑戰按鈕
     if (!bounty.challenger) {
-      html += '<button class="bounty-btn" onclick="handleChallenge(' + bounty.row + ')">⚔️ 我想挑戰</button>';
+      html += '<button class="bounty-btn bounty-btn--action" onclick="handleChallenge(' + bounty.row + ')">我想挑戰</button>';
     } else if (isChallenger) {
-      html += '<button class="bounty-btn bounty-btn--challenge" onclick="handleChallenge(' + bounty.row + ')">⚔️ 取消挑戰</button>';
-      html += '<button class="bounty-btn bounty-btn--complete" onclick="handleComplete(' + bounty.row + ')">🏆 完成任務</button>';
+      html += '<button class="bounty-btn bounty-btn--action bounty-btn--challenge" onclick="handleChallenge(' + bounty.row + ')">取消挑戰</button>';
+      html += '<button class="bounty-btn bounty-btn--action bounty-btn--complete" onclick="handleComplete(' + bounty.row + ')">完成任務</button>';
     } else {
-      html += '<span class="bounty-challenger">⚔️ 挑戰勇者：' + escapeHtml(challengerName) + '</span>';
+      html += '<span class="bounty-challenger">挑戰勇者：' + escapeHtml(challengerName) + '</span>';
     }
 
     html += '</div>';
   } else {
+    html += '<div class="bounty-card-actions">';
+    html += '<button class="bounty-btn bounty-btn--voted" disabled>+' + bounty.plusOneCount + '</button>';
     if (challengerName) {
-      html += '<div class="bounty-done-info">🏆 由 ' + escapeHtml(challengerName) + ' 完成</div>';
+      html += '<span class="bounty-challenger bounty-challenger--done">完成勇者：' + escapeHtml(challengerName) + '</span>';
     }
+    html += '</div>';
   }
 
   card.innerHTML = html;
@@ -671,6 +675,62 @@ function handlePlusOne(row) {
     .then(function(data) {
       if (!data.success) {
         // rollback
+        var current = getLocalBounties();
+        for (var i = 0; i < current.length; i++) {
+          if (current[i].row === row) {
+            current[i].plusOneCount = oldCount;
+            current[i].plusOneList = oldList;
+            break;
+          }
+        }
+        updateLocalBounties(current);
+      }
+    })
+    .catch(function() {
+      var current = getLocalBounties();
+      for (var i = 0; i < current.length; i++) {
+        if (current[i].row === row) {
+          current[i].plusOneCount = oldCount;
+          current[i].plusOneList = oldList;
+          break;
+        }
+      }
+      updateLocalBounties(current);
+    });
+}
+
+// ---- Optimistic 收回 +1 ----
+function handleUnplusOne(row) {
+  var session = getSession();
+  if (!session) return;
+  var email = session.email;
+
+  var bounties = getLocalBounties();
+  var target = null;
+  var oldCount, oldList;
+  for (var i = 0; i < bounties.length; i++) {
+    if (bounties[i].row === row) {
+      target = bounties[i];
+      oldCount = target.plusOneCount;
+      oldList = target.plusOneList;
+      target.plusOneCount = Math.max(0, oldCount - 1);
+      var emails = oldList ? oldList.split(',') : [];
+      var idx = emails.indexOf(email);
+      if (idx !== -1) emails.splice(idx, 1);
+      target.plusOneList = emails.join(',');
+      break;
+    }
+  }
+  if (!target) return;
+  updateLocalBounties(bounties);
+
+  fetch(CMS_APPS_SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'plusOne', row: row, email: email })
+  })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (!data.success) {
         var current = getLocalBounties();
         for (var i = 0; i < current.length; i++) {
           if (current[i].row === row) {

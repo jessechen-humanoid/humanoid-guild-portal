@@ -165,9 +165,15 @@ function doPost(e) {
     var voterEmail = (body.email || '').toString().trim();
     var currentList = (sheet.getRange(row, 5).getValue() || '').toString().trim();
     var emails = currentList ? currentList.split(',') : [];
-    if (emails.indexOf(voterEmail) !== -1) {
+    var idx = emails.indexOf(voterEmail);
+    if (idx !== -1) {
+      // Toggle: 移除投票
+      emails.splice(idx, 1);
+      sheet.getRange(row, 5).setValue(emails.join(','));
+      var newCount = emails.length;
+      sheet.getRange(row, 4).setValue(newCount);
       return ContentService
-        .createTextOutput(JSON.stringify({success: false, reason: 'already_voted'}))
+        .createTextOutput(JSON.stringify({success: true, action: 'removed', newCount: newCount}))
         .setMimeType(ContentService.MimeType.JSON);
     }
     emails.push(voterEmail);
@@ -175,7 +181,7 @@ function doPost(e) {
     var newCount = emails.length;
     sheet.getRange(row, 4).setValue(newCount);
     return ContentService
-      .createTextOutput(JSON.stringify({success: true, newCount: newCount}))
+      .createTextOutput(JSON.stringify({success: true, action: 'added', newCount: newCount}))
       .setMimeType(ContentService.MimeType.JSON);
   }
 

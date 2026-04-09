@@ -587,9 +587,9 @@ body {
 
 .bounty-submit-btn {
   font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  padding: 10px 24px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
   border: none;
   border-radius: 8px;
   background: #1a1a1a;
@@ -628,7 +628,7 @@ body {
 }
 
 .bounty-card-task {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   margin-bottom: 8px;
   line-height: 1.5;
@@ -638,7 +638,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 12px;
+  font-size: 13px;
   color: #a0a09b;
   margin-bottom: 12px;
 }
@@ -646,13 +646,14 @@ body {
 .bounty-card-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 8px;
   flex-wrap: wrap;
 }
 
 .bounty-btn {
   font-family: inherit;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   padding: 6px 14px;
   border: 1px solid #e8e8e5;
@@ -661,6 +662,12 @@ body {
   color: #6b6b6b;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.bounty-btn--action,
+.bounty-challenger {
+  min-width: 160px;
+  text-align: left;
 }
 
 .bounty-btn:hover:not(:disabled) {
@@ -686,15 +693,27 @@ body {
 }
 
 .bounty-btn--complete {
-  background: #4caf50;
+  background: #1a1a1a;
   color: #ffffff;
-  border-color: #4caf50;
+  border-color: #1a1a1a;
 }
 
 .bounty-challenger {
-  font-size: 12px;
-  color: #c9a96e;
+  font-family: inherit;
+  font-size: 13px;
   font-weight: 500;
+  padding: 6px 14px;
+  border: 1px solid #c9a96e;
+  border-radius: 8px;
+  background: transparent;
+  color: #c9a96e;
+  display: inline-block;
+}
+
+.bounty-challenger--done {
+  background: #c9a96e;
+  color: #ffffff;
+  border-color: #c9a96e;
 }
 
 /* Completed Bounties */
@@ -733,7 +752,7 @@ body {
   font-weight: 500;
   padding: 2px 8px;
   border-radius: 6px;
-  background: #4caf50;
+  background: #c9a96e;
   color: #ffffff;
   margin-bottom: 8px;
 }

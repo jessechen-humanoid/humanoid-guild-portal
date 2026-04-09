@@ -35,13 +35,15 @@ code:
 ---
 ### Requirement: Commission input
 
-Logged-in users SHALL be able to type a work problem description and submit it by clicking the "勇者大人幫幫我" button. The system SHALL record the current date, the user's display name (extracted from email, e.g., `jesse.chen@humanoid.com.tw` becomes `jesse chen`), and the task description.
+Logged-in users SHALL be able to type a work problem description and submit it by clicking the "勇者大人幫幫我" button. The system SHALL record the current date, the user's display name (extracted from email, e.g., `jesse.chen@humanoid.com.tw` becomes `jesse chen`), and the task description. Upon submission, the new bounty card SHALL appear in the card list immediately without waiting for the API response. The system SHALL POST to the API in the background and update the localStorage cache on success. If the POST fails, the system SHALL remove the optimistically added card and display a brief error indication.
 
-#### Scenario: User submits a new bounty
+#### Scenario: User submits a new bounty (optimistic)
 
 - **WHEN** a logged-in user enters a task description and clicks "勇者大人幫幫我"
-- **THEN** the system SHALL write a new row to the Google Sheet "懸賞" worksheet with the current date, the user's display name, the task description, +1 count of 0, empty +1 list, empty challenger, empty status, empty completion date, and 0 days spent
-- **AND** the new bounty card SHALL appear in the card list immediately
+- **THEN** the new bounty card SHALL appear in the card list immediately with +1 count of 0 and no challenger
+- **AND** the system SHALL POST to the API in the background
+- **AND** on success, the system SHALL update the localStorage cache with the server-confirmed data
+- **AND** on failure, the system SHALL remove the optimistically added card and show a brief error message
 
 #### Scenario: Empty submission prevented
 
@@ -50,19 +52,10 @@ Logged-in users SHALL be able to type a work problem description and submit it b
 
 
 <!-- @trace
-source: bounty-board
+source: optimistic-ui
 updated: 2026-04-09
 code:
-  - .DS_Store
-  - assets/villager.svg
-  - google-auth-setup.skill
-  - 8bit-pixel-art.skill.md
   - script.js
-  - apps-script-cms.js
-  - index.html
-  - Journal/.DS_Store
-  - CLAUDE.md
-  - style.css
 -->
 
 ---
@@ -100,12 +93,15 @@ code:
 ---
 ### Requirement: Plus-one voting
 
-Each logged-in user SHALL be able to vote +1 on any bounty card exactly once. The +1 button SHALL visually indicate whether the current user has already voted. The +1 count SHALL reflect the total number of unique voters.
+Each logged-in user SHALL be able to vote +1 on any bounty card exactly once. Upon clicking, the +1 count SHALL increment immediately and the button SHALL change to voted state without waiting for the API response. The system SHALL POST to the API in the background and update the localStorage cache on success. If the POST fails, the system SHALL revert the +1 count and button state.
 
-#### Scenario: User votes +1 on a bounty
+#### Scenario: User votes +1 on a bounty (optimistic)
 
 - **WHEN** a logged-in user clicks the +1 button on a bounty they have not voted on
-- **THEN** the system SHALL append the user's email to the +1 list in Google Sheet, increment the +1 count by 1, and update the button to show the voted state with a distinct color
+- **THEN** the +1 count SHALL increment by 1 immediately and the button SHALL show the voted state
+- **AND** the system SHALL POST to the API in the background
+- **AND** on success, the system SHALL update the localStorage cache
+- **AND** on failure, the system SHALL revert the +1 count and button state to pre-click values
 
 #### Scenario: User has already voted
 
@@ -114,35 +110,30 @@ Each logged-in user SHALL be able to vote +1 on any bounty card exactly once. Th
 
 
 <!-- @trace
-source: bounty-board
+source: optimistic-ui
 updated: 2026-04-09
 code:
-  - .DS_Store
-  - assets/villager.svg
-  - google-auth-setup.skill
-  - 8bit-pixel-art.skill.md
   - script.js
-  - apps-script-cms.js
-  - index.html
-  - Journal/.DS_Store
-  - CLAUDE.md
-  - style.css
 -->
 
 ---
 ### Requirement: Challenge claim
 
-Each bounty card SHALL have a "我想挑戰" button. Only one user SHALL be able to claim a bounty at a time. The claimant SHALL be able to unclaim by clicking again.
+Each bounty card SHALL have a "我想挑戰" button. Only one user SHALL be able to claim a bounty at a time. Upon clicking, the challenger name SHALL appear immediately without waiting for the API response. The system SHALL POST to the API in the background. If the POST fails or returns already_claimed, the system SHALL revert the card to its previous state.
 
-#### Scenario: User claims a bounty
+#### Scenario: User claims a bounty (optimistic)
 
 - **WHEN** a logged-in user clicks "我想挑戰" on an unclaimed bounty
-- **THEN** the system SHALL write the user's email to the challenger field in Google Sheet, the card SHALL display "挑戰勇者：{display name}", and the "我想挑戰" button SHALL become unavailable to other users
+- **THEN** the card SHALL immediately display "挑戰勇者：{display name}" and disable the button for other users
+- **AND** the system SHALL POST to the API in the background
+- **AND** on failure, the system SHALL revert the card to unclaimed state
 
-#### Scenario: Claimant unclaims a bounty
+#### Scenario: Claimant unclaims a bounty (optimistic)
 
 - **WHEN** the current challenger clicks the challenge button again on their claimed bounty
-- **THEN** the system SHALL clear the challenger field in Google Sheet and the bounty SHALL become available for others to claim
+- **THEN** the card SHALL immediately revert to unclaimed state
+- **AND** the system SHALL POST to the API in the background
+- **AND** on failure, the system SHALL restore the challenger display
 
 #### Scenario: Other users cannot claim an already-claimed bounty
 
@@ -151,30 +142,24 @@ Each bounty card SHALL have a "我想挑戰" button. Only one user SHALL be able
 
 
 <!-- @trace
-source: bounty-board
+source: optimistic-ui
 updated: 2026-04-09
 code:
-  - .DS_Store
-  - assets/villager.svg
-  - google-auth-setup.skill
-  - 8bit-pixel-art.skill.md
   - script.js
-  - apps-script-cms.js
-  - index.html
-  - Journal/.DS_Store
-  - CLAUDE.md
-  - style.css
 -->
 
 ---
 ### Requirement: Task completion
 
-The challenger of a bounty SHALL be able to mark it as complete by clicking a "完成任務" button. Only the current challenger SHALL see this button.
+The challenger of a bounty SHALL be able to mark it as complete by clicking a "完成任務" button. Upon clicking, the card SHALL immediately move to the completed section with the done appearance. The system SHALL POST to the API in the background. If the POST fails, the system SHALL move the card back to the active section.
 
-#### Scenario: Challenger completes a bounty
+#### Scenario: Challenger completes a bounty (optimistic)
 
 - **WHEN** the current challenger clicks "完成任務" on their claimed bounty
-- **THEN** the system SHALL set the status to "done", record the completion date, calculate the days spent (completion date minus commission date), and update all fields in Google Sheet
+- **THEN** the card SHALL immediately move to the "完成任務" section with a different background color, showing "任務完成", today's date, and calculated days spent
+- **AND** the system SHALL POST to the API in the background
+- **AND** on success, the system SHALL update the localStorage cache
+- **AND** on failure, the system SHALL move the card back to the active section
 
 #### Scenario: Non-challengers cannot complete
 
@@ -183,19 +168,10 @@ The challenger of a bounty SHALL be able to mark it as complete by clicking a "�
 
 
 <!-- @trace
-source: bounty-board
+source: optimistic-ui
 updated: 2026-04-09
 code:
-  - .DS_Store
-  - assets/villager.svg
-  - google-auth-setup.skill
-  - 8bit-pixel-art.skill.md
   - script.js
-  - apps-script-cms.js
-  - index.html
-  - Journal/.DS_Store
-  - CLAUDE.md
-  - style.css
 -->
 
 ---
