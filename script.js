@@ -7,6 +7,8 @@ var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyxlfL3F3FB4k7ut7
 var CMS_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx5zXtufHHxiNmQuR1KMHdtAMVpFLs9o7iySxwAtaLNPY03DbGTgmQkCvFzp7M6B7Bc/exec';
 var SESSION_KEY = 'guild_auth_session';
 var SESSION_DURATION_MS = 24 * 60 * 60 * 1000; // 24 小時
+var CMS_CACHE_KEY = 'cms_cache';
+var CMS_CACHE_TTL = 60 * 60 * 1000; // 1 小時
 
 // ========== DOM 元素 ==========
 var loginScreen = document.getElementById('login-screen');
@@ -239,15 +241,65 @@ function finishLoadingBar() {
   }, 600);
 }
 
+// ========== CMS 快取 ==========
+function getCMSCache() {
+  try {
+    var raw = localStorage.getItem(CMS_CACHE_KEY);
+    if (!raw) return null;
+    var cached = JSON.parse(raw);
+    if (!cached || !cached.data || !cached.timestamp) return null;
+    return cached;
+  } catch (e) {
+    return null;
+  }
+}
+
+function setCMSCache(data) {
+  try {
+    localStorage.setItem(CMS_CACHE_KEY, JSON.stringify({
+      data: data,
+      timestamp: Date.now()
+    }));
+  } catch (e) {
+    // localStorage 不可用時靜默失敗
+  }
+}
+
 // ========== CMS 資料載入 ==========
 function fetchCMSData() {
-  // 顯示 loading
-  startLoadingBar();
   var toolGrids = document.querySelectorAll('.tool-grid');
+  var journalGrid = document.querySelector('.journal-grid');
+  var cached = getCMSCache();
+
+  if (cached) {
+    // 有快取：立即渲染，不等 API
+    renderToolCards(cached.data.tools || []);
+    renderJournalCards(cached.data.journal || []);
+    bindSkillOverlays();
+
+    var isExpired = (Date.now() - cached.timestamp) > CMS_CACHE_TTL;
+    if (isExpired) {
+      // 快取過期：背景更新，不影響已渲染畫面
+      fetch(CMS_APPS_SCRIPT_URL)
+        .then(function(res) {
+          if (!res.ok) throw new Error('CMS API error');
+          return res.json();
+        })
+        .then(function(data) {
+          setCMSCache(data);
+        })
+        .catch(function() {
+          // 背景更新失敗：靜默忽略
+        });
+    }
+    return;
+  }
+
+  // 無快取：走原本的即時 fetch 流程
+  startLoadingBar();
   toolGrids.forEach(function(grid) {
     grid.innerHTML = '<div class="tool-grid-loading">載入中...</div>';
   });
-  var journalGrid = document.querySelector('.journal-grid');
   if (journalGrid) {
     journalGrid.innerHTML = '<div class="tool-grid-loading">載入中...</div>';
   }
@@ -258,6 +310,7 @@ function fetchCMSData() {
       return res.json();
     })
     .then(function(data) {
+      setCMSCache(data);
       renderToolCards(data.tools || []);
       renderJournalCards(data.journal || []);
       bindSkillOverlays();
