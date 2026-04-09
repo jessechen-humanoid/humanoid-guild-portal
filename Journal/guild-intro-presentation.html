@@ -334,8 +334,153 @@
       </div>
     </div>
 
-    <!-- ====== Slide 3: Guild Intro ====== -->
-    <div class="slide top-align" data-index="3">
+    <!-- ====== Slide 3: Tips - Clear Instructions ====== -->
+    <div class="slide" data-index="3">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">02 — 省流量秘訣</p>
+        <h2 class="headline animate stagger-2">一句話省掉三輪對話</h2>
+        <p class="lead animate stagger-3">來回越多輪，消耗越多流量。把需求一次講清楚，效果更好還更省。</p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" class="animate stagger-4">
+          <div class="s-card" style="border-left: 4px solid var(--red);">
+            <div class="card-title" style="color: var(--red);">❌ 這樣很浪費</div>
+            <p class="card-text" style="line-height: 2;">
+              第 1 輪：「幫我整理報告」<br>
+              第 2 輪：「要用表格」<br>
+              第 3 輪：「加上日期」<br>
+              第 4 輪：「再加客戶名稱」
+            </p>
+            <p class="card-text" style="margin-top: 12px; font-weight: 600; color: var(--red);">= 4 輪對話的流量</p>
+          </div>
+          <div class="s-card" style="border-left: 4px solid var(--green);">
+            <div class="card-title" style="color: var(--green);">✅ 這樣最省</div>
+            <p class="card-text" style="line-height: 2;">
+              「幫我把這份資料整理成<strong>表格</strong>，<br>
+              欄位要有<strong>日期、客戶名稱、金額</strong>，<br>
+              按<strong>日期排序</strong>」
+            </p>
+            <p class="card-text" style="margin-top: 12px; font-weight: 600; color: var(--green);">= 1 輪搞定，品質還更好</p>
+          </div>
+        </div>
+
+        <div class="summary-banner animate stagger-5" style="margin-top: 24px;">
+          💡 格式、欄位、排序、語氣、長度——想到什麼就一次寫上去，不要等 Claude 來猜。
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 4: Tips - File Scope ====== -->
+    <div class="slide" data-index="4">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">02 — 省流量秘訣</p>
+        <h2 class="headline animate stagger-2">檔案不要整份丟，說清楚範圍</h2>
+        <p class="lead animate stagger-3">檔案越大，Claude 處理時消耗的流量越多。先指定你需要的部分就好。</p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" class="animate stagger-4">
+          <div class="s-card" style="border-left: 4px solid var(--red);">
+            <div class="card-title" style="color: var(--red);">❌ 整份丟進去</div>
+            <p class="card-text">丟一份 100 頁 PDF<br>「幫我看看這份」</p>
+            <p class="card-text" style="margin-top: 12px; font-weight: 600; color: var(--red);">Claude 讀完 100 頁才開始想</p>
+          </div>
+          <div class="s-card" style="border-left: 4px solid var(--green);">
+            <div class="card-title" style="color: var(--green);">✅ 指定範圍</div>
+            <p class="card-text">「這份 PDF 的<strong>第 3-5 頁</strong>是客戶回饋，<br>幫我整理成重點條列」</p>
+            <p class="card-text" style="margin-top: 12px; font-weight: 600; color: var(--green);">只處理需要的部分，快又省</p>
+          </div>
+        </div>
+
+        <div class="concept-card animate stagger-5" style="margin-top: 24px; background: var(--warm-bg); border-color: var(--accent-border);">
+          <span class="concept-label">適用場景</span>
+          <p class="concept-text" style="margin-bottom: 0;">
+            大型簡報、長篇報告、多份檔案——先告訴 Claude 你要看哪幾頁、哪個段落、哪幾個欄位。<br>
+            比起整份丟，指定範圍省下的流量可以差到 <strong>5-10 倍</strong>。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 5: Tips - Model Selection ====== -->
+    <div class="slide" data-index="5">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">02 — 省流量秘訣</p>
+        <h2 class="headline animate stagger-2">選對模型，省一半流量</h2>
+        <p class="lead animate stagger-3">不是每件事都需要出動最強的。預設用 Sonnet 就對了。</p>
+
+        <div class="card-grid animate stagger-4">
+          <div class="s-card" style="border-top: 4px solid #90caf9; text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 8px;">⚡</div>
+            <div class="card-title">Haiku</div>
+            <p class="card-text" style="margin-bottom: 12px;">最快、最便宜</p>
+            <p class="card-text" style="font-size: 0.85rem;">翻譯、摘要、格式轉換<br>簡單問答、改錯字</p>
+          </div>
+          <div class="s-card" style="border-top: 4px solid var(--accent); text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 8px;">⭐</div>
+            <div class="card-title">Sonnet</div>
+            <p class="card-text" style="margin-bottom: 12px; font-weight: 600; color: var(--accent);">日常首選，9 成工作用這個</p>
+            <p class="card-text" style="font-size: 0.85rem;">寫報告、分析數據、整理資料<br>提案初稿、會議紀錄</p>
+          </div>
+          <div class="s-card" style="border-top: 4px solid #ce93d8; text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 8px;">🧠</div>
+            <div class="card-title">Opus</div>
+            <p class="card-text" style="margin-bottom: 12px;">最強但最貴</p>
+            <p class="card-text" style="font-size: 0.85rem;">複雜策略分析、多份文件交叉比對<br>Sonnet 搞不定的時候才用</p>
+          </div>
+        </div>
+
+        <div class="summary-banner animate stagger-5" style="margin-top: 24px;">
+          🎯 記法：<strong>預設 Sonnet，簡單的事降 Haiku，真的卡住才升 Opus。</strong><br>
+          切換方式：對話框左下角的模型名稱，點一下就能換。
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 6: Tips - Project Knowledge ====== -->
+    <div class="slide top-align" data-index="6">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">02 — 省流量秘訣</p>
+        <h2 class="headline animate stagger-2">Project Knowledge<br>讓 Claude 記住你的工作方式</h2>
+        <p class="lead animate stagger-3">每次都要重新貼品牌指南、報告格式？放進 Project，Claude 自動參考，不用重複說明。</p>
+
+        <p class="card-text animate stagger-4" style="font-weight: 700; color: var(--text); margin-bottom: 12px; font-size: 1rem;">📂 放什麼進去？</p>
+        <div class="card-grid animate stagger-4" style="margin-bottom: 28px;">
+          <div class="s-card">
+            <div class="card-title">📋 客戶資料</div>
+            <p class="card-text">Brief 範本、品牌 Tone 指南、視覺規範</p>
+          </div>
+          <div class="s-card">
+            <div class="card-title">📄 固定格式</div>
+            <p class="card-text">結案報告模板、月報格式、提案架構</p>
+          </div>
+          <div class="s-card">
+            <div class="card-title">📖 公司知識</div>
+            <p class="card-text">常用術語、內部流程、報價規範</p>
+          </div>
+        </div>
+
+        <p class="card-text animate stagger-5" style="font-weight: 700; color: var(--text); margin-bottom: 12px; font-size: 1rem;">🛠️ 怎麼建？三步搞定</p>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;" class="animate stagger-5">
+          <div class="s-card" style="text-align: center;">
+            <div style="font-size: 1.6rem; margin-bottom: 8px; color: var(--accent); font-weight: 900;">1</div>
+            <p class="card-text">在 Claude 左側欄點<br><strong>「Projects」→「New」</strong></p>
+          </div>
+          <div class="s-card" style="text-align: center;">
+            <div style="font-size: 1.6rem; margin-bottom: 8px; color: var(--accent); font-weight: 900;">2</div>
+            <p class="card-text">點 <strong>「Add content」</strong><br>上傳檔案或貼上文字</p>
+          </div>
+          <div class="s-card" style="text-align: center;">
+            <div style="font-size: 1.6rem; margin-bottom: 8px; color: var(--accent); font-weight: 900;">3</div>
+            <p class="card-text">在 Project 裡<strong>開新對話</strong><br>Claude 自動參考這些資料</p>
+          </div>
+        </div>
+
+        <div class="summary-banner animate stagger-6" style="margin-top: 20px;">
+          💡 同類型資料放同一個 Project。例如「麥當勞專案」放一個、「公司規範」放一個，不要全部混在一起。
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 7: Guild Intro ====== -->
+    <div class="slide top-align" data-index="7">
       <div class="slide-inner">
         <p class="section-label animate stagger-1">02 — 成立冒險者公會</p>
         <h2 class="headline animate stagger-2">冒險者公會是什麼？</h2>
@@ -365,8 +510,8 @@
       </div>
     </div>
 
-    <!-- ====== Slide 4: Three Things - 1 ====== -->
-    <div class="slide" data-index="4">
+    <!-- ====== Slide 8: Three Things - 1 ====== -->
+    <div class="slide" data-index="8">
       <div class="slide-inner">
         <p class="section-label animate stagger-1">03 — 三件我想跟大家說的事</p>
         <h2 class="headline animate stagger-2">三件我想跟大家說的事</h2>
@@ -380,8 +525,8 @@
       </div>
     </div>
 
-    <!-- ====== Slide 5: Three Things - 2 ====== -->
-    <div class="slide" data-index="5">
+    <!-- ====== Slide 9: Three Things - 2 ====== -->
+    <div class="slide" data-index="9">
       <div class="slide-inner">
         <p class="section-label animate stagger-1">03 — 三件我想跟大家說的事</p>
         <h2 class="headline animate stagger-2">三件我想跟大家說的事</h2>
@@ -394,8 +539,8 @@
       </div>
     </div>
 
-    <!-- ====== Slide 6: Three Things - 3 ====== -->
-    <div class="slide" data-index="6">
+    <!-- ====== Slide 10: Three Things - 3 ====== -->
+    <div class="slide" data-index="10">
       <div class="slide-inner">
         <p class="section-label animate stagger-1">03 — 三件我想跟大家說的事</p>
         <h2 class="headline animate stagger-2">三件我想跟大家說的事</h2>
@@ -409,8 +554,8 @@
       </div>
     </div>
 
-    <!-- ====== Slide 7: Security ====== -->
-    <div class="slide top-align" data-index="7">
+    <!-- ====== Slide 11: Security ====== -->
+    <div class="slide top-align" data-index="11">
       <div class="slide-inner">
         <p class="section-label animate stagger-1">04 — 資安保障</p>
         <h2 class="headline animate stagger-2">Claude Team Plan 的資安保障</h2>
@@ -449,8 +594,8 @@
       </div>
     </div>
 
-    <!-- ====== Slide 8: End ====== -->
-    <div class="slide" data-index="8" style="text-align: center;">
+    <!-- ====== Slide 12: End ====== -->
+    <div class="slide" data-index="12" style="text-align: center;">
       <div class="slide-inner" style="display: flex; flex-direction: column; align-items: center;">
         <div class="big-emoji animate stagger-1">🚀</div>
         <h2 class="hero-title animate stagger-2" style="font-size: 2.8rem;">一起冒險吧！</h2>
