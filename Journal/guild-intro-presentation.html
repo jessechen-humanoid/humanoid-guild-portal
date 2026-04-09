@@ -51,7 +51,7 @@
       opacity: 0; transform: translateY(30px);
       transition: opacity 0.5s ease, transform 0.5s ease;
       pointer-events: none; overflow-y: auto;
-      padding: 60px 60px 80px;
+      padding: 32px 48px 20px;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
     .slide.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
@@ -111,7 +111,7 @@
 
     /* ===== Typography ===== */
     .hero-title {
-      font-size: 3.2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.2;
+      font-size: 2.6rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.2;
       background: linear-gradient(90deg, #8b6914, #c9a84c, #8b6914, #c9a84c);
       background-size: 200% auto;
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -120,46 +120,46 @@
     @keyframes shimmer { to { background-position: 200% center; } }
 
     .headline {
-      font-size: 2.4rem; font-weight: 900; letter-spacing: -0.02em;
-      line-height: 1.25; color: var(--text); margin-bottom: 12px;
+      font-size: 1.7rem; font-weight: 900; letter-spacing: -0.02em;
+      line-height: 1.25; color: var(--text); margin-bottom: 6px;
     }
     .lead {
-      font-size: 1.2rem; font-weight: 400; color: var(--text-muted);
-      line-height: 1.7; margin-bottom: 32px;
+      font-size: 0.95rem; font-weight: 400; color: var(--text-muted);
+      line-height: 1.6; margin-bottom: 16px;
     }
-    .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-    .card-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+    .card-title { font-size: 0.92rem; font-weight: 700; margin-bottom: 4px; }
+    .card-text { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
     .section-label {
-      font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.12em; color: var(--accent); margin-bottom: 10px;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--accent); margin-bottom: 6px;
     }
-    .big-emoji { font-size: 5rem; margin-bottom: 24px; }
+    .big-emoji { font-size: 3.5rem; margin-bottom: 16px; }
     .brand-tag {
-      display: inline-block; margin-top: 28px;
-      font-size: 0.9rem; color: var(--text-light);
-      border: 1px solid var(--border); border-radius: 24px; padding: 6px 20px;
+      display: inline-block; margin-top: 12px;
+      font-size: 0.82rem; color: var(--text-light);
+      border: 1px solid var(--border); border-radius: 24px; padding: 4px 16px;
     }
     .subtitle {
-      font-size: 1.15rem; color: var(--text-muted); font-weight: 300;
-      max-width: 520px; line-height: 1.7;
+      font-size: 1rem; color: var(--text-muted); font-weight: 300;
+      max-width: 520px; line-height: 1.6;
     }
 
     /* ===== Cards ===== */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
     }
     .s-card {
       background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 14px; padding: 28px; transition: box-shadow 0.15s;
+      border-radius: 12px; padding: 16px; transition: box-shadow 0.15s;
     }
     .s-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
 
     /* Tool cards with colored left border */
     .tool-card {
       background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 14px; padding: 24px; transition: box-shadow 0.15s;
+      border-radius: 12px; padding: 14px; transition: box-shadow 0.15s;
       border-left: 4px solid var(--border);
     }
     .tool-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
@@ -168,8 +168,8 @@
     .tool-card.claude-cowork { border-left-color: var(--green); }
     .tool-card.claude-code { border-left-color: var(--red); }
 
-    .tool-icon { font-size: 1.8rem; margin-bottom: 12px; }
-    .tool-name { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+    .tool-icon { font-size: 1.3rem; margin-bottom: 6px; }
+    .tool-name { font-size: 0.92rem; font-weight: 700; margin-bottom: 2px; }
     .tool-badge {
       display: inline-block; font-size: 0.72rem; font-weight: 600;
       padding: 2px 10px; border-radius: 12px; margin-bottom: 10px;
@@ -177,63 +177,63 @@
     .badge-all { background: #e8f4f8; color: #4a7c96; }
     .badge-agent { background: var(--green-bg); color: var(--green); }
     .badge-dev { background: var(--red-bg); color: var(--red); }
-    .tool-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
+    .tool-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px; }
     .tool-example {
-      font-size: 0.82rem; color: var(--accent); background: var(--accent-light);
+      font-size: 0.75rem; color: var(--accent); background: var(--accent-light);
       border: 1px solid var(--accent-border); border-radius: 8px;
-      padding: 10px 14px; line-height: 1.6;
+      padding: 7px 10px; line-height: 1.5;
     }
     .tool-example strong { font-weight: 600; }
 
     /* ===== Guild Activities ===== */
     .activity-card {
       background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 14px; padding: 28px; text-align: center;
+      border-radius: 12px; padding: 18px; text-align: center;
       transition: box-shadow 0.15s;
     }
     .activity-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
-    .activity-icon { font-size: 2.5rem; margin-bottom: 16px; }
-    .activity-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
-    .activity-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+    .activity-icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .activity-name { font-size: 0.92rem; font-weight: 700; margin-bottom: 4px; }
+    .activity-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
 
     /* ===== Values / Concept Cards ===== */
     .concept-card {
       background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 14px; padding: 36px; margin-bottom: 20px;
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 8px;
     }
     .concept-label {
-      display: inline-block; font-size: 0.78rem; font-weight: 600;
+      display: inline-block; font-size: 0.72rem; font-weight: 600;
       color: var(--accent); background: var(--accent-light);
-      border-radius: 16px; padding: 4px 14px; margin-bottom: 16px;
+      border-radius: 16px; padding: 3px 12px; margin-bottom: 10px;
     }
-    .concept-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
-    .concept-text { font-size: 1rem; color: var(--text-muted); line-height: 1.8; }
+    .concept-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+    .concept-text { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
 
     /* ===== Security Section ===== */
     .security-card {
       background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 14px; padding: 24px; display: flex; gap: 16px; align-items: flex-start;
+      border-radius: 12px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start;
     }
-    .security-icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
-    .security-title { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-    .security-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+    .security-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .security-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 2px; }
+    .security-text { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
 
     /* ===== Summary Banner ===== */
     .summary-banner {
       background: var(--warm-bg); border: 1px solid var(--accent-border);
-      border-radius: 14px; padding: 24px 28px;
-      font-size: 1.05rem; color: var(--text-muted); line-height: 1.8;
+      border-radius: 12px; padding: 14px 18px;
+      font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;
     }
 
     /* ===== Responsive ===== */
     @media (max-width: 768px) {
-      .slide { padding: 32px 24px 72px; }
-      .hero-title { font-size: 2rem; }
-      .headline { font-size: 1.6rem; }
-      .lead { font-size: 1rem; }
+      .slide { padding: 20px 16px 16px; }
+      .hero-title { font-size: 1.8rem; }
+      .headline { font-size: 1.3rem; }
+      .lead { font-size: 0.85rem; }
       .card-grid { grid-template-columns: 1fr; }
-      .s-card, .tool-card, .concept-card { padding: 18px; }
-      .tool-name { font-size: 0.95rem; }
+      .s-card, .tool-card, .concept-card { padding: 12px; }
+      .tool-name { font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -257,7 +257,7 @@
         <p class="section-label animate stagger-1">01 — AI 工具總覽</p>
         <h2 class="headline animate stagger-2">我們用了哪些 AI？</h2>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div class="tool-card gemini animate stagger-3">
             <div class="tool-icon">✦</div>
             <div class="tool-name">Gemini Pro</div>
@@ -296,7 +296,7 @@
           </div>
         </div>
 
-        <div class="summary-banner animate stagger-7" style="margin-top: 20px;">
+        <div class="summary-banner animate stagger-7" style="margin-top: 12px;">
           簡單說：Gemini 處理日常快速任務和生圖。Claude Chat 接手更重的分析與寫作。Claude Cowork + Code 負責跨系統自動化——這是我們 AI 導入計畫的核心。
         </div>
       </div>
@@ -324,10 +324,10 @@
           </div>
         </div>
 
-        <div class="concept-card animate stagger-5" style="margin-top: 24px; background: var(--warm-bg); border-color: var(--accent-border);">
+        <div class="concept-card animate stagger-5" style="margin-top: 14px; background: var(--warm-bg); border-color: var(--accent-border);">
           <span class="concept-label">實際應用場景</span>
           <p class="concept-text" style="margin-bottom: 0;">
-            「幫我讀桌面那份客戶的 Brief PDF，再對照 Downloads 裡上個月的結案報告，整理出這次提案需要注意的重點，用條列式寫成一頁摘要。」<br><br>
+            「幫我讀桌面那份客戶的 Brief PDF，再對照 Downloads 裡上個月的結案報告，整理出這次提案需要注意的重點，用條列式寫成一頁摘要。」<br>
             以前這些動作要你自己開檔案、來回對照、手動整理。現在一句話，Cowork 全部搞定。
           </p>
         </div>
@@ -341,29 +341,29 @@
         <h2 class="headline animate stagger-2">一句話省掉三輪對話</h2>
         <p class="lead animate stagger-3">來回越多輪，消耗越多流量。把需求一次講清楚，效果更好還更省。</p>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" class="animate stagger-4">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;" class="animate stagger-4">
           <div class="s-card" style="border-left: 4px solid var(--red);">
             <div class="card-title" style="color: var(--red);">❌ 這樣很浪費</div>
-            <p class="card-text" style="line-height: 2;">
+            <p class="card-text" style="line-height: 1.7;">
               第 1 輪：「幫我整理報告」<br>
               第 2 輪：「要用表格」<br>
               第 3 輪：「加上日期」<br>
               第 4 輪：「再加客戶名稱」
             </p>
-            <p class="card-text" style="margin-top: 12px; font-weight: 600; color: var(--red);">= 4 輪對話的流量</p>
+            <p class="card-text" style="margin-top: 6px; font-weight: 600; color: var(--red);">= 4 輪對話的流量</p>
           </div>
           <div class="s-card" style="border-left: 4px solid var(--green);">
             <div class="card-title" style="color: var(--green);">✅ 這樣最省</div>
-            <p class="card-text" style="line-height: 2;">
+            <p class="card-text" style="line-height: 1.7;">
               「幫我把這份資料整理成<strong>表格</strong>，<br>
               欄位要有<strong>日期、客戶名稱、金額</strong>，<br>
               按<strong>日期排序</strong>」
             </p>
-            <p class="card-text" style="margin-top: 12px; font-weight: 600; color: var(--green);">= 1 輪搞定，品質還更好</p>
+            <p class="card-text" style="margin-top: 6px; font-weight: 600; color: var(--green);">= 1 輪搞定，品質還更好</p>
           </div>
         </div>
 
-        <div class="summary-banner animate stagger-5" style="margin-top: 24px;">
+        <div class="summary-banner animate stagger-5" style="margin-top: 14px;">
           💡 格式、欄位、排序、語氣、長度——想到什麼就一次寫上去，不要等 Claude 來猜。
         </div>
       </div>
@@ -376,24 +376,23 @@
         <h2 class="headline animate stagger-2">檔案不要整份丟，說清楚範圍</h2>
         <p class="lead animate stagger-3">檔案越大，Claude 處理時消耗的流量越多。先指定你需要的部分就好。</p>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" class="animate stagger-4">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;" class="animate stagger-4">
           <div class="s-card" style="border-left: 4px solid var(--red);">
             <div class="card-title" style="color: var(--red);">❌ 整份丟進去</div>
             <p class="card-text">丟一份 100 頁 PDF<br>「幫我看看這份」</p>
-            <p class="card-text" style="margin-top: 12px; font-weight: 600; color: var(--red);">Claude 讀完 100 頁才開始想</p>
+            <p class="card-text" style="margin-top: 6px; font-weight: 600; color: var(--red);">Claude 讀完 100 頁才開始想</p>
           </div>
           <div class="s-card" style="border-left: 4px solid var(--green);">
             <div class="card-title" style="color: var(--green);">✅ 指定範圍</div>
             <p class="card-text">「這份 PDF 的<strong>第 3-5 頁</strong>是客戶回饋，<br>幫我整理成重點條列」</p>
-            <p class="card-text" style="margin-top: 12px; font-weight: 600; color: var(--green);">只處理需要的部分，快又省</p>
+            <p class="card-text" style="margin-top: 6px; font-weight: 600; color: var(--green);">只處理需要的部分，快又省</p>
           </div>
         </div>
 
-        <div class="concept-card animate stagger-5" style="margin-top: 24px; background: var(--warm-bg); border-color: var(--accent-border);">
+        <div class="concept-card animate stagger-5" style="margin-top: 14px; background: var(--warm-bg); border-color: var(--accent-border);">
           <span class="concept-label">適用場景</span>
           <p class="concept-text" style="margin-bottom: 0;">
-            大型簡報、長篇報告、多份檔案——先告訴 Claude 你要看哪幾頁、哪個段落、哪幾個欄位。<br>
-            比起整份丟，指定範圍省下的流量可以差到 <strong>5-10 倍</strong>。
+            大型簡報、長篇報告、多份檔案——先告訴 Claude 你要看哪幾頁、哪個段落、哪幾個欄位。比起整份丟，指定範圍省下的流量可以差到 <strong>5-10 倍</strong>。
           </p>
         </div>
       </div>
@@ -408,26 +407,26 @@
 
         <div class="card-grid animate stagger-4">
           <div class="s-card" style="border-top: 4px solid #90caf9; text-align: center;">
-            <div style="font-size: 2rem; margin-bottom: 8px;">⚡</div>
+            <div style="font-size: 1.5rem; margin-bottom: 4px;">⚡</div>
             <div class="card-title">Haiku</div>
-            <p class="card-text" style="margin-bottom: 12px;">最快、最便宜</p>
-            <p class="card-text" style="font-size: 0.85rem;">翻譯、摘要、格式轉換<br>簡單問答、改錯字</p>
+            <p class="card-text" style="margin-bottom: 6px;">最快、最便宜</p>
+            <p class="card-text" style="font-size: 0.8rem;">翻譯、摘要、格式轉換<br>簡單問答、改錯字</p>
           </div>
           <div class="s-card" style="border-top: 4px solid var(--accent); text-align: center;">
-            <div style="font-size: 2rem; margin-bottom: 8px;">⭐</div>
+            <div style="font-size: 1.5rem; margin-bottom: 4px;">⭐</div>
             <div class="card-title">Sonnet</div>
-            <p class="card-text" style="margin-bottom: 12px; font-weight: 600; color: var(--accent);">日常首選，9 成工作用這個</p>
-            <p class="card-text" style="font-size: 0.85rem;">寫報告、分析數據、整理資料<br>提案初稿、會議紀錄</p>
+            <p class="card-text" style="margin-bottom: 6px; font-weight: 600; color: var(--accent);">日常首選，9 成工作用這個</p>
+            <p class="card-text" style="font-size: 0.8rem;">寫報告、分析數據、整理資料<br>提案初稿、會議紀錄</p>
           </div>
           <div class="s-card" style="border-top: 4px solid #ce93d8; text-align: center;">
-            <div style="font-size: 2rem; margin-bottom: 8px;">🧠</div>
+            <div style="font-size: 1.5rem; margin-bottom: 4px;">🧠</div>
             <div class="card-title">Opus</div>
-            <p class="card-text" style="margin-bottom: 12px;">最強但最貴</p>
-            <p class="card-text" style="font-size: 0.85rem;">複雜策略分析、多份文件交叉比對<br>Sonnet 搞不定的時候才用</p>
+            <p class="card-text" style="margin-bottom: 6px;">最強但最貴</p>
+            <p class="card-text" style="font-size: 0.8rem;">複雜策略分析、多份文件交叉比對<br>Sonnet 搞不定的時候才用</p>
           </div>
         </div>
 
-        <div class="summary-banner animate stagger-5" style="margin-top: 24px;">
+        <div class="summary-banner animate stagger-5" style="margin-top: 14px;">
           🎯 記法：<strong>預設 Sonnet，簡單的事降 Haiku，真的卡住才升 Opus。</strong><br>
           切換方式：對話框左下角的模型名稱，點一下就能換。
         </div>
@@ -441,8 +440,8 @@
         <h2 class="headline animate stagger-2">Project Knowledge<br>讓 Claude 記住你的工作方式</h2>
         <p class="lead animate stagger-3">每次都要重新貼品牌指南、報告格式？放進 Project，Claude 自動參考，不用重複說明。</p>
 
-        <p class="card-text animate stagger-4" style="font-weight: 700; color: var(--text); margin-bottom: 12px; font-size: 1rem;">📂 放什麼進去？</p>
-        <div class="card-grid animate stagger-4" style="margin-bottom: 28px;">
+        <p class="card-text animate stagger-4" style="font-weight: 700; color: var(--text); margin-bottom: 6px; font-size: 0.88rem;">📂 放什麼進去？</p>
+        <div class="card-grid animate stagger-4" style="margin-bottom: 12px;">
           <div class="s-card">
             <div class="card-title">📋 客戶資料</div>
             <p class="card-text">Brief 範本、品牌 Tone 指南、視覺規範</p>
@@ -457,23 +456,23 @@
           </div>
         </div>
 
-        <p class="card-text animate stagger-5" style="font-weight: 700; color: var(--text); margin-bottom: 12px; font-size: 1rem;">🛠️ 怎麼建？三步搞定</p>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;" class="animate stagger-5">
+        <p class="card-text animate stagger-5" style="font-weight: 700; color: var(--text); margin-bottom: 6px; font-size: 0.88rem;">🛠️ 怎麼建？三步搞定</p>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;" class="animate stagger-5">
           <div class="s-card" style="text-align: center;">
-            <div style="font-size: 1.6rem; margin-bottom: 8px; color: var(--accent); font-weight: 900;">1</div>
+            <div style="font-size: 1.1rem; margin-bottom: 4px; color: var(--accent); font-weight: 900;">1</div>
             <p class="card-text">在 Claude 左側欄點<br><strong>「Projects」→「New」</strong></p>
           </div>
           <div class="s-card" style="text-align: center;">
-            <div style="font-size: 1.6rem; margin-bottom: 8px; color: var(--accent); font-weight: 900;">2</div>
+            <div style="font-size: 1.1rem; margin-bottom: 4px; color: var(--accent); font-weight: 900;">2</div>
             <p class="card-text">點 <strong>「Add content」</strong><br>上傳檔案或貼上文字</p>
           </div>
           <div class="s-card" style="text-align: center;">
-            <div style="font-size: 1.6rem; margin-bottom: 8px; color: var(--accent); font-weight: 900;">3</div>
+            <div style="font-size: 1.1rem; margin-bottom: 4px; color: var(--accent); font-weight: 900;">3</div>
             <p class="card-text">在 Project 裡<strong>開新對話</strong><br>Claude 自動參考這些資料</p>
           </div>
         </div>
 
-        <div class="summary-banner animate stagger-6" style="margin-top: 20px;">
+        <div class="summary-banner animate stagger-6" style="margin-top: 10px;">
           💡 同類型資料放同一個 Project。例如「麥當勞專案」放一個、「公司規範」放一個，不要全部混在一起。
         </div>
       </div>
@@ -504,7 +503,7 @@
           </div>
         </div>
 
-        <div class="summary-banner animate stagger-5" style="margin-top: 28px;">
+        <div class="summary-banner animate stagger-5" style="margin-top: 14px;">
           🎁 <strong>公會成員福利：</strong>公司補助 Claude Team Pro 方案，全額支持你的魔法修煉之路。
         </div>
       </div>
@@ -520,7 +519,7 @@
           <span class="concept-label">觀念一</span>
           <h3 class="concept-title">每個角色都缺一不可</h3>
           <p class="concept-text">我們不是「魔法師至上」的組織。我們想召集的是血液裡流著魔法師基因的朋友，但這個世界還是需要鍊金術師、吟遊詩人、鐵匠、道具商人、酒館老闆——每一個角色都缺一不可。</p>
-          <p class="concept-text" style="margin-top: 16px;">即使你不加入冒險者公會，你可以做的是盡量丟出工作上覺得麻煩的痛點、卡點，這些都會是可以讓魔法師鍛鍊使用的史萊姆。</p>
+          <p class="concept-text" style="margin-top: 8px;">即使你不加入冒險者公會，你可以做的是盡量丟出工作上覺得麻煩的痛點、卡點，這些都會是可以讓魔法師鍛鍊使用的史萊姆。</p>
         </div>
       </div>
     </div>
@@ -549,7 +548,7 @@
           <span class="concept-label">觀念三</span>
           <h3 class="concept-title">失敗是計畫的一部分，無知是意料中的事</h3>
           <p class="concept-text">我們會試很多東西，有些會很好用，有些會發現不適合，這很正常。我們也會發現自己不知道很多事情，但 AI 可以給我們問。</p>
-          <p class="concept-text" style="margin-top: 16px;">不管是冒險者公會的成員覺得「我怎麼弄不出來」，還是其他同事覺得「這工具好像沒比較快」——都不需要因此覺得是自己的問題。我們一起調整就好。</p>
+          <p class="concept-text" style="margin-top: 8px;">不管是冒險者公會的成員覺得「我怎麼弄不出來」，還是其他同事覺得「這工具好像沒比較快」——都不需要因此覺得是自己的問題。我們一起調整就好。</p>
         </div>
       </div>
     </div>
@@ -561,7 +560,7 @@
         <h2 class="headline animate stagger-2">Claude Team Plan 的資安保障</h2>
         <p class="lead animate stagger-3">公司的資料安全是最高優先級。Claude Team Plan 提供企業級的隱私與安全保護。</p>
 
-        <div style="display: grid; gap: 16px;">
+        <div style="display: grid; gap: 10px;">
           <div class="security-card animate stagger-3">
             <div class="security-icon">🔒</div>
             <div>
@@ -598,9 +597,9 @@
     <div class="slide" data-index="12" style="text-align: center;">
       <div class="slide-inner" style="display: flex; flex-direction: column; align-items: center;">
         <div class="big-emoji animate stagger-1">🚀</div>
-        <h2 class="hero-title animate stagger-2" style="font-size: 2.8rem;">一起冒險吧！</h2>
+        <h2 class="hero-title animate stagger-2" style="font-size: 2.2rem;">一起冒險吧！</h2>
         <p class="subtitle animate stagger-3">有問題隨時問，有痛點盡量丟。<br>不管你是什麼角色，都是這場冒險的一份子。</p>
-        <p class="animate stagger-4" style="margin-top: 36px; font-size: 0.85rem; color: var(--text-light);">只要有人社群顧問 × 冒險者公會 ⚔️</p>
+        <p class="animate stagger-4" style="margin-top: 20px; font-size: 0.82rem; color: var(--text-light);">只要有人社群顧問 × 冒險者公會 ⚔️</p>
       </div>
     </div>
 
