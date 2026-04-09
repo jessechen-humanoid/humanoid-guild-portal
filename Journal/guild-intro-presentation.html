@@ -251,85 +251,91 @@
       </div>
     </div>
 
-    <!-- ====== Slide 1: AI Tools Overview ====== -->
-    <div class="slide" data-index="1">
+    <!-- ====== Slide 1: AI Tools - All Four ====== -->
+    <div class="slide top-align" data-index="1">
       <div class="slide-inner">
         <p class="section-label animate stagger-1">01 — AI 工具總覽</p>
         <h2 class="headline animate stagger-2">我們用了哪些 AI？</h2>
-        <p class="lead animate stagger-3">不同的工具各有擅長，搭配起來才能覆蓋日常工作的各種場景。</p>
 
-        <div class="summary-banner animate stagger-4" style="margin-bottom: 28px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="tool-card gemini animate stagger-3">
+            <div class="tool-icon">✦</div>
+            <div class="tool-name">Gemini Pro</div>
+            <span class="tool-badge badge-all">全公司使用 · 已在使用</span>
+            <p class="tool-desc">快速問答、翻譯、摘要、寫初稿。還能生圖，視覺發想很方便。</p>
+            <div class="tool-example">
+              <strong>🎨</strong> 用 Gemini 生出風格圖，快速跟客戶對齊視覺想像
+            </div>
+          </div>
+          <div class="tool-card claude-chat animate stagger-4">
+            <div class="tool-icon">💬</div>
+            <div class="tool-name">Claude Chat</div>
+            <span class="tool-badge badge-all">全公司使用</span>
+            <p class="tool-desc">長文分析、中文語感、複雜推理更強。需要深度思考時的首選。</p>
+            <div class="tool-example">
+              <strong>📊</strong> 丟入整季廣告成效報告，交叉分析產出有洞察的報告初稿
+            </div>
+          </div>
+          <div class="tool-card claude-cowork animate stagger-5">
+            <div class="tool-icon">🤖</div>
+            <div class="tool-name">Claude Cowork</div>
+            <span class="tool-badge badge-agent">Agent 模式</span>
+            <p class="tool-desc">能讀你電腦裡的檔案、連接 Gmail、Google Drive，跨系統幫你做事。</p>
+            <div class="tool-example">
+              <strong>📋</strong> 直接讀桌面的 Excel 報表，自動整理成週報寄出
+            </div>
+          </div>
+          <div class="tool-card claude-code animate stagger-6">
+            <div class="tool-icon">🖥️</div>
+            <div class="tool-name">Claude Code</div>
+            <span class="tool-badge badge-dev">大法師聖殿</span>
+            <p class="tool-desc">開發自動化工具。公會的靈感蒐集狂魔、合約小幫手都是用它做的。</p>
+            <div class="tool-example">
+              <strong>⚡</strong> 自動抓成效 → 算 ROAS → 產月報 PDF，一鍵完成
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-banner animate stagger-7" style="margin-top: 20px;">
           簡單說：Gemini 處理日常快速任務和生圖。Claude Chat 接手更重的分析與寫作。Claude Cowork + Code 負責跨系統自動化——這是我們 AI 導入計畫的核心。
         </div>
       </div>
     </div>
 
-    <!-- ====== Slide 2: Gemini ====== -->
+    <!-- ====== Slide 2: Cowork Deep Dive ====== -->
     <div class="slide" data-index="2">
       <div class="slide-inner">
-        <p class="section-label animate stagger-1">01 — AI 工具</p>
-        <div class="tool-card gemini animate stagger-2">
-          <div class="tool-icon">✦</div>
-          <div class="tool-name">Gemini Pro</div>
-          <span class="tool-badge badge-all">全公司使用 · 已在使用</span>
-          <p class="tool-desc">大家已經熟悉的通用 AI 助手。適合快速問答、翻譯、摘要、寫初稿。還能生圖，視覺發想很方便。繼續用，不衝突。</p>
-          <div class="tool-example">
-            <strong>🎨 廣告專案實例：</strong>幫客戶想社群貼文的視覺方向時，直接用 Gemini 生出 3-5 張風格圖，快速跟客戶對齊畫面想像，省掉來回描述的溝通成本。
+        <p class="section-label animate stagger-1">01 — 重點功能</p>
+        <h2 class="headline animate stagger-2">Cowork 能直接讀你電腦裡的檔案</h2>
+        <p class="lead animate stagger-3">這是跟其他 AI 最大的差別——不用上傳、不用複製貼上，它直接讀你本機的檔案來工作。</p>
+
+        <div class="card-grid animate stagger-4">
+          <div class="s-card">
+            <div class="card-title">📂 直接讀取本機檔案</div>
+            <p class="card-text">桌面的 Excel、下載資料夾的 PDF、Google Drive 同步的文件——跟它說路徑或檔名，它自己找來讀。</p>
           </div>
+          <div class="s-card">
+            <div class="card-title">🔄 跨系統串聯</div>
+            <p class="card-text">讀完本機檔案後，可以直接幫你寄 email、更新 Google Sheets、產出新檔案，一條龍完成。</p>
+          </div>
+          <div class="s-card">
+            <div class="card-title">🧠 理解上下文</div>
+            <p class="card-text">不是死板地讀資料。它能理解你的需求，從多個檔案交叉比對，產出你真正需要的結果。</p>
+          </div>
+        </div>
+
+        <div class="concept-card animate stagger-5" style="margin-top: 24px; background: var(--warm-bg); border-color: var(--accent-border);">
+          <span class="concept-label">實際應用場景</span>
+          <p class="concept-text" style="margin-bottom: 0;">
+            「幫我讀桌面那份客戶的 Brief PDF，再對照 Downloads 裡上個月的結案報告，整理出這次提案需要注意的重點，用條列式寫成一頁摘要。」<br><br>
+            以前這些動作要你自己開檔案、來回對照、手動整理。現在一句話，Cowork 全部搞定。
+          </p>
         </div>
       </div>
     </div>
 
-    <!-- ====== Slide 3: Claude Chat ====== -->
-    <div class="slide" data-index="3">
-      <div class="slide-inner">
-        <p class="section-label animate stagger-1">01 — AI 工具</p>
-        <div class="tool-card claude-chat animate stagger-2">
-          <div class="tool-icon">💬</div>
-          <div class="tool-name">Claude Chat</div>
-          <span class="tool-badge badge-all">全公司使用</span>
-          <p class="tool-desc">跟 Gemini 類似的對話模式，但長文分析、中文語感、複雜推理更強。處理需要深度思考的任務時，是更好的選擇。你的日常 AI 夥伴。</p>
-          <div class="tool-example">
-            <strong>📊 廣告專案實例：</strong>把一整季的廣告成效報告丟進去，請 Claude 交叉分析哪些素材組合的 CTR 最好、哪些受眾反應最差，直接產出有洞察的分析報告初稿。
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ====== Slide 4: Claude Cowork ====== -->
-    <div class="slide" data-index="4">
-      <div class="slide-inner">
-        <p class="section-label animate stagger-1">01 — AI 工具</p>
-        <div class="tool-card claude-cowork animate stagger-2">
-          <div class="tool-icon">🤖</div>
-          <div class="tool-name">Claude Cowork</div>
-          <span class="tool-badge badge-agent">Agent 模式</span>
-          <p class="tool-desc">能連接 Gmail、Ragic、Google Drive 等系統，跨系統執行完整工作流程。不只是問答，是真的能幫你「做事」的 AI。Demo 用的就是這個。</p>
-          <div class="tool-example">
-            <strong>📋 廣告專案實例：</strong>跟 Claude 說「幫我查這個月所有待請款的專案」，它會自動去 Ragic 撈資料、整理成表格、標出逾期的項目，最後寄 email 提醒對應的負責人。
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ====== Slide 5: Claude Code ====== -->
-    <div class="slide" data-index="5">
-      <div class="slide-inner">
-        <p class="section-label animate stagger-1">01 — AI 工具</p>
-        <div class="tool-card claude-code animate stagger-2">
-          <div class="tool-icon">🖥️</div>
-          <div class="tool-name">Claude Code</div>
-          <span class="tool-badge badge-dev">大法師聖殿</span>
-          <p class="tool-desc">開發者終端機工具。大法師聖殿用來建置自動化功能、腳本、系統串接。公會裡的各種工具（靈感蒐集狂魔、合約小幫手、KOL 身家調查⋯⋯）都是用它做的。</p>
-          <div class="tool-example">
-            <strong>⚡ 廣告專案實例：</strong>把「每月自動從 Google Sheets 抓各平台廣告成效 → 算出 ROAS 跟 CPA → 產出月報 PDF 寄給客戶」這種重複流程，直接寫成自動化腳本一鍵完成。
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ====== Slide 6: Guild Intro ====== -->
-    <div class="slide" data-index="6">
+    <!-- ====== Slide 3: Guild Intro ====== -->
+    <div class="slide top-align" data-index="3">
       <div class="slide-inner">
         <p class="section-label animate stagger-1">02 — 成立冒險者公會</p>
         <h2 class="headline animate stagger-2">冒險者公會是什麼？</h2>
@@ -359,8 +365,8 @@
       </div>
     </div>
 
-    <!-- ====== Slide 7: Three Things - 1 ====== -->
-    <div class="slide" data-index="7">
+    <!-- ====== Slide 4: Three Things - 1 ====== -->
+    <div class="slide" data-index="4">
       <div class="slide-inner">
         <p class="section-label animate stagger-1">03 — 三件我想跟大家說的事</p>
         <h2 class="headline animate stagger-2">三件我想跟大家說的事</h2>
@@ -374,8 +380,8 @@
       </div>
     </div>
 
-    <!-- ====== Slide 8: Three Things - 2 ====== -->
-    <div class="slide" data-index="8">
+    <!-- ====== Slide 5: Three Things - 2 ====== -->
+    <div class="slide" data-index="5">
       <div class="slide-inner">
         <p class="section-label animate stagger-1">03 — 三件我想跟大家說的事</p>
         <h2 class="headline animate stagger-2">三件我想跟大家說的事</h2>
@@ -388,8 +394,8 @@
       </div>
     </div>
 
-    <!-- ====== Slide 9: Three Things - 3 ====== -->
-    <div class="slide" data-index="9">
+    <!-- ====== Slide 6: Three Things - 3 ====== -->
+    <div class="slide" data-index="6">
       <div class="slide-inner">
         <p class="section-label animate stagger-1">03 — 三件我想跟大家說的事</p>
         <h2 class="headline animate stagger-2">三件我想跟大家說的事</h2>
@@ -403,8 +409,8 @@
       </div>
     </div>
 
-    <!-- ====== Slide 10: Security ====== -->
-    <div class="slide top-align" data-index="10">
+    <!-- ====== Slide 7: Security ====== -->
+    <div class="slide top-align" data-index="7">
       <div class="slide-inner">
         <p class="section-label animate stagger-1">04 — 資安保障</p>
         <h2 class="headline animate stagger-2">Claude Team Plan 的資安保障</h2>
@@ -443,8 +449,8 @@
       </div>
     </div>
 
-    <!-- ====== Slide 11: End ====== -->
-    <div class="slide" data-index="11" style="text-align: center;">
+    <!-- ====== Slide 8: End ====== -->
+    <div class="slide" data-index="8" style="text-align: center;">
       <div class="slide-inner" style="display: flex; flex-direction: column; align-items: center;">
         <div class="big-emoji animate stagger-1">🚀</div>
         <h2 class="hero-title animate stagger-2" style="font-size: 2.8rem;">一起冒險吧！</h2>
