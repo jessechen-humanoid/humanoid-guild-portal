@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>冒險者公會說明 — 簡報</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafaf8;
+      --card-bg: #ffffff;
+      --border: #e8e8e5;
+      --text: #1a1a1a;
+      --text-muted: #6b6b6b;
+      --text-light: #999;
+      --accent: #8b6914;
+      --accent-light: #fdf5e6;
+      --accent-border: #e8d5a8;
+      --green: #4caf50;
+      --green-bg: #f0f7f1;
+      --green-border: #c8e6c9;
+      --blue: #4a7c96;
+      --blue-bg: #e8f4f8;
+      --red: #c0392b;
+      --red-bg: #fdf0ef;
+      --warm-bg: #fdf8f0;
+      --nav-height: 60px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* ===== Slide System ===== */
+    .slide-deck { position: relative; width: 100%; height: calc(100vh - var(--nav-height)); }
+
+    .slide {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none; overflow-y: auto;
+      padding: 60px 60px 80px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .slide.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .slide.exit-up { opacity: 0; transform: translateY(-30px); }
+    .slide-inner { max-width: 900px; width: 100%; }
+    .slide.top-align { justify-content: flex-start; }
+
+    /* ===== Animations ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide.active .animate { animation: fadeInUp 0.5s ease forwards; opacity: 0; }
+    .slide.active .stagger-1 { animation-delay: 0.05s; }
+    .slide.active .stagger-2 { animation-delay: 0.15s; }
+    .slide.active .stagger-3 { animation-delay: 0.25s; }
+    .slide.active .stagger-4 { animation-delay: 0.35s; }
+    .slide.active .stagger-5 { animation-delay: 0.45s; }
+    .slide.active .stagger-6 { animation-delay: 0.55s; }
+    .slide.active .stagger-7 { animation-delay: 0.65s; }
+    .slide.active .stagger-8 { animation-delay: 0.75s; }
+
+    /* ===== Bottom Nav ===== */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: var(--nav-height); background: var(--card-bg);
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; z-index: 100;
+    }
+    .nav-btn {
+      font-family: inherit; font-size: 0.95rem; font-weight: 600;
+      color: var(--text); background: none; border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 24px; cursor: pointer;
+      transition: all 0.15s; min-width: 100px;
+    }
+    .nav-btn:hover:not(:disabled) { background: var(--bg); border-color: #ccc; }
+    .nav-btn:disabled { opacity: 0.25; cursor: default; }
+    .nav-dots { display: flex; gap: 10px; align-items: center; }
+    .nav-dot {
+      width: 11px; height: 11px; border-radius: 50%;
+      background: var(--border); border: none; cursor: pointer;
+      transition: all 0.2s; padding: 0;
+    }
+    .nav-dot.active { background: var(--accent); transform: scale(1.3); }
+    .nav-dot.visited { background: #d4b96a; }
+
+    /* ===== Scroll Hint ===== */
+    .scroll-hint {
+      position: fixed; bottom: 74px; left: 50%; transform: translateX(-50%);
+      font-size: 0.8rem; color: var(--text-light);
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 20px; padding: 5px 16px;
+      opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 99;
+    }
+    .scroll-hint.visible { opacity: 1; }
+
+    /* ===== Typography ===== */
+    .hero-title {
+      font-size: 3.2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.2;
+      background: linear-gradient(90deg, #8b6914, #c9a84c, #8b6914, #c9a84c);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer { to { background-position: 200% center; } }
+
+    .headline {
+      font-size: 2.4rem; font-weight: 900; letter-spacing: -0.02em;
+      line-height: 1.25; color: var(--text); margin-bottom: 12px;
+    }
+    .lead {
+      font-size: 1.2rem; font-weight: 400; color: var(--text-muted);
+      line-height: 1.7; margin-bottom: 32px;
+    }
+    .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+    .card-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+    .section-label {
+      font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--accent); margin-bottom: 10px;
+    }
+    .big-emoji { font-size: 5rem; margin-bottom: 24px; }
+    .brand-tag {
+      display: inline-block; margin-top: 28px;
+      font-size: 0.9rem; color: var(--text-light);
+      border: 1px solid var(--border); border-radius: 24px; padding: 6px 20px;
+    }
+    .subtitle {
+      font-size: 1.15rem; color: var(--text-muted); font-weight: 300;
+      max-width: 520px; line-height: 1.7;
+    }
+
+    /* ===== Cards ===== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .s-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 28px; transition: box-shadow 0.15s;
+    }
+    .s-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
+
+    /* Tool cards with colored left border */
+    .tool-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 24px; transition: box-shadow 0.15s;
+      border-left: 4px solid var(--border);
+    }
+    .tool-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
+    .tool-card.gemini { border-left-color: #4285f4; }
+    .tool-card.claude-chat { border-left-color: #c9a84c; }
+    .tool-card.claude-cowork { border-left-color: var(--green); }
+    .tool-card.claude-code { border-left-color: var(--red); }
+
+    .tool-icon { font-size: 1.8rem; margin-bottom: 12px; }
+    .tool-name { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+    .tool-badge {
+      display: inline-block; font-size: 0.72rem; font-weight: 600;
+      padding: 2px 10px; border-radius: 12px; margin-bottom: 10px;
+    }
+    .badge-all { background: #e8f4f8; color: #4a7c96; }
+    .badge-agent { background: var(--green-bg); color: var(--green); }
+    .badge-dev { background: var(--red-bg); color: var(--red); }
+    .tool-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
+    .tool-example {
+      font-size: 0.82rem; color: var(--accent); background: var(--accent-light);
+      border: 1px solid var(--accent-border); border-radius: 8px;
+      padding: 10px 14px; line-height: 1.6;
+    }
+    .tool-example strong { font-weight: 600; }
+
+    /* ===== Guild Activities ===== */
+    .activity-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 28px; text-align: center;
+      transition: box-shadow 0.15s;
+    }
+    .activity-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
+    .activity-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .activity-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+    .activity-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ===== Values / Concept Cards ===== */
+    .concept-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 36px; margin-bottom: 20px;
+    }
+    .concept-label {
+      display: inline-block; font-size: 0.78rem; font-weight: 600;
+      color: var(--accent); background: var(--accent-light);
+      border-radius: 16px; padding: 4px 14px; margin-bottom: 16px;
+    }
+    .concept-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+    .concept-text { font-size: 1rem; color: var(--text-muted); line-height: 1.8; }
+
+    /* ===== Security Section ===== */
+    .security-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 24px; display: flex; gap: 16px; align-items: flex-start;
+    }
+    .security-icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
+    .security-title { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .security-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ===== Summary Banner ===== */
+    .summary-banner {
+      background: var(--warm-bg); border: 1px solid var(--accent-border);
+      border-radius: 14px; padding: 24px 28px;
+      font-size: 1.05rem; color: var(--text-muted); line-height: 1.8;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .slide { padding: 32px 24px 72px; }
+      .hero-title { font-size: 2rem; }
+      .headline { font-size: 1.6rem; }
+      .lead { font-size: 1rem; }
+      .card-grid { grid-template-columns: 1fr; }
+      .s-card, .tool-card, .concept-card { padding: 18px; }
+      .tool-name { font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slide-deck" id="slideDeck">
+
+    <!-- ====== Slide 0: Cover ====== -->
+    <div class="slide active" data-index="0" style="text-align: center;">
+      <div class="slide-inner" style="display: flex; flex-direction: column; align-items: center;">
+        <div class="big-emoji animate stagger-1">⚔️</div>
+        <h1 class="hero-title animate stagger-2">冒險者公會說明</h1>
+        <p class="subtitle animate stagger-3">我們的 AI 導入計畫是什麼？有哪些工具？公會在做什麼？<br>這份簡報一次講清楚。</p>
+        <span class="brand-tag animate stagger-4">只要有人社群顧問</span>
+      </div>
+    </div>
+
+    <!-- ====== Slide 1: AI Tools Overview ====== -->
+    <div class="slide" data-index="1">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">01 — AI 工具總覽</p>
+        <h2 class="headline animate stagger-2">我們用了哪些 AI？</h2>
+        <p class="lead animate stagger-3">不同的工具各有擅長，搭配起來才能覆蓋日常工作的各種場景。</p>
+
+        <div class="summary-banner animate stagger-4" style="margin-bottom: 28px;">
+          簡單說：Gemini 處理日常快速任務和生圖。Claude Chat 接手更重的分析與寫作。Claude Cowork + Code 負責跨系統自動化——這是我們 AI 導入計畫的核心。
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 2: Gemini ====== -->
+    <div class="slide" data-index="2">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">01 — AI 工具</p>
+        <div class="tool-card gemini animate stagger-2">
+          <div class="tool-icon">✦</div>
+          <div class="tool-name">Gemini Pro</div>
+          <span class="tool-badge badge-all">全公司使用 · 已在使用</span>
+          <p class="tool-desc">大家已經熟悉的通用 AI 助手。適合快速問答、翻譯、摘要、寫初稿。還能生圖，視覺發想很方便。繼續用，不衝突。</p>
+          <div class="tool-example">
+            <strong>🎨 廣告專案實例：</strong>幫客戶想社群貼文的視覺方向時，直接用 Gemini 生出 3-5 張風格圖，快速跟客戶對齊畫面想像，省掉來回描述的溝通成本。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 3: Claude Chat ====== -->
+    <div class="slide" data-index="3">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">01 — AI 工具</p>
+        <div class="tool-card claude-chat animate stagger-2">
+          <div class="tool-icon">💬</div>
+          <div class="tool-name">Claude Chat</div>
+          <span class="tool-badge badge-all">全公司使用</span>
+          <p class="tool-desc">跟 Gemini 類似的對話模式，但長文分析、中文語感、複雜推理更強。處理需要深度思考的任務時，是更好的選擇。你的日常 AI 夥伴。</p>
+          <div class="tool-example">
+            <strong>📊 廣告專案實例：</strong>把一整季的廣告成效報告丟進去，請 Claude 交叉分析哪些素材組合的 CTR 最好、哪些受眾反應最差，直接產出有洞察的分析報告初稿。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 4: Claude Cowork ====== -->
+    <div class="slide" data-index="4">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">01 — AI 工具</p>
+        <div class="tool-card claude-cowork animate stagger-2">
+          <div class="tool-icon">🤖</div>
+          <div class="tool-name">Claude Cowork</div>
+          <span class="tool-badge badge-agent">Agent 模式</span>
+          <p class="tool-desc">能連接 Gmail、Ragic、Google Drive 等系統，跨系統執行完整工作流程。不只是問答，是真的能幫你「做事」的 AI。Demo 用的就是這個。</p>
+          <div class="tool-example">
+            <strong>📋 廣告專案實例：</strong>跟 Claude 說「幫我查這個月所有待請款的專案」，它會自動去 Ragic 撈資料、整理成表格、標出逾期的項目，最後寄 email 提醒對應的負責人。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 5: Claude Code ====== -->
+    <div class="slide" data-index="5">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">01 — AI 工具</p>
+        <div class="tool-card claude-code animate stagger-2">
+          <div class="tool-icon">🖥️</div>
+          <div class="tool-name">Claude Code</div>
+          <span class="tool-badge badge-dev">大法師聖殿</span>
+          <p class="tool-desc">開發者終端機工具。大法師聖殿用來建置自動化功能、腳本、系統串接。公會裡的各種工具（靈感蒐集狂魔、合約小幫手、KOL 身家調查⋯⋯）都是用它做的。</p>
+          <div class="tool-example">
+            <strong>⚡ 廣告專案實例：</strong>把「每月自動從 Google Sheets 抓各平台廣告成效 → 算出 ROAS 跟 CPA → 產出月報 PDF 寄給客戶」這種重複流程，直接寫成自動化腳本一鍵完成。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 6: Guild Intro ====== -->
+    <div class="slide" data-index="6">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">02 — 成立冒險者公會</p>
+        <h2 class="headline animate stagger-2">冒險者公會是什麼？</h2>
+        <p class="lead animate stagger-3">召集血液裡流著魔法師基因的同事，一起實驗、一起建置公司最重要的 AI 功能與架構。由我擔任會長，負責掌舵方向。</p>
+
+        <div class="card-grid animate stagger-4">
+          <div class="activity-card">
+            <div class="activity-icon">⏳</div>
+            <div class="activity-name">固定例會</div>
+            <div class="activity-desc">1–2 週一次 / 固定時間、穩定推進開發進度</div>
+          </div>
+          <div class="activity-card">
+            <div class="activity-icon">📜</div>
+            <div class="activity-name">冒險者公會日誌</div>
+            <div class="activity-desc">AI 分享與使用經驗 / 整理後發給全公司</div>
+          </div>
+          <div class="activity-card">
+            <div class="activity-icon">✨</div>
+            <div class="activity-name">開發專案</div>
+            <div class="activity-desc">一起梳理需求 / 建置重要 AI 功能</div>
+          </div>
+        </div>
+
+        <div class="summary-banner animate stagger-5" style="margin-top: 28px;">
+          🎁 <strong>公會成員福利：</strong>公司補助 Claude Team Pro 方案，全額支持你的魔法修煉之路。
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 7: Three Things - 1 ====== -->
+    <div class="slide" data-index="7">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">03 — 三件我想跟大家說的事</p>
+        <h2 class="headline animate stagger-2">三件我想跟大家說的事</h2>
+
+        <div class="concept-card animate stagger-3">
+          <span class="concept-label">觀念一</span>
+          <h3 class="concept-title">每個角色都缺一不可</h3>
+          <p class="concept-text">我們不是「魔法師至上」的組織。我們想召集的是血液裡流著魔法師基因的朋友，但這個世界還是需要鍊金術師、吟遊詩人、鐵匠、道具商人、酒館老闆——每一個角色都缺一不可。</p>
+          <p class="concept-text" style="margin-top: 16px;">即使你不加入冒險者公會，你可以做的是盡量丟出工作上覺得麻煩的痛點、卡點，這些都會是可以讓魔法師鍛鍊使用的史萊姆。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 8: Three Things - 2 ====== -->
+    <div class="slide" data-index="8">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">03 — 三件我想跟大家說的事</p>
+        <h2 class="headline animate stagger-2">三件我想跟大家說的事</h2>
+
+        <div class="concept-card animate stagger-3">
+          <span class="concept-label">觀念二</span>
+          <h3 class="concept-title">AI 不是來取代你的</h3>
+          <p class="concept-text">「人的判斷」是最有價值的一步。AI 做的是前面 80% 的粗活，最終判斷可不可以使用、對不對、好不好——這是我們一定要做的工作，也是 AI 無法取代的。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 9: Three Things - 3 ====== -->
+    <div class="slide" data-index="9">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">03 — 三件我想跟大家說的事</p>
+        <h2 class="headline animate stagger-2">三件我想跟大家說的事</h2>
+
+        <div class="concept-card animate stagger-3">
+          <span class="concept-label">觀念三</span>
+          <h3 class="concept-title">失敗是計畫的一部分，無知是意料中的事</h3>
+          <p class="concept-text">我們會試很多東西，有些會很好用，有些會發現不適合，這很正常。我們也會發現自己不知道很多事情，但 AI 可以給我們問。</p>
+          <p class="concept-text" style="margin-top: 16px;">不管是冒險者公會的成員覺得「我怎麼弄不出來」，還是其他同事覺得「這工具好像沒比較快」——都不需要因此覺得是自己的問題。我們一起調整就好。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 10: Security ====== -->
+    <div class="slide top-align" data-index="10">
+      <div class="slide-inner">
+        <p class="section-label animate stagger-1">04 — 資安保障</p>
+        <h2 class="headline animate stagger-2">Claude Team Plan 的資安保障</h2>
+        <p class="lead animate stagger-3">公司的資料安全是最高優先級。Claude Team Plan 提供企業級的隱私與安全保護。</p>
+
+        <div style="display: grid; gap: 16px;">
+          <div class="security-card animate stagger-3">
+            <div class="security-icon">🔒</div>
+            <div>
+              <div class="security-title">不會用你的資料訓練模型</div>
+              <div class="security-text">所有對話內容和上傳的檔案，都不會被用來訓練 AI 模型。你的商業機密不會變成別人的訓練資料。</div>
+            </div>
+          </div>
+          <div class="security-card animate stagger-4">
+            <div class="security-icon">🛡️</div>
+            <div>
+              <div class="security-title">SOC 2 Type II 認證</div>
+              <div class="security-text">Anthropic 通過 SOC 2 Type II 安全認證，代表資料處理流程經過第三方嚴格稽核，符合企業級安全標準。</div>
+            </div>
+          </div>
+          <div class="security-card animate stagger-5">
+            <div class="security-icon">🗄️</div>
+            <div>
+              <div class="security-title">對話紀錄預設 30 天後刪除</div>
+              <div class="security-text">Team Plan 的對話紀錄預設保留 30 天後自動刪除，不會在伺服器上永久保存。管理員可隨時調整保留期限。</div>
+            </div>
+          </div>
+          <div class="security-card animate stagger-6">
+            <div class="security-icon">👥</div>
+            <div>
+              <div class="security-title">團隊成員管理</div>
+              <div class="security-text">管理員可以統一管理成員帳號、設定存取權限，員工離職時能立即撤銷帳號權限，確保資料不外流。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Slide 11: End ====== -->
+    <div class="slide" data-index="11" style="text-align: center;">
+      <div class="slide-inner" style="display: flex; flex-direction: column; align-items: center;">
+        <div class="big-emoji animate stagger-1">🚀</div>
+        <h2 class="hero-title animate stagger-2" style="font-size: 2.8rem;">一起冒險吧！</h2>
+        <p class="subtitle animate stagger-3">有問題隨時問，有痛點盡量丟。<br>不管你是什麼角色，都是這場冒險的一份子。</p>
+        <p class="animate stagger-4" style="margin-top: 36px; font-size: 0.85rem; color: var(--text-light);">只要有人社群顧問 × 冒險者公會 ⚔️</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scroll Hint -->
+  <div class="scroll-hint" id="scrollHint">↓ 向下捲動看更多</div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <button class="nav-btn" id="btnPrev" onclick="goSlide(current - 1)" disabled>← 上一頁</button>
+    <div class="nav-dots" id="navDots"></div>
+    <button class="nav-btn" id="btnNext" onclick="goSlide(current + 1)">下一頁 →</button>
+  </div>
+
+  <script>
+    var slides = document.querySelectorAll('.slide');
+    var total = slides.length;
+    var current = 0;
+    var visited = {};
+    visited[0] = true;
+
+    // Build dots
+    var dotsContainer = document.getElementById('navDots');
+    for (var i = 0; i < total; i++) {
+      var dot = document.createElement('button');
+      dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('data-index', i);
+      dot.onclick = (function(idx) { return function() { goSlide(idx); }; })(i);
+      dotsContainer.appendChild(dot);
+    }
+
+    function goSlide(index) {
+      if (index < 0 || index >= total || index === current) return;
+
+      slides[current].classList.remove('active');
+      if (index > current) slides[current].classList.add('exit-up');
+
+      var prev = current;
+      setTimeout(function() { slides[prev].classList.remove('exit-up'); }, 500);
+
+      current = index;
+      visited[current] = true;
+      slides[current].classList.add('active');
+      slides[current].scrollTop = 0;
+
+      updateNav();
+      checkScrollHint();
+    }
+
+    function updateNav() {
+      document.getElementById('btnPrev').disabled = (current === 0);
+      document.getElementById('btnNext').disabled = (current === total - 1);
+      var dots = document.querySelectorAll('.nav-dot');
+      for (var i = 0; i < dots.length; i++) {
+        dots[i].classList.remove('active', 'visited');
+        if (i === current) dots[i].classList.add('active');
+        else if (visited[i]) dots[i].classList.add('visited');
+      }
+    }
+
+    function checkScrollHint() {
+      var slide = slides[current];
+      var hint = document.getElementById('scrollHint');
+      if (slide.scrollHeight > slide.clientHeight + 10 && slide.scrollTop < 10) {
+        hint.classList.add('visible');
+      } else {
+        hint.classList.remove('visible');
+      }
+    }
+
+    document.addEventListener('scroll', function() { checkScrollHint(); }, true);
+
+    // Keyboard
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goSlide(current + 1); }
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goSlide(current - 1); }
+      else if (e.key === ' ') { e.preventDefault(); goSlide(current + 1); }
+    });
+
+    // Touch swipe
+    var touchStartX = 0, touchStartY = 0;
+    document.addEventListener('touchstart', function(e) {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    });
+    document.addEventListener('touchend', function(e) {
+      var dx = e.changedTouches[0].screenX - touchStartX;
+      var dy = e.changedTouches[0].screenY - touchStartY;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+        if (dx < 0) goSlide(current + 1); else goSlide(current - 1);
+      }
+    });
+
+    // Init
+    checkScrollHint();
+  </script>
+
+</body>
+</html>
