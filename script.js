@@ -431,9 +431,36 @@ function daysAgo(dateStr) {
   return diff + ' 天前';
 }
 
+// ---- Optimistic UI 本地快取操作 ----
+function getLocalBounties() {
+  var cached = getCMSCache();
+  if (cached && cached.data && cached.data.bounties) {
+    return cached.data.bounties;
+  }
+  return [];
+}
+
+function updateLocalBounties(bounties) {
+  var cached = getCMSCache();
+  if (cached && cached.data) {
+    cached.data.bounties = bounties;
+    setCMSCache(cached.data);
+  } else {
+    setCMSCache({ tools: [], journal: [], bounties: bounties });
+  }
+  renderBounties(bounties);
+}
+
+function todayStr() {
+  var d = new Date();
+  var mm = ('0' + (d.getMonth() + 1)).slice(-2);
+  var dd = ('0' + d.getDate()).slice(-2);
+  return d.getFullYear() + '-' + mm + '-' + dd;
+}
+
+// ---- Optimistic 新增懸賞 ----
 function submitBounty() {
   var input = document.getElementById('bounty-input');
-  var btn = document.getElementById('bounty-submit');
   var task = (input.value || '').trim();
   if (!task) {
     input.style.borderColor = '#c45c5c';
@@ -441,12 +468,32 @@ function submitBounty() {
     return;
   }
   input.style.borderColor = '';
-  btn.disabled = true;
-  btn.textContent = '送出中...';
 
   var session = getSession();
   if (!session) return;
 
+  var displayName = emailToDisplayName(session.email);
+  var tempRow = 'temp_' + Date.now();
+  var newBounty = {
+    row: tempRow,
+    date: todayStr(),
+    commissioner: displayName,
+    task: task,
+    plusOneCount: 0,
+    plusOneList: '',
+    challenger: '',
+    status: '',
+    completionDate: '',
+    daysSpent: 0
+  };
+
+  // 立即渲染
+  var bounties = getLocalBounties();
+  bounties.push(newBounty);
+  updateLocalBounties(bounties);
+  input.value = '';
+
+  // 背景 POST
   fetch(CMS_APPS_SCRIPT_URL, {
     method: 'POST',
     body: JSON.stringify({ action: 'newBounty', commissioner: session.email, task: task })
@@ -454,28 +501,31 @@ function submitBounty() {
     .then(function(res) { return res.json(); })
     .then(function(data) {
       if (data.success) {
-        input.value = '';
-        // 清除快取並重新載入懸賞資料
-        localStorage.removeItem(CMS_CACHE_KEY);
-        fetchBounties();
+        // 用伺服器回傳的 row 更新臨時 row
+        var current = getLocalBounties();
+        for (var i = 0; i < current.length; i++) {
+          if (current[i].row === tempRow) {
+            current[i].row = data.row;
+            break;
+          }
+        }
+        updateLocalBounties(current);
       }
     })
-    .catch(function() {})
-    .finally(function() {
-      btn.disabled = false;
-      btn.textContent = '⚔️ 勇者大人幫幫我';
+    .catch(function() {
+      // 失敗：移除 optimistic 新增的卡片
+      var current = getLocalBounties();
+      var filtered = current.filter(function(b) { return b.row !== tempRow; });
+      updateLocalBounties(filtered);
     });
 }
 
 function fetchBounties() {
-  var cached = getCMSCache();
-  var bounties = [];
-  if (cached && cached.data && cached.data.bounties) {
-    bounties = cached.data.bounties;
-  }
+  var bounties = getLocalBounties();
   renderBounties(bounties);
 
   // 如果快取過期或沒有快取，從 API 取得
+  var cached = getCMSCache();
   var isExpired = !cached || (Date.now() - cached.timestamp) > CMS_CACHE_TTL;
   if (isExpired) {
     fetch(CMS_APPS_SCRIPT_URL)
@@ -591,55 +641,166 @@ function renderBountyCard(bounty, currentEmail, isDone) {
   return card;
 }
 
+// ---- Optimistic +1 ----
 function handlePlusOne(row) {
   var session = getSession();
   if (!session) return;
+  var email = session.email;
+
+  var bounties = getLocalBounties();
+  var target = null;
+  var oldCount, oldList;
+  for (var i = 0; i < bounties.length; i++) {
+    if (bounties[i].row === row) {
+      target = bounties[i];
+      oldCount = target.plusOneCount;
+      oldList = target.plusOneList;
+      target.plusOneCount = oldCount + 1;
+      target.plusOneList = oldList ? oldList + ',' + email : email;
+      break;
+    }
+  }
+  if (!target) return;
+  updateLocalBounties(bounties);
+
   fetch(CMS_APPS_SCRIPT_URL, {
     method: 'POST',
-    body: JSON.stringify({ action: 'plusOne', row: row, email: session.email })
+    body: JSON.stringify({ action: 'plusOne', row: row, email: email })
   })
     .then(function(res) { return res.json(); })
     .then(function(data) {
-      if (data.success) {
-        localStorage.removeItem(CMS_CACHE_KEY);
-        fetchBounties();
+      if (!data.success) {
+        // rollback
+        var current = getLocalBounties();
+        for (var i = 0; i < current.length; i++) {
+          if (current[i].row === row) {
+            current[i].plusOneCount = oldCount;
+            current[i].plusOneList = oldList;
+            break;
+          }
+        }
+        updateLocalBounties(current);
       }
     })
-    .catch(function() {});
+    .catch(function() {
+      var current = getLocalBounties();
+      for (var i = 0; i < current.length; i++) {
+        if (current[i].row === row) {
+          current[i].plusOneCount = oldCount;
+          current[i].plusOneList = oldList;
+          break;
+        }
+      }
+      updateLocalBounties(current);
+    });
 }
 
+// ---- Optimistic 挑戰 ----
 function handleChallenge(row) {
   var session = getSession();
   if (!session) return;
+  var email = session.email;
+
+  var bounties = getLocalBounties();
+  var target = null;
+  var oldChallenger;
+  for (var i = 0; i < bounties.length; i++) {
+    if (bounties[i].row === row) {
+      target = bounties[i];
+      oldChallenger = target.challenger;
+      // toggle: 無人→寫入、自己→清空
+      target.challenger = (oldChallenger === email) ? '' : email;
+      break;
+    }
+  }
+  if (!target) return;
+  updateLocalBounties(bounties);
+
   fetch(CMS_APPS_SCRIPT_URL, {
     method: 'POST',
-    body: JSON.stringify({ action: 'challenge', row: row, email: session.email })
+    body: JSON.stringify({ action: 'challenge', row: row, email: email })
   })
     .then(function(res) { return res.json(); })
     .then(function(data) {
-      if (data.success) {
-        localStorage.removeItem(CMS_CACHE_KEY);
-        fetchBounties();
+      if (!data.success) {
+        var current = getLocalBounties();
+        for (var i = 0; i < current.length; i++) {
+          if (current[i].row === row) {
+            current[i].challenger = oldChallenger;
+            break;
+          }
+        }
+        updateLocalBounties(current);
       }
     })
-    .catch(function() {});
+    .catch(function() {
+      var current = getLocalBounties();
+      for (var i = 0; i < current.length; i++) {
+        if (current[i].row === row) {
+          current[i].challenger = oldChallenger;
+          break;
+        }
+      }
+      updateLocalBounties(current);
+    });
 }
 
+// ---- Optimistic 完成 ----
 function handleComplete(row) {
   var session = getSession();
   if (!session) return;
+  var email = session.email;
+
+  var bounties = getLocalBounties();
+  var target = null;
+  for (var i = 0; i < bounties.length; i++) {
+    if (bounties[i].row === row) {
+      target = bounties[i];
+      break;
+    }
+  }
+  if (!target) return;
+
+  var today = todayStr();
+  var commDate = new Date(target.date);
+  var daysSpent = Math.round((new Date() - commDate) / (1000 * 60 * 60 * 24));
+
+  target.status = 'done';
+  target.completionDate = today;
+  target.daysSpent = daysSpent;
+  updateLocalBounties(bounties);
+
   fetch(CMS_APPS_SCRIPT_URL, {
     method: 'POST',
-    body: JSON.stringify({ action: 'complete', row: row, email: session.email })
+    body: JSON.stringify({ action: 'complete', row: row, email: email })
   })
     .then(function(res) { return res.json(); })
     .then(function(data) {
-      if (data.success) {
-        localStorage.removeItem(CMS_CACHE_KEY);
-        fetchBounties();
+      if (!data.success) {
+        var current = getLocalBounties();
+        for (var i = 0; i < current.length; i++) {
+          if (current[i].row === row) {
+            current[i].status = '';
+            current[i].completionDate = '';
+            current[i].daysSpent = 0;
+            break;
+          }
+        }
+        updateLocalBounties(current);
       }
     })
-    .catch(function() {});
+    .catch(function() {
+      var current = getLocalBounties();
+      for (var i = 0; i < current.length; i++) {
+        if (current[i].row === row) {
+          current[i].status = '';
+          current[i].completionDate = '';
+          current[i].daysSpent = 0;
+          break;
+        }
+      }
+      updateLocalBounties(current);
+    });
 }
 
 // ========== Tab 切換 ==========
