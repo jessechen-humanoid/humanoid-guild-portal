@@ -1,6 +1,6 @@
 # guild-journal Specification Changes
 
-## Modified Requirements
+## MODIFIED
 
 ### Requirement: Dynamic journal card rendering from Google Sheet
 

@@ -1,6 +1,6 @@
 # guild-portal Specification Changes
 
-## Modified Requirements
+## MODIFIED
 
 ### Requirement: Dynamic tool card rendering from Google Sheet
 

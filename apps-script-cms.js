@@ -81,12 +81,147 @@ function doGet(e) {
     }
   }
 
+  // 讀取「懸賞」工作表
+  var bountySheet = ss.getSheetByName('懸賞');
+  var bounties = [];
+  if (bountySheet) {
+    var bountyData = bountySheet.getDataRange().getValues();
+    for (var b = 1; b < bountyData.length; b++) {
+      var brow = bountyData[b];
+      if (!brow[0] && !brow[2]) continue;
+
+      var bDateVal = brow[0];
+      var bDateStr = '';
+      try {
+        bDateStr = Utilities.formatDate(new Date(bDateVal), Session.getScriptTimeZone(), 'yyyy-MM-dd');
+      } catch(e) {
+        bDateStr = (bDateVal || '').toString().trim();
+      }
+
+      var completionDateVal = brow[7];
+      var completionDateStr = '';
+      if (completionDateVal) {
+        try {
+          completionDateStr = Utilities.formatDate(new Date(completionDateVal), Session.getScriptTimeZone(), 'yyyy-MM-dd');
+        } catch(e) {
+          completionDateStr = (completionDateVal || '').toString().trim();
+        }
+      }
+
+      bounties.push({
+        row: b + 1,
+        date: bDateStr,
+        commissioner: (brow[1] || '').toString().trim(),
+        task: (brow[2] || '').toString().trim(),
+        plusOneCount: parseInt(brow[3]) || 0,
+        plusOneList: (brow[4] || '').toString().trim(),
+        challenger: (brow[5] || '').toString().trim(),
+        status: (brow[6] || '').toString().trim(),
+        completionDate: completionDateStr,
+        daysSpent: parseInt(brow[8]) || 0
+      });
+    }
+  }
+
   var result = {
     tools: tools,
-    journal: journal
+    journal: journal,
+    bounties: bounties
   };
 
   return ContentService
     .createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ========== 懸賞任務寫入 ==========
+function doPost(e) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('懸賞');
+  if (!sheet) {
+    return ContentService
+      .createTextOutput(JSON.stringify({success: false, reason: 'sheet_not_found'}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  var body = JSON.parse(e.postData.contents);
+  var action = body.action;
+
+  if (action === 'newBounty') {
+    var email = (body.commissioner || '').toString().trim();
+    var task = (body.task || '').toString().trim();
+    // 從 email 擷取顯示名稱：jesse.chen@humanoid.com.tw → jesse chen
+    var displayName = email.split('@')[0].replace(/\./g, ' ');
+    var today = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd');
+    sheet.appendRow([today, displayName, task, 0, '', '', '', '', 0]);
+    var newRow = sheet.getLastRow();
+    return ContentService
+      .createTextOutput(JSON.stringify({success: true, row: newRow}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (action === 'plusOne') {
+    var row = parseInt(body.row);
+    var voterEmail = (body.email || '').toString().trim();
+    var currentList = (sheet.getRange(row, 5).getValue() || '').toString().trim();
+    var emails = currentList ? currentList.split(',') : [];
+    if (emails.indexOf(voterEmail) !== -1) {
+      return ContentService
+        .createTextOutput(JSON.stringify({success: false, reason: 'already_voted'}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    emails.push(voterEmail);
+    sheet.getRange(row, 5).setValue(emails.join(','));
+    var newCount = emails.length;
+    sheet.getRange(row, 4).setValue(newCount);
+    return ContentService
+      .createTextOutput(JSON.stringify({success: true, newCount: newCount}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (action === 'challenge') {
+    var row = parseInt(body.row);
+    var challengerEmail = (body.email || '').toString().trim();
+    var currentChallenger = (sheet.getRange(row, 6).getValue() || '').toString().trim();
+    if (!currentChallenger) {
+      sheet.getRange(row, 6).setValue(challengerEmail);
+      return ContentService
+        .createTextOutput(JSON.stringify({success: true, action: 'claimed'}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    if (currentChallenger === challengerEmail) {
+      sheet.getRange(row, 6).setValue('');
+      return ContentService
+        .createTextOutput(JSON.stringify({success: true, action: 'unclaimed'}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    return ContentService
+      .createTextOutput(JSON.stringify({success: false, reason: 'already_claimed'}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (action === 'complete') {
+    var row = parseInt(body.row);
+    var completerEmail = (body.email || '').toString().trim();
+    var currentChallenger = (sheet.getRange(row, 6).getValue() || '').toString().trim();
+    if (currentChallenger !== completerEmail) {
+      return ContentService
+        .createTextOutput(JSON.stringify({success: false, reason: 'not_challenger'}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    var today = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd');
+    var commissionDate = new Date(sheet.getRange(row, 1).getValue());
+    var completionDate = new Date();
+    var daysSpent = Math.round((completionDate - commissionDate) / (1000 * 60 * 60 * 24));
+    sheet.getRange(row, 7).setValue('done');
+    sheet.getRange(row, 8).setValue(today);
+    sheet.getRange(row, 9).setValue(daysSpent);
+    return ContentService
+      .createTextOutput(JSON.stringify({success: true}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  return ContentService
+    .createTextOutput(JSON.stringify({success: false, reason: 'unknown_action'}))
     .setMimeType(ContentService.MimeType.JSON);
 }

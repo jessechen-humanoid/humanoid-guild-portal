@@ -17,6 +17,7 @@ var errorScreen = document.getElementById('error-screen');
 var siteHeader = document.getElementById('site-header');
 var tabGuilds = document.getElementById('tab-guilds');
 var tabJournal = document.getElementById('tab-journal');
+var tabBounty = document.getElementById('tab-bounty');
 var loginLoading = document.getElementById('login-loading');
 
 // ========== 登入流程 ==========
@@ -88,6 +89,7 @@ function showLogin() {
   siteHeader.classList.add('hidden');
   tabGuilds.classList.add('hidden');
   tabJournal.classList.add('hidden');
+  tabBounty.classList.add('hidden');
   loginLoading.classList.add('hidden');
 }
 
@@ -98,6 +100,7 @@ function showDenied() {
   siteHeader.classList.add('hidden');
   tabGuilds.classList.add('hidden');
   tabJournal.classList.add('hidden');
+  tabBounty.classList.add('hidden');
 }
 
 function showError() {
@@ -107,6 +110,7 @@ function showError() {
   siteHeader.classList.add('hidden');
   tabGuilds.classList.add('hidden');
   tabJournal.classList.add('hidden');
+  tabBounty.classList.add('hidden');
 }
 
 // ========== Session 快取 ==========
@@ -275,6 +279,7 @@ function fetchCMSData() {
     // 有快取：立即渲染，不等 API
     renderToolCards(cached.data.tools || []);
     renderJournalCards(cached.data.journal || []);
+    renderBounties(cached.data.bounties || []);
     bindSkillOverlays();
 
     var isExpired = (Date.now() - cached.timestamp) > CMS_CACHE_TTL;
@@ -313,6 +318,7 @@ function fetchCMSData() {
       setCMSCache(data);
       renderToolCards(data.tools || []);
       renderJournalCards(data.journal || []);
+      renderBounties(data.bounties || []);
       bindSkillOverlays();
       finishLoadingBar();
     })
@@ -410,6 +416,230 @@ function escapeHtml(str) {
   var div = document.createElement('div');
   div.appendChild(document.createTextNode(str));
   return div.innerHTML;
+}
+
+// ========== 懸賞任務 ==========
+function emailToDisplayName(email) {
+  return email.split('@')[0].replace(/\./g, ' ');
+}
+
+function daysAgo(dateStr) {
+  var d = new Date(dateStr);
+  var now = new Date();
+  var diff = Math.floor((now - d) / (1000 * 60 * 60 * 24));
+  if (diff === 0) return '今天';
+  return diff + ' 天前';
+}
+
+function submitBounty() {
+  var input = document.getElementById('bounty-input');
+  var btn = document.getElementById('bounty-submit');
+  var task = (input.value || '').trim();
+  if (!task) {
+    input.style.borderColor = '#c45c5c';
+    input.focus();
+    return;
+  }
+  input.style.borderColor = '';
+  btn.disabled = true;
+  btn.textContent = '送出中...';
+
+  var session = getSession();
+  if (!session) return;
+
+  fetch(CMS_APPS_SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'newBounty', commissioner: session.email, task: task })
+  })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.success) {
+        input.value = '';
+        // 清除快取並重新載入懸賞資料
+        localStorage.removeItem(CMS_CACHE_KEY);
+        fetchBounties();
+      }
+    })
+    .catch(function() {})
+    .finally(function() {
+      btn.disabled = false;
+      btn.textContent = '⚔️ 勇者大人幫幫我';
+    });
+}
+
+function fetchBounties() {
+  var cached = getCMSCache();
+  var bounties = [];
+  if (cached && cached.data && cached.data.bounties) {
+    bounties = cached.data.bounties;
+  }
+  renderBounties(bounties);
+
+  // 如果快取過期或沒有快取，從 API 取得
+  var isExpired = !cached || (Date.now() - cached.timestamp) > CMS_CACHE_TTL;
+  if (isExpired) {
+    fetch(CMS_APPS_SCRIPT_URL)
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        setCMSCache(data);
+        renderBounties(data.bounties || []);
+      })
+      .catch(function() {});
+  }
+}
+
+function renderBounties(bounties) {
+  var session = getSession();
+  var currentEmail = session ? session.email : '';
+
+  // 分為進行中和已完成
+  var active = [];
+  var done = [];
+  bounties.forEach(function(b) {
+    if (b.status === 'done') {
+      done.push(b);
+    } else {
+      active.push(b);
+    }
+  });
+
+  // 排序：進行中 → +1 多的在上，同數則委託早的在上
+  active.sort(function(a, b) {
+    if (b.plusOneCount !== a.plusOneCount) return b.plusOneCount - a.plusOneCount;
+    return (a.date || '').localeCompare(b.date || '');
+  });
+
+  // 排序：已完成 → 越新完成的在上
+  done.sort(function(a, b) {
+    return (b.completionDate || '').localeCompare(a.completionDate || '');
+  });
+
+  // 渲染進行中
+  var listEl = document.getElementById('bounty-list');
+  listEl.innerHTML = '';
+  if (active.length === 0 && done.length === 0) {
+    listEl.innerHTML = '<div style="text-align:center;padding:32px;color:#a0a09b;font-size:14px;">還沒有懸賞任務，來發佈第一個吧！</div>';
+  }
+  active.forEach(function(b) {
+    listEl.appendChild(renderBountyCard(b, currentEmail, false));
+  });
+
+  // 渲染已完成
+  var doneSection = document.getElementById('bounty-done-section');
+  var doneList = document.getElementById('bounty-done-list');
+  if (done.length > 0) {
+    doneSection.classList.remove('hidden');
+    doneList.innerHTML = '';
+    done.forEach(function(b) {
+      doneList.appendChild(renderBountyCard(b, currentEmail, true));
+    });
+  } else {
+    doneSection.classList.add('hidden');
+  }
+}
+
+function renderBountyCard(bounty, currentEmail, isDone) {
+  var card = document.createElement('div');
+  card.className = 'bounty-card' + (isDone ? ' bounty-card--done' : '');
+
+  var hasVoted = bounty.plusOneList && bounty.plusOneList.split(',').indexOf(currentEmail) !== -1;
+  var isChallenger = bounty.challenger === currentEmail;
+  var hasChallengerOther = bounty.challenger && !isChallenger;
+  var challengerName = bounty.challenger ? emailToDisplayName(bounty.challenger) : '';
+
+  var html = '';
+
+  if (isDone) {
+    html += '<span class="bounty-done-badge">任務完成</span>';
+  }
+
+  html += '<div class="bounty-card-task">' + escapeHtml(bounty.task) + '</div>';
+  html += '<div class="bounty-card-meta">';
+  html += '<span>👤 ' + escapeHtml(bounty.commissioner) + '</span>';
+  html += '<span>📅 ' + daysAgo(bounty.date) + '</span>';
+  if (isDone) {
+    html += '<span>✅ ' + escapeHtml(bounty.completionDate) + ' 完成</span>';
+    html += '<span>⏱ 花了 ' + bounty.daysSpent + ' 天</span>';
+  }
+  html += '</div>';
+
+  if (!isDone) {
+    html += '<div class="bounty-card-actions">';
+    // +1 按鈕
+    html += '<button class="bounty-btn' + (hasVoted ? ' bounty-btn--voted' : '') + '" ' +
+      (hasVoted ? 'disabled' : 'onclick="handlePlusOne(' + bounty.row + ')"') +
+      '>👍 +' + bounty.plusOneCount + '</button>';
+
+    // 挑戰按鈕
+    if (!bounty.challenger) {
+      html += '<button class="bounty-btn" onclick="handleChallenge(' + bounty.row + ')">⚔️ 我想挑戰</button>';
+    } else if (isChallenger) {
+      html += '<button class="bounty-btn bounty-btn--challenge" onclick="handleChallenge(' + bounty.row + ')">⚔️ 取消挑戰</button>';
+      html += '<button class="bounty-btn bounty-btn--complete" onclick="handleComplete(' + bounty.row + ')">🏆 完成任務</button>';
+    } else {
+      html += '<span class="bounty-challenger">⚔️ 挑戰勇者：' + escapeHtml(challengerName) + '</span>';
+    }
+
+    html += '</div>';
+  } else {
+    if (challengerName) {
+      html += '<div class="bounty-done-info">🏆 由 ' + escapeHtml(challengerName) + ' 完成</div>';
+    }
+  }
+
+  card.innerHTML = html;
+  return card;
+}
+
+function handlePlusOne(row) {
+  var session = getSession();
+  if (!session) return;
+  fetch(CMS_APPS_SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'plusOne', row: row, email: session.email })
+  })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.success) {
+        localStorage.removeItem(CMS_CACHE_KEY);
+        fetchBounties();
+      }
+    })
+    .catch(function() {});
+}
+
+function handleChallenge(row) {
+  var session = getSession();
+  if (!session) return;
+  fetch(CMS_APPS_SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'challenge', row: row, email: session.email })
+  })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.success) {
+        localStorage.removeItem(CMS_CACHE_KEY);
+        fetchBounties();
+      }
+    })
+    .catch(function() {});
+}
+
+function handleComplete(row) {
+  var session = getSession();
+  if (!session) return;
+  fetch(CMS_APPS_SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'complete', row: row, email: session.email })
+  })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.success) {
+        localStorage.removeItem(CMS_CACHE_KEY);
+        fetchBounties();
+      }
+    })
+    .catch(function() {});
 }
 
 // ========== Tab 切換 ==========
