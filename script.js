@@ -8,7 +8,7 @@ var CMS_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx5zXtufHHxiN
 var SESSION_KEY = 'guild_auth_session';
 var SESSION_DURATION_MS = 24 * 60 * 60 * 1000; // 24 小時
 var CMS_CACHE_KEY = 'cms_cache';
-var CMS_CACHE_TTL = 60 * 60 * 1000; // 1 小時
+var CMS_CACHE_TTL = 10 * 60 * 1000; // 10 分鐘
 
 // ========== DOM 元素 ==========
 var loginScreen = document.getElementById('login-screen');
