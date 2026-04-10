@@ -474,7 +474,7 @@ body {
 
 .site-title-img {
   display: block;
-  max-width: 320px;
+  max-width: 420px;
   height: auto;
   margin: 0 auto;
   image-rendering: pixelated;
@@ -487,9 +487,14 @@ body {
   gap: 4px;
   justify-content: center;
   margin-top: 24px;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 24px;
 }
 
 .tab {
+  flex: 1;
   font-family: inherit;
   font-size: 13px;
   font-weight: 500;
@@ -972,7 +977,11 @@ body {
   }
 
   .site-title-img {
-    max-width: 240px;
+    max-width: 300px;
+  }
+
+  .tab-bar {
+    padding: 0 20px;
   }
 
   .guilds {
