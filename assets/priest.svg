@@ -1,34 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="48" height="48" fill="#1a1a1a" shape-rendering="crispEdges">
-  <!-- Big head - hood -->
-  <rect x="5" y="0" width="6" height="1"/>
-  <rect x="4" y="1" width="8" height="1"/>
-  <rect x="3" y="2" width="10" height="1"/>
-  <!-- Face -->
-  <rect x="3" y="3" width="10" height="1"/>
-  <rect x="3" y="4" width="10" height="1"/>
-  <rect x="4" y="5" width="8" height="1"/>
-  <!-- Eyes -->
-  <rect x="5" y="4" width="2" height="1" fill="#fafaf8"/>
-  <rect x="9" y="4" width="2" height="1" fill="#fafaf8"/>
-  <!-- Cross on hood -->
-  <rect x="7" y="1" width="2" height="1" fill="#fafaf8"/>
-  <!-- Body -->
-  <rect x="5" y="6" width="6" height="1"/>
-  <rect x="5" y="7" width="6" height="1"/>
-  <rect x="5" y="8" width="6" height="1"/>
-  <!-- Cross on robe -->
-  <rect x="7" y="7" width="2" height="1" fill="#fafaf8"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="48" height="48" fill="#1a1a1a" shape-rendering="crispEdges">
+  <!-- Hood/cowl top -->
+  <rect x="10" y="0" width="12" height="1"/>
+  <rect x="8" y="1" width="16" height="1"/>
+  <rect x="7" y="2" width="18" height="1"/>
+  <rect x="7" y="3" width="18" height="1"/>
+  <!-- Cross on hood (white) -->
+  <rect x="15" y="1" width="2" height="1" fill="#fafaf8"/>
+  <rect x="14" y="2" width="4" height="1" fill="#fafaf8"/>
+  <rect x="15" y="3" width="2" height="1" fill="#fafaf8"/>
+  <!-- Head/face -->
+  <rect x="7" y="4" width="18" height="1"/>
+  <rect x="7" y="5" width="18" height="1"/>
+  <rect x="7" y="6" width="18" height="1"/>
+  <rect x="7" y="7" width="18" height="1"/>
+  <rect x="7" y="8" width="18" height="1"/>
+  <rect x="7" y="9" width="18" height="1"/>
+  <rect x="7" y="10" width="18" height="1"/>
+  <rect x="8" y="11" width="16" height="1"/>
+  <rect x="8" y="12" width="16" height="1"/>
+  <rect x="9" y="13" width="14" height="1"/>
+  <rect x="10" y="14" width="12" height="1"/>
+  <!-- Eyes (white rectangles) -->
+  <rect x="10" y="8" width="3" height="2" fill="#fafaf8"/>
+  <rect x="19" y="8" width="3" height="2" fill="#fafaf8"/>
+  <!-- Body/robe -->
+  <rect x="11" y="15" width="10" height="1"/>
+  <rect x="11" y="16" width="10" height="1"/>
+  <rect x="11" y="17" width="10" height="1"/>
+  <rect x="11" y="18" width="10" height="1"/>
+  <rect x="10" y="19" width="12" height="1"/>
+  <rect x="10" y="20" width="12" height="1"/>
+  <rect x="10" y="21" width="12" height="1"/>
+  <rect x="10" y="22" width="12" height="1"/>
+  <rect x="9" y="23" width="14" height="1"/>
+  <rect x="9" y="24" width="14" height="1"/>
+  <rect x="9" y="25" width="14" height="1"/>
+  <!-- Cross on robe chest (white) -->
+  <rect x="15" y="16" width="2" height="1" fill="#fafaf8"/>
+  <rect x="14" y="17" width="4" height="1" fill="#fafaf8"/>
+  <rect x="15" y="18" width="2" height="1" fill="#fafaf8"/>
   <!-- Arms -->
-  <rect x="3" y="7" width="2" height="1"/>
-  <rect x="11" y="7" width="2" height="1"/>
+  <rect x="8" y="17" width="3" height="1"/>
+  <rect x="7" y="18" width="3" height="1"/>
+  <rect x="7" y="19" width="3" height="1"/>
+  <rect x="21" y="17" width="3" height="1"/>
+  <rect x="22" y="18" width="3" height="1"/>
+  <rect x="22" y="19" width="3" height="1"/>
   <!-- Staff (right hand) -->
-  <rect x="13" y="3" width="1" height="6"/>
-  <rect x="12" y="2" width="3" height="1"/>
-  <rect x="13" y="1" width="1" height="1"/>
+  <rect x="25" y="4" width="2" height="1"/>
+  <rect x="25" y="5" width="2" height="1"/>
+  <rect x="24" y="6" width="4" height="1"/>
+  <rect x="25" y="7" width="2" height="1"/>
+  <rect x="25" y="8" width="2" height="1"/>
+  <rect x="25" y="9" width="2" height="1"/>
+  <rect x="25" y="10" width="2" height="1"/>
+  <rect x="25" y="11" width="2" height="1"/>
+  <rect x="25" y="12" width="2" height="1"/>
+  <rect x="25" y="13" width="2" height="1"/>
+  <rect x="25" y="14" width="2" height="1"/>
+  <rect x="25" y="15" width="2" height="1"/>
+  <rect x="25" y="16" width="2" height="1"/>
+  <rect x="25" y="17" width="2" height="1"/>
+  <rect x="25" y="18" width="2" height="1"/>
+  <rect x="25" y="19" width="2" height="1"/>
   <!-- Legs -->
-  <rect x="5" y="9" width="2" height="1"/>
-  <rect x="9" y="9" width="2" height="1"/>
+  <rect x="11" y="26" width="4" height="1"/>
+  <rect x="17" y="26" width="4" height="1"/>
+  <rect x="11" y="27" width="4" height="1"/>
+  <rect x="17" y="27" width="4" height="1"/>
   <!-- Feet -->
-  <rect x="4" y="10" width="3" height="1"/>
-  <rect x="9" y="10" width="3" height="1"/>
+  <rect x="10" y="28" width="5" height="1"/>
+  <rect x="17" y="28" width="5" height="1"/>
 </svg>

@@ -20,7 +20,301 @@ body {
   display: none !important;
 }
 
-/* Login Screen */
+/* ===== Pixel-Notched Button System ===== */
+.tab,
+.bounty-btn,
+.bounty-submit-btn,
+.bounty-challenger,
+.logout-btn,
+.denied-retry-btn,
+.bounty-refresh-btn {
+  position: relative;
+  border: none;
+  background: transparent;
+  --pixel-border-color: #e8e8e5;
+  --pixel-fill: #ffffff;
+}
+
+.tab,
+.bounty-btn,
+.bounty-submit-btn,
+.bounty-challenger,
+.logout-btn,
+.denied-retry-btn,
+.bounty-refresh-btn {
+  isolation: isolate;
+}
+
+.tab::before,
+.bounty-btn::before,
+.bounty-submit-btn::before,
+.bounty-challenger::before,
+.logout-btn::before,
+.denied-retry-btn::before,
+.bounty-refresh-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: var(--pixel-border-color);
+  clip-path: polygon(
+    6px 0%, calc(100% - 6px) 0%,
+    calc(100% - 3px) 3px, 100% 6px,
+    100% calc(100% - 6px), calc(100% - 3px) calc(100% - 3px),
+    calc(100% - 6px) 100%, 6px 100%,
+    3px calc(100% - 3px), 0% calc(100% - 6px),
+    0% 6px, 3px 3px
+  );
+}
+
+.tab::after,
+.bounty-btn::after,
+.bounty-submit-btn::after,
+.bounty-challenger::after,
+.logout-btn::after,
+.denied-retry-btn::after,
+.bounty-refresh-btn::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  z-index: -1;
+  background: var(--pixel-fill);
+  clip-path: polygon(
+    4px 0%, calc(100% - 4px) 0%,
+    calc(100% - 2px) 2px, 100% 4px,
+    100% calc(100% - 4px), calc(100% - 2px) calc(100% - 2px),
+    calc(100% - 4px) 100%, 4px 100%,
+    2px calc(100% - 2px), 0% calc(100% - 4px),
+    0% 4px, 2px 2px
+  );
+}
+
+/* Button default states */
+.tab {
+  --pixel-fill: #fafaf8;
+}
+
+.bounty-btn,
+.bounty-refresh-btn {
+  --pixel-fill: #ffffff;
+}
+
+.bounty-challenger {
+  --pixel-border-color: #c9a96e;
+  --pixel-fill: #ffffff;
+}
+
+.logout-btn,
+.denied-retry-btn {
+  --pixel-fill: #fafaf8;
+}
+
+.bounty-submit-btn {
+  --pixel-border-color: #1a1a1a;
+  --pixel-fill: #1a1a1a;
+}
+
+/* Hover states */
+.tab:hover {
+  --pixel-border-color: #c8c8c5;
+  color: #1a1a1a;
+}
+
+.bounty-btn:hover:not(:disabled) {
+  --pixel-border-color: #c8c8c5;
+  color: #1a1a1a;
+}
+
+.bounty-refresh-btn:hover {
+  --pixel-border-color: #c8c8c5;
+  color: #1a1a1a;
+}
+
+.logout-btn:hover {
+  --pixel-border-color: #c8c8c5;
+  color: #1a1a1a;
+}
+
+.denied-retry-btn:hover {
+  --pixel-border-color: #c8c8c5;
+  color: #1a1a1a;
+}
+
+/* Active / voted states */
+.tab.active {
+  --pixel-border-color: #1a1a1a;
+  --pixel-fill: #1a1a1a;
+  color: #ffffff;
+}
+
+.bounty-btn--voted {
+  --pixel-border-color: #1a1a1a;
+  --pixel-fill: #1a1a1a;
+  color: #ffffff;
+}
+
+.bounty-btn--challenge {
+  --pixel-border-color: #c9a96e;
+  --pixel-fill: #c9a96e;
+  color: #ffffff;
+}
+
+.bounty-btn--complete {
+  --pixel-border-color: #1a1a1a;
+  --pixel-fill: #1a1a1a;
+  color: #ffffff;
+}
+
+.bounty-challenger--done {
+  --pixel-border-color: #c9a96e;
+  --pixel-fill: #c9a96e;
+  color: #ffffff;
+}
+
+/* Disabled state */
+.bounty-btn:disabled,
+.bounty-submit-btn:disabled,
+.bounty-refresh-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ===== Pixel-Notched Card System ===== */
+.bounty-card,
+.bounty-card--done,
+.tool-card,
+.login-card,
+.denied-card,
+.error-card,
+.bounty-input-section,
+.skill-overlay-content {
+  position: relative;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  --card-border-color: #e8e8e5;
+  --card-fill: #ffffff;
+  isolation: isolate;
+}
+
+.bounty-card::before,
+.tool-card::before,
+.login-card::before,
+.denied-card::before,
+.error-card::before,
+.bounty-input-section::before,
+.skill-overlay-content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: var(--card-border-color);
+  clip-path: polygon(
+    8px 0%, calc(100% - 8px) 0%,
+    calc(100% - 4px) 4px, 100% 8px,
+    100% calc(100% - 8px), calc(100% - 4px) calc(100% - 4px),
+    calc(100% - 8px) 100%, 8px 100%,
+    4px calc(100% - 4px), 0% calc(100% - 8px),
+    0% 8px, 4px 4px
+  );
+}
+
+.bounty-card::after,
+.tool-card::after,
+.login-card::after,
+.denied-card::after,
+.error-card::after,
+.bounty-input-section::after,
+.skill-overlay-content::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: var(--card-fill);
+  clip-path: polygon(
+    7px 0%, calc(100% - 7px) 0%,
+    calc(100% - 3px) 4px, 100% 7px,
+    100% calc(100% - 7px), calc(100% - 3px) calc(100% - 4px),
+    calc(100% - 7px) 100%, 7px 100%,
+    3px calc(100% - 4px), 0% calc(100% - 7px),
+    0% 7px, 3px 4px
+  );
+}
+
+/* Card fill variants */
+.bounty-card--done {
+  --card-fill: #f6f6f3;
+}
+
+.bounty-input-section {
+  --card-fill: #ffffff;
+}
+
+/* Card hover */
+.bounty-card:hover {
+  --card-border-color: #c8c8c5;
+}
+
+.tool-card:hover {
+  transform: translateY(-2px);
+  --card-border-color: #c8c8c5;
+}
+
+.bounty-card--done:hover {
+  --card-border-color: #e8e8e5;
+}
+
+/* ===== Pixel-Notched Badges ===== */
+.tool-badge,
+.bounty-done-badge {
+  position: relative;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  isolation: isolate;
+  --badge-fill: #1a1a1a;
+}
+
+.tool-badge::before,
+.bounty-done-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--badge-fill);
+  clip-path: polygon(
+    3px 0%, calc(100% - 3px) 0%,
+    calc(100% - 1px) 2px, 100% 3px,
+    100% calc(100% - 3px), calc(100% - 1px) calc(100% - 2px),
+    calc(100% - 3px) 100%, 3px 100%,
+    1px calc(100% - 2px), 0% calc(100% - 3px),
+    0% 3px, 1px 2px
+  );
+}
+
+.bounty-done-badge {
+  --badge-fill: #c9a96e;
+}
+
+.tool-card[data-type="web"] .tool-badge {
+  --badge-fill: #1a1a1a;
+  background: transparent;
+  color: #ffffff;
+}
+
+.tool-card[data-type="skill"] .tool-badge {
+  --badge-fill: #f0f0ec;
+  background: transparent;
+  color: #1a1a1a;
+}
+
+.tool-card[data-type="journal"] .tool-badge {
+  --badge-fill: #c9a96e;
+  background: transparent;
+  color: #ffffff;
+}
+
+/* ===== Login Screen ===== */
 .login-screen,
 .denied-screen,
 .error-screen {
@@ -34,9 +328,6 @@ body {
 .login-card,
 .denied-card,
 .error-card {
-  background: #ffffff;
-  border: 1px solid #e8e8e5;
-  border-radius: 0;
   padding: 48px 40px;
   text-align: center;
   max-width: 400px;
@@ -76,16 +367,9 @@ body {
   font-size: 13px;
   font-weight: 500;
   padding: 6px 14px;
-  border: 1px solid #e8e8e5;
-  border-radius: 0;
-  background: transparent;
-  color: #1a1a1a;
+  color: #6b6b6b;
   cursor: pointer;
-  transition: border-color 0.2s ease;
-}
-
-.denied-retry-btn:hover {
-  border-color: #c8c8c5;
+  transition: all 0.2s ease;
 }
 
 /* Loading Progress Bar */
@@ -120,8 +404,8 @@ body {
 }
 
 .runner-sprite {
-  width: 24px;
-  height: 20px;
+  width: 30px;
+  height: 24px;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   animation: slime-bounce 0.5s ease-in-out infinite;
@@ -183,17 +467,9 @@ body {
   font-size: 13px;
   font-weight: 500;
   padding: 6px 14px;
-  border: 1px solid #e8e8e5;
-  border-radius: 0;
-  background: transparent;
   color: #6b6b6b;
   cursor: pointer;
   transition: all 0.2s ease;
-}
-
-.logout-btn:hover {
-  color: #1a1a1a;
-  border-color: #c8c8c5;
 }
 
 .site-title {
@@ -215,23 +491,9 @@ body {
   font-size: 13px;
   font-weight: 500;
   padding: 6px 14px;
-  border: 1px solid #e8e8e5;
-  border-radius: 0;
-  background: transparent;
   color: #6b6b6b;
   cursor: pointer;
   transition: all 0.2s ease;
-}
-
-.tab:hover {
-  color: #1a1a1a;
-  border-color: #c8c8c5;
-}
-
-.tab.active {
-  background: #1a1a1a;
-  color: #ffffff;
-  border-color: #1a1a1a;
 }
 
 /* Tab Content */
@@ -253,7 +515,7 @@ body {
 }
 
 .tool-card[data-type="journal"] .tool-badge {
-  background: #c9a96e;
+  background: transparent;
   color: #ffffff;
 }
 
@@ -283,14 +545,10 @@ body {
 }
 
 .skill-overlay-content {
-  background: #ffffff;
-  border: 1px solid #e8e8e5;
-  border-radius: 0;
   max-width: 640px;
   width: 100%;
   margin: 48px auto;
   padding: 32px;
-  position: relative;
 }
 
 .skill-overlay-close {
@@ -394,18 +652,10 @@ body {
 /* Tool Card */
 .tool-card {
   display: block;
-  background: #ffffff;
-  border: 1px solid #e8e8e5;
-  border-radius: 0;
   padding: 20px;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.tool-card:hover {
-  transform: translateY(-2px);
-  border-color: #c8c8c5;
+  transition: transform 0.2s ease;
 }
 
 .tool-badge {
@@ -413,17 +663,16 @@ body {
   font-size: 11px;
   font-weight: 500;
   padding: 2px 8px;
-  border-radius: 0;
   margin-bottom: 10px;
 }
 
 .tool-card[data-type="web"] .tool-badge {
-  background: #1a1a1a;
+  background: transparent;
   color: #ffffff;
 }
 
 .tool-card[data-type="skill"] .tool-badge {
-  background: #f0f0ec;
+  background: transparent;
   color: #1a1a1a;
 }
 
@@ -555,9 +804,6 @@ body {
 }
 
 .bounty-input-section {
-  background: #ffffff;
-  border: 1px solid #e8e8e5;
-  border-radius: 0;
   padding: 20px;
   margin-bottom: 32px;
 }
@@ -590,9 +836,6 @@ body {
   font-size: 13px;
   font-weight: 500;
   padding: 6px 14px;
-  border: none;
-  border-radius: 0;
-  background: #1a1a1a;
   color: #ffffff;
   cursor: pointer;
   margin-top: 12px;
@@ -603,11 +846,6 @@ body {
   opacity: 0.85;
 }
 
-.bounty-submit-btn:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
 /* Bounty Cards */
 .bounty-list {
   display: flex;
@@ -616,15 +854,8 @@ body {
 }
 
 .bounty-card {
-  background: #ffffff;
-  border: 1px solid #e8e8e5;
-  border-radius: 0;
   padding: 20px;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.bounty-card:hover {
-  border-color: #c8c8c5;
+  transition: transform 0.2s ease;
 }
 
 .bounty-card-task {
@@ -656,9 +887,6 @@ body {
   font-size: 13px;
   font-weight: 500;
   padding: 6px 14px;
-  border: 1px solid #e8e8e5;
-  border-radius: 0;
-  background: transparent;
   color: #6b6b6b;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -670,57 +898,31 @@ body {
   text-align: left;
 }
 
-.bounty-btn:hover:not(:disabled) {
-  color: #1a1a1a;
-  border-color: #c8c8c5;
-}
-
-.bounty-btn:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
-.bounty-btn--voted {
-  background: #1a1a1a;
-  color: #ffffff;
-  border-color: #1a1a1a;
-}
-
-.bounty-btn--challenge {
-  background: #c9a96e;
-  color: #ffffff;
-  border-color: #c9a96e;
-}
-
-.bounty-btn--complete {
-  background: #1a1a1a;
-  color: #ffffff;
-  border-color: #1a1a1a;
-}
-
 .bounty-challenger {
   font-family: inherit;
   font-size: 13px;
   font-weight: 500;
   padding: 6px 14px;
-  border: 1px solid #c9a96e;
-  border-radius: 0;
-  background: transparent;
   color: #c9a96e;
   display: inline-block;
 }
 
-.bounty-challenger--done {
-  background: #c9a96e;
-  color: #ffffff;
-  border-color: #c9a96e;
+/* Bounty refresh button */
+.bounty-refresh-btn {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  color: #6b6b6b;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 /* Completed Bounties */
 .bounty-done-section {
   margin-top: 40px;
   padding-top: 24px;
-  border-top: 1px solid #e8e8e5;
+  border-top: 2px dashed #e8e8e5;
 }
 
 .bounty-done-title {
@@ -737,13 +939,11 @@ body {
 }
 
 .bounty-card--done {
-  background: #f6f6f3;
-  border-color: #e8e8e5;
   opacity: 0.85;
 }
 
 .bounty-card--done:hover {
-  border-color: #e8e8e5;
+  --card-border-color: #e8e8e5;
 }
 
 .bounty-done-badge {
@@ -751,8 +951,7 @@ body {
   font-size: 11px;
   font-weight: 500;
   padding: 2px 8px;
-  border-radius: 0;
-  background: #c9a96e;
+  background: transparent;
   color: #ffffff;
   margin-bottom: 8px;
 }
