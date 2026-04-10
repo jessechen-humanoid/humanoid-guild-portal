@@ -132,6 +132,19 @@
           <p class="bounty-desc">把你工作上的痛點丟出來，讓勇者幫你解決！</p>
         </div>
       </div>
+      <div class="bounty-top-bar">
+        <button class="bounty-refresh-btn" id="bounty-refresh" onclick="handleRefresh()">重新整理</button>
+      </div>
+      <div class="bounty-leaderboard-row" id="bounty-leaderboard-row">
+        <div class="leaderboard-card" id="hero-leaderboard">
+          <h3 class="leaderboard-title">勇者排行榜</h3>
+          <ol class="leaderboard-list" id="hero-leaderboard-list"></ol>
+        </div>
+        <div class="leaderboard-card" id="chief-leaderboard">
+          <h3 class="leaderboard-title">村長排行榜</h3>
+          <ol class="leaderboard-list" id="chief-leaderboard-list"></ol>
+        </div>
+      </div>
       <div class="bounty-input-section">
         <textarea class="bounty-input" id="bounty-input" placeholder="描述你遇到的工作問題，例如：每次做月報都要手動從三個平台抓數據..." rows="3"></textarea>
         <button class="bounty-submit-btn" id="bounty-submit" onclick="submitBounty()">勇者大人幫幫我</button>
@@ -371,6 +384,17 @@
         </ul>
       </div>
       <div class="skill-overlay-notice">此 Skill 已在組織內啟用，你可以直接在 Claude 中使用。</div>
+    </div>
+  </div>
+
+  <!-- 刪除確認 Modal -->
+  <div class="confirm-modal-overlay hidden" id="confirm-modal-overlay">
+    <div class="confirm-modal">
+      <p class="confirm-modal-text">確定要刪除這個懸賞任務嗎？</p>
+      <div class="confirm-modal-actions">
+        <button class="confirm-modal-btn confirm-modal-btn--danger" onclick="confirmDelete()">確定刪除</button>
+        <button class="confirm-modal-btn" onclick="cancelDelete()">取消</button>
+      </div>
     </div>
   </div>
 

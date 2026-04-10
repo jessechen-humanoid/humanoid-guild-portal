@@ -420,6 +420,63 @@ function escapeHtml(str) {
 }
 
 // ========== 懸賞任務 ==========
+var ICON_TRASH = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect x="3" y="2" width="10" height="1" fill="currentColor"/><rect x="6" y="1" width="4" height="1" fill="currentColor"/><rect x="4" y="3" width="8" height="1" fill="currentColor"/><rect x="4" y="4" width="1" height="9" fill="currentColor"/><rect x="11" y="4" width="1" height="9" fill="currentColor"/><rect x="5" y="13" width="6" height="1" fill="currentColor"/><rect x="6" y="5" width="1" height="7" fill="currentColor"/><rect x="9" y="5" width="1" height="7" fill="currentColor"/></svg>';
+
+var pendingDeleteRow = null;
+
+function showDeleteModal(row) {
+  pendingDeleteRow = row;
+  document.getElementById('confirm-modal-overlay').classList.remove('hidden');
+}
+
+function cancelDelete() {
+  pendingDeleteRow = null;
+  document.getElementById('confirm-modal-overlay').classList.add('hidden');
+}
+
+function confirmDelete() {
+  var row = pendingDeleteRow;
+  if (!row) return;
+  document.getElementById('confirm-modal-overlay').classList.add('hidden');
+
+  // Optimistic: 移除卡片
+  var bounties = getLocalBounties();
+  var removedBounty = null;
+  var removedIndex = -1;
+  for (var i = 0; i < bounties.length; i++) {
+    if (bounties[i].row === row) {
+      removedBounty = bounties[i];
+      removedIndex = i;
+      break;
+    }
+  }
+  if (removedIndex === -1) return;
+
+  bounties.splice(removedIndex, 1);
+  updateLocalBounties(bounties);
+  pendingDeleteRow = null;
+
+  // POST 刪除
+  fetch(CMS_APPS_SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'deleteBounty', row: row })
+  })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.success) {
+        // 刪除成功：清除快取重新 fetch（row number 會重排）
+        localStorage.removeItem(CMS_CACHE_KEY);
+        fetchCMSData();
+      }
+    })
+    .catch(function() {
+      // 失敗：還原卡片
+      var current = getLocalBounties();
+      current.splice(removedIndex, 0, removedBounty);
+      updateLocalBounties(current);
+    });
+}
+
 function emailToDisplayName(email) {
   return email.split('@')[0].replace(/\./g, ' ');
 }
@@ -459,6 +516,84 @@ function todayStr() {
   return d.getFullYear() + '-' + mm + '-' + dd;
 }
 
+// ---- 重新整理 ----
+function handleRefresh() {
+  var btn = document.getElementById('bounty-refresh');
+  if (!btn) return;
+  btn.textContent = '載入中...';
+  btn.disabled = true;
+  localStorage.removeItem(CMS_CACHE_KEY);
+  fetch(CMS_APPS_SCRIPT_URL)
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      setCMSCache(data);
+      renderToolCards(data.tools || []);
+      renderJournalCards(data.journal || []);
+      renderBounties(data.bounties || []);
+      bindSkillOverlays();
+    })
+    .catch(function() {})
+    .finally(function() {
+      btn.textContent = '重新整理';
+      btn.disabled = false;
+    });
+}
+
+// ---- 排行榜 ----
+function renderLeaderboards(bounties) {
+  // 勇者排行榜：status=done 的 challenger 計數前三
+  var heroCounts = {};
+  var heroNames = {};
+  bounties.forEach(function(b) {
+    if (b.status === 'done' && b.challenger) {
+      var email = b.challenger;
+      heroCounts[email] = (heroCounts[email] || 0) + 1;
+      if (!heroNames[email]) {
+        heroNames[email] = emailToDisplayName(email);
+      }
+    }
+  });
+  var heroRanking = Object.keys(heroCounts).map(function(email) {
+    return { name: heroNames[email], count: heroCounts[email] };
+  }).sort(function(a, b) { return b.count - a.count; }).slice(0, 3);
+
+  // 村長排行榜：commissioner 計數前三
+  var chiefCounts = {};
+  bounties.forEach(function(b) {
+    var name = b.commissioner;
+    if (name) {
+      chiefCounts[name] = (chiefCounts[name] || 0) + 1;
+    }
+  });
+  var chiefRanking = Object.keys(chiefCounts).map(function(name) {
+    return { name: name, count: chiefCounts[name] };
+  }).sort(function(a, b) { return b.count - a.count; }).slice(0, 3);
+
+  // 渲染勇者排行榜
+  var heroList = document.getElementById('hero-leaderboard-list');
+  if (heroList) {
+    if (heroRanking.length === 0) {
+      heroList.innerHTML = '<li class="leaderboard-empty">還沒有完成任務的勇者</li>';
+    } else {
+      heroList.innerHTML = heroRanking.map(function(h) {
+        return '<li><span class="leaderboard-name">' + escapeHtml(h.name) + '</span><span class="leaderboard-count">' + h.count + ' 次</span></li>';
+      }).join('');
+    }
+  }
+
+  // 渲染村長排行榜
+  var chiefList = document.getElementById('chief-leaderboard-list');
+  if (chiefList) {
+    if (chiefRanking.length === 0) {
+      chiefList.innerHTML = '<li class="leaderboard-empty">還沒有人發佈懸賞</li>';
+    } else {
+      chiefList.innerHTML = chiefRanking.map(function(c) {
+        return '<li><span class="leaderboard-name">' + escapeHtml(c.name) + '</span><span class="leaderboard-count">' + c.count + ' 則</span></li>';
+      }).join('');
+    }
+  }
+}
+
 // ---- Optimistic 新增懸賞 ----
 function submitBounty() {
   var input = document.getElementById('bounty-input');
@@ -480,8 +615,8 @@ function submitBounty() {
     date: todayStr(),
     commissioner: displayName,
     task: task,
-    plusOneCount: 0,
-    plusOneList: '',
+    plusOneCount: 1,
+    plusOneList: session.email,
     challenger: '',
     status: '',
     completionDate: '',
@@ -497,7 +632,7 @@ function submitBounty() {
   // 背景 POST
   fetch(CMS_APPS_SCRIPT_URL, {
     method: 'POST',
-    body: JSON.stringify({ action: 'newBounty', commissioner: session.email, task: task })
+    body: JSON.stringify({ action: 'newBounty', commissioner: session.email, task: task, plusOneCount: 1 })
   })
     .then(function(res) { return res.json(); })
     .then(function(data) {
@@ -543,6 +678,19 @@ function renderBounties(bounties) {
   var session = getSession();
   var currentEmail = session ? session.email : '';
 
+  // FLIP: 記錄渲染前每張卡片的位置
+  var oldPositions = {};
+  var listEl = document.getElementById('bounty-list');
+  var doneList = document.getElementById('bounty-done-list');
+  var existingCards = listEl.querySelectorAll('.bounty-card[data-row]');
+  existingCards.forEach(function(card) {
+    oldPositions[card.dataset.row] = card.getBoundingClientRect().top;
+  });
+  var existingDoneCards = doneList ? doneList.querySelectorAll('.bounty-card[data-row]') : [];
+  existingDoneCards.forEach(function(card) {
+    oldPositions[card.dataset.row] = card.getBoundingClientRect().top;
+  });
+
   // 分為進行中和已完成
   var active = [];
   var done = [];
@@ -566,27 +714,57 @@ function renderBounties(bounties) {
   });
 
   // 渲染進行中
-  var listEl = document.getElementById('bounty-list');
   listEl.innerHTML = '';
   if (active.length === 0 && done.length === 0) {
     listEl.innerHTML = '<div style="text-align:center;padding:32px;color:#a0a09b;font-size:14px;">還沒有懸賞任務，來發佈第一個吧！</div>';
   }
   active.forEach(function(b) {
-    listEl.appendChild(renderBountyCard(b, currentEmail, false));
+    var card = renderBountyCard(b, currentEmail, false);
+    card.dataset.row = b.row;
+    listEl.appendChild(card);
   });
 
   // 渲染已完成
   var doneSection = document.getElementById('bounty-done-section');
-  var doneList = document.getElementById('bounty-done-list');
   if (done.length > 0) {
     doneSection.classList.remove('hidden');
     doneList.innerHTML = '';
     done.forEach(function(b) {
-      doneList.appendChild(renderBountyCard(b, currentEmail, true));
+      var card = renderBountyCard(b, currentEmail, true);
+      card.dataset.row = b.row;
+      doneList.appendChild(card);
     });
   } else {
     doneSection.classList.add('hidden');
   }
+
+  // FLIP: 計算新位置並做動畫
+  var allNewCards = listEl.querySelectorAll('.bounty-card[data-row]');
+  var allDoneNewCards = doneList ? doneList.querySelectorAll('.bounty-card[data-row]') : [];
+  var animate = function(cards) {
+    cards.forEach(function(card) {
+      var row = card.dataset.row;
+      if (oldPositions[row] !== undefined) {
+        var newTop = card.getBoundingClientRect().top;
+        var deltaY = oldPositions[row] - newTop;
+        if (deltaY !== 0) {
+          card.style.transform = 'translateY(' + deltaY + 'px)';
+          card.style.transition = 'none';
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              card.style.transition = 'transform 0.3s ease';
+              card.style.transform = '';
+            });
+          });
+        }
+      }
+    });
+  };
+  animate(allNewCards);
+  animate(allDoneNewCards);
+
+  // 渲染排行榜
+  renderLeaderboards(bounties);
 }
 
 function renderBountyCard(bounty, currentEmail, isDone) {
@@ -599,6 +777,10 @@ function renderBountyCard(bounty, currentEmail, isDone) {
   var challengerName = bounty.challenger ? emailToDisplayName(bounty.challenger) : '';
 
   var html = '';
+
+  if (!isDone) {
+    html += '<button class="bounty-delete-btn" onclick="event.stopPropagation();showDeleteModal(' + bounty.row + ')" title="刪除">' + ICON_TRASH + '</button>';
+  }
 
   if (isDone) {
     html += '<span class="bounty-done-badge">任務完成</span>';

@@ -153,7 +153,8 @@ function doPost(e) {
     // 從 email 擷取顯示名稱：jesse.chen@humanoid.com.tw → jesse chen
     var displayName = email.split('@')[0].replace(/\./g, ' ');
     var today = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd');
-    sheet.appendRow([today, displayName, task, 0, '', '', '', '', 0]);
+    var plusOneCount = parseInt(body.plusOneCount) || 1;
+    sheet.appendRow([today, displayName, task, plusOneCount, email, '', '', '', 0]);
     var newRow = sheet.getLastRow();
     return ContentService
       .createTextOutput(JSON.stringify({success: true, row: newRow}))
@@ -203,6 +204,14 @@ function doPost(e) {
     }
     return ContentService
       .createTextOutput(JSON.stringify({success: false, reason: 'already_claimed'}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (action === 'deleteBounty') {
+    var row = parseInt(body.row);
+    sheet.deleteRow(row);
+    return ContentService
+      .createTextOutput(JSON.stringify({success: true}))
       .setMimeType(ContentService.MimeType.JSON);
   }
 

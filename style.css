@@ -862,8 +862,9 @@ body {
 }
 
 .bounty-card {
+  position: relative;
   padding: 20px;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease;
 }
 
 .bounty-card-task {
@@ -915,7 +916,13 @@ body {
   display: inline-block;
 }
 
-/* Bounty refresh button */
+/* Bounty top bar */
+.bounty-top-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
 .bounty-refresh-btn {
   font-family: inherit;
   font-size: 13px;
@@ -924,6 +931,146 @@ body {
   color: #6b6b6b;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+/* Leaderboard */
+.bounty-leaderboard-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.leaderboard-card {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #e8e8e5;
+  padding: 16px 20px;
+}
+
+.leaderboard-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+
+.leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: leaderboard;
+}
+
+.leaderboard-list li {
+  counter-increment: leaderboard;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f0ed;
+}
+
+.leaderboard-list li:last-child {
+  border-bottom: none;
+}
+
+.leaderboard-list li::before {
+  content: counter(leaderboard) ".";
+  font-weight: 700;
+  color: #c9a96e;
+  margin-right: 8px;
+  min-width: 20px;
+}
+
+.leaderboard-name {
+  flex: 1;
+  color: #1a1a1a;
+}
+
+.leaderboard-count {
+  color: #6b6b6b;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.leaderboard-empty {
+  font-size: 13px;
+  color: #a0a09b;
+  padding: 8px 0;
+}
+
+/* Delete Button */
+.bounty-delete-btn {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background: none;
+  border: none;
+  color: #a0a09b;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 0;
+  transition: color 0.2s ease;
+}
+
+.bounty-delete-btn:hover {
+  color: #1a1a1a;
+}
+
+/* Confirm Modal */
+.confirm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.confirm-modal-overlay.hidden {
+  display: none;
+}
+
+.confirm-modal {
+  background: #ffffff;
+  padding: 32px;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+}
+
+.confirm-modal-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 24px;
+}
+
+.confirm-modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.confirm-modal-btn {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  color: #6b6b6b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.confirm-modal-btn--danger {
+  --pixel-border-color: #1a1a1a;
+  --pixel-fill: #1a1a1a;
+  color: #ffffff;
 }
 
 /* Completed Bounties */
@@ -974,6 +1121,10 @@ body {
 @media (max-width: 768px) {
   .site-header {
     padding: 48px 20px 32px;
+  }
+
+  .bounty-leaderboard-row {
+    flex-direction: column;
   }
 
   .site-title-img {
