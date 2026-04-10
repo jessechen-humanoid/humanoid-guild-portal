@@ -472,10 +472,13 @@ body {
   transition: all 0.2s ease;
 }
 
-.site-title {
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+.site-title-img {
+  display: block;
+  max-width: 320px;
+  height: auto;
+  margin: 0 auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 /* Tab Bar */
@@ -723,7 +726,7 @@ body {
 
 /* Priest - 牧師 (Operations Guild) */
 .pixel-character.priest {
-  background-image: url('assets/priest.svg');
+  background-image: url('assets/char4-priest.svg');
   background-size: contain;
   background-repeat: no-repeat;
   animation: idle-bob 1.2s ease-in-out infinite;
@@ -731,7 +734,7 @@ body {
 
 /* Mage - 魔法使 (Creative Guild) */
 .pixel-character.mage {
-  background-image: url('assets/mage.svg');
+  background-image: url('assets/char1-mage.svg');
   background-size: contain;
   background-repeat: no-repeat;
   animation: idle-bob 1.2s ease-in-out infinite;
@@ -740,7 +743,7 @@ body {
 
 /* Warrior - 戰士 (Business Guild) */
 .pixel-character.warrior {
-  background-image: url('assets/warrior.svg');
+  background-image: url('assets/char3-warrior.svg');
   background-size: contain;
   background-repeat: no-repeat;
   animation: idle-bob 1.2s ease-in-out infinite;
@@ -749,7 +752,7 @@ body {
 
 /* Villager - 村民 (Bounty Board) */
 .pixel-character.villager {
-  background-image: url('assets/villager.svg');
+  background-image: url('assets/char2-villager.svg');
   background-size: contain;
   background-repeat: no-repeat;
   animation: villager-cheer 0.8s ease-in-out infinite;
@@ -968,8 +971,8 @@ body {
     padding: 48px 20px 32px;
   }
 
-  .site-title {
-    font-size: 24px;
+  .site-title-img {
+    max-width: 240px;
   }
 
   .guilds {
