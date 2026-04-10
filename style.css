@@ -36,7 +36,7 @@ body {
 .error-card {
   background: #ffffff;
   border: 1px solid #e8e8e5;
-  border-radius: 16px;
+  border-radius: 0;
   padding: 48px 40px;
   text-align: center;
   max-width: 400px;
@@ -73,11 +73,11 @@ body {
 
 .denied-retry-btn {
   font-family: inherit;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  padding: 10px 24px;
+  padding: 6px 14px;
   border: 1px solid #e8e8e5;
-  border-radius: 8px;
+  border-radius: 0;
   background: transparent;
   color: #1a1a1a;
   cursor: pointer;
@@ -99,7 +99,7 @@ body {
   width: 100%;
   height: 8px;
   background: #e8e8e5;
-  border-radius: 4px;
+  border-radius: 0;
   overflow: visible;
 }
 
@@ -107,7 +107,7 @@ body {
   height: 100%;
   width: 0%;
   background: #1a1a1a;
-  border-radius: 4px;
+  border-radius: 0;
   transition: width 0.3s ease;
 }
 
@@ -184,7 +184,7 @@ body {
   font-weight: 500;
   padding: 6px 14px;
   border: 1px solid #e8e8e5;
-  border-radius: 8px;
+  border-radius: 0;
   background: transparent;
   color: #6b6b6b;
   cursor: pointer;
@@ -212,11 +212,11 @@ body {
 
 .tab {
   font-family: inherit;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  padding: 8px 20px;
+  padding: 6px 14px;
   border: 1px solid #e8e8e5;
-  border-radius: 8px;
+  border-radius: 0;
   background: transparent;
   color: #6b6b6b;
   cursor: pointer;
@@ -285,7 +285,7 @@ body {
 .skill-overlay-content {
   background: #ffffff;
   border: 1px solid #e8e8e5;
-  border-radius: 16px;
+  border-radius: 0;
   max-width: 640px;
   width: 100%;
   margin: 48px auto;
@@ -348,7 +348,7 @@ body {
 
 .skill-overlay-notice {
   background: #f0f0ec;
-  border-radius: 8px;
+  border-radius: 0;
   padding: 12px 16px;
   font-size: 13px;
   color: #1a1a1a;
@@ -396,7 +396,7 @@ body {
   display: block;
   background: #ffffff;
   border: 1px solid #e8e8e5;
-  border-radius: 16px;
+  border-radius: 0;
   padding: 20px;
   text-decoration: none;
   color: inherit;
@@ -413,7 +413,7 @@ body {
   font-size: 11px;
   font-weight: 500;
   padding: 2px 8px;
-  border-radius: 6px;
+  border-radius: 0;
   margin-bottom: 10px;
 }
 
@@ -557,7 +557,7 @@ body {
 .bounty-input-section {
   background: #ffffff;
   border: 1px solid #e8e8e5;
-  border-radius: 16px;
+  border-radius: 0;
   padding: 20px;
   margin-bottom: 32px;
 }
@@ -567,7 +567,7 @@ body {
   font-size: 14px;
   width: 100%;
   border: 1px solid #e8e8e5;
-  border-radius: 8px;
+  border-radius: 0;
   padding: 12px 14px;
   resize: vertical;
   line-height: 1.6;
@@ -591,7 +591,7 @@ body {
   font-weight: 500;
   padding: 6px 14px;
   border: none;
-  border-radius: 8px;
+  border-radius: 0;
   background: #1a1a1a;
   color: #ffffff;
   cursor: pointer;
@@ -618,7 +618,7 @@ body {
 .bounty-card {
   background: #ffffff;
   border: 1px solid #e8e8e5;
-  border-radius: 16px;
+  border-radius: 0;
   padding: 20px;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
@@ -657,7 +657,7 @@ body {
   font-weight: 500;
   padding: 6px 14px;
   border: 1px solid #e8e8e5;
-  border-radius: 8px;
+  border-radius: 0;
   background: transparent;
   color: #6b6b6b;
   cursor: pointer;
@@ -704,7 +704,7 @@ body {
   font-weight: 500;
   padding: 6px 14px;
   border: 1px solid #c9a96e;
-  border-radius: 8px;
+  border-radius: 0;
   background: transparent;
   color: #c9a96e;
   display: inline-block;
@@ -751,7 +751,7 @@ body {
   font-size: 11px;
   font-weight: 500;
   padding: 2px 8px;
-  border-radius: 6px;
+  border-radius: 0;
   background: #c9a96e;
   color: #ffffff;
   margin-bottom: 8px;
