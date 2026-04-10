@@ -916,11 +916,12 @@ body {
   display: inline-block;
 }
 
-/* Bounty top bar */
-.bounty-top-bar {
+/* Bounty bottom bar */
+.bounty-bottom-bar {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
+  justify-content: center;
+  margin-top: 32px;
+  padding-bottom: 24px;
 }
 
 .bounty-refresh-btn {
